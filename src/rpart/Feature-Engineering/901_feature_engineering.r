@@ -1,6 +1,7 @@
 require("data.table")
 require("rpart")
 require("rpart.plot")
+require("hash")
 
 #---------------------------------------------------------------#
 #-------------------- Funciones de utilidad --------------------#
@@ -8,12 +9,14 @@ require("rpart.plot")
 
 `%notin%` <- Negate(`%in%`)
 
-Aplicar.Predicados <- function (dataset, predicados) {
-  for (predicado in predicados) {
+aplicar.Predicados <- function (dataset, predicados) {
+  for (predicado in keys(predicados)) {
+    predicado.value <- predicados[[predicado]]
+    
     if (predicado %notin% colnames(dataset)) {
       # predicado[1] devuelve el valor literal, lo usamos como colname
       # eval(parse()) nos permite evaluar el predicado
-      dataset[, predicado[1] := eval(parse(text = predicado))] 
+      dataset[, predicado[1] := eval(parse(text = predicado.value))] 
     }
   }
 }
@@ -53,10 +56,9 @@ setwd(base.path)
 
 dataset <- fread(dataset.path)
 
-predicados.logicos <- c(
-  "ctrx_quarter <14",
-  "Visa_fechaalta >= 4539"
-)
+predicados.logicos <- hash()
+predicados.logicos[["predicado_01"]] <- "clase_ternaria == CONTINUA"
+predicados.logicos[["predicado_02"]] <- "Visa_fechaalta == 'BAJA+1'"
 
-aplicar.predicados(dataset, predicados.logicos)
+aplicar.Predicados(dataset, predicados.logicos)
 save.File(dataset, new.dataset.folder, new.dataset.name)
