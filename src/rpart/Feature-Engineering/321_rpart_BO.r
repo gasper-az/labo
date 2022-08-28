@@ -153,8 +153,8 @@ if (length(columnas.a.quitar) > 0) {
 # HT  representa  Hiperparameter Tuning
 dir.create( "./exp/",  showWarnings = FALSE ) 
 dir.create( "./exp/HT3210/", showWarnings = FALSE )
-dir.create( "./exp/HT3210/v1.1", showWarnings = FALSE )
-setwd("./exp/HT3210/v1.1")   #Establezco el Working Directory DEL EXPERIMENTO
+dir.create( "./exp/HT3210/v1.2", showWarnings = FALSE )
+setwd("./exp/HT3210/v1.2")   #Establezco el Working Directory DEL EXPERIMENTO
 
 
 archivo_log  <- "HT321.txt"
