@@ -10,7 +10,15 @@ require("rpart.plot")
 setwd("C:\\uba\\dmeyf\\")   #Establezco el Working Directory
 
 #cargo el dataset
-dataset  <- fread("./datasets/competencia1_2022.csv")
+dataset  <- fread("./datasets/feature-engineering/v1/competencia1_2022_fe_v1.csv")
+
+columnas.a.quitar <- c(
+  "ctrx_quarter"
+)
+
+if (length(columnas.a.quitar) > 0) {
+  dataset[, c(columnas.a.quitar):=NULL] 
+}
 
 dtrain  <- dataset[ foto_mes==202101 ]  #defino donde voy a entrenar
 dapply  <- dataset[ foto_mes==202103 ]  #defino donde voy a aplicar el modelo
@@ -19,10 +27,10 @@ dapply  <- dataset[ foto_mes==202103 ]  #defino donde voy a aplicar el modelo
 modelo  <- rpart(formula=   "clase_ternaria ~ .",  #quiero predecir clase_ternaria a partir de el resto de las variables
                  data=      dtrain,  #los datos donde voy a entrenar
                  xval=      5,
-                 cp=       -0.6815656,   #esto significa no limitar la complejidad de los splits
-                 minsplit=  1882,     #minima cantidad de registros para que se haga el split
-                 minbucket= 114,     #tamaño minimo de una hoja
-                 maxdepth=  6)    #profundidad maxima del arbol
+                 cp=       -0.9189934,   #esto significa no limitar la complejidad de los splits
+                 minsplit=  2033,     #minima cantidad de registros para que se haga el split
+                 minbucket= 200,     #tamaño minimo de una hoja
+                 maxdepth=  17)    #profundidad maxima del arbol
 
 
 #grafico el arbol
