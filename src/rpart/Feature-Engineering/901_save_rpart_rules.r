@@ -4,6 +4,7 @@ gc()
 require("data.table")
 require("rpart")
 require("rpart.plot")
+require("genTS") # para utiliar "is_empty"
 
 #---------------------------------------------------------------#
 #-------------------- Funciones de utilidad --------------------#
@@ -66,7 +67,9 @@ parse.rule <- function(rule) {
 fix.to.pattern.in.rule <- function(rule) {
   # busco patrones del tipo "columna == num1 to num2"
   # la idea es cambiarlo por algo como "columna >= num1 and columna < num2"
-  my.regex <- "\\w{1,}\\s{1,}==\\s{1,}\\d+\\.*\\d*\\s{1,}to\\s{1,}\\d+\\.*\\d*"
+  # my.regex <- "\\w{1,}\\s{1,}==\\s{1,}\\d+\\.*\\d*\\s{1,}to\\s{1,}\\d+\\.*\\d*"
+  # my.regex <- "\\w{1,}\\s{1,}==\\s{1,}(-?[0-9]*)((\\.?[0-9]+[eE]?[-\\+]?[0-9]+)|(\\.[0-9]+))*\\s{1,}to\\s{1,}(-?[0-9]*)((\\.?[0-9]+[eE]?[-\\+]?[0-9]+)|(\\.[0-9]+))*"
+  my.regex <- "\\w{1,}\\s{1,}==\\s{1,}([+\\-]?(?:0|[1-9]\\d*)(?:\\.\\d+)?(?:[eE][+\\-]?\\d+)?)\\s{1,}to\\s{1,}([+\\-]?(?:0|[1-9]\\d*)(?:\\.\\d+)?(?:[eE][+\\-]?\\d+)?)"
   
   is.present <- grepl(my.regex, rule)
   
@@ -78,7 +81,9 @@ fix.to.pattern.in.rule <- function(rule) {
   matches.list <- regmatches(rule, res)
   
   # regex para numeros
-  regex.number <- "\\d+\\.*\\d*"
+  # regex.number <- "\\d+\\.*\\d*"
+  # regex.number <- "(-?[0-9]*)((\\.?[0-9]+[eE]?[-\\+]?[0-9]+)|(\\.[0-9]+))*"
+  regex.number <- "[+\\-]?(?:0|[1-9]\\d*)(?:\\.\\d+)?(?:[eE][+\\-]?\\d+)?"
   
   # regex para texto
   regex.text <- "\\w{1,}"
@@ -94,8 +99,11 @@ fix.to.pattern.in.rule <- function(rule) {
       first.number <- matches.number[[1]][1]
       second.number <- matches.number[[1]][2]
       
-      new.line <- paste0(match.text, " >= ", first.number, " & ", match.text, " < ", second.number)
-      rule <- gsub(matches, new.line, rule)
+      if (!is_empty(match.text) && !is_empty(first.number) && !is_empty(second.number)) {
+        new.line <- paste0(match.text, " >= ", first.number, " & ", match.text, " < ", second.number)
+        # rule <- gsub(matches, new.line, rule) 
+        rule <- stri_replace(rule, new.line, fixed = matches)
+      }
     }
   }
   
