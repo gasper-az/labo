@@ -27,10 +27,10 @@ dapply  <- dataset[ foto_mes==202103 ]  #defino donde voy a aplicar el modelo
 modelo  <- rpart(formula=   "clase_ternaria ~ .",  #quiero predecir clase_ternaria a partir de el resto de las variables
                  data=      dtrain,  #los datos donde voy a entrenar
                  xval=      5,
-                 cp=       -0.9189934,   #esto significa no limitar la complejidad de los splits
-                 minsplit=  2033,     #minima cantidad de registros para que se haga el split
-                 minbucket= 200,     #tamaño minimo de una hoja
-                 maxdepth=  17)    #profundidad maxima del arbol
+                 cp=       -0.8612585,   #esto significa no limitar la complejidad de los splits
+                 minsplit=  1965,     #minima cantidad de registros para que se haga el split
+                 minbucket= 196,     #tamaño minimo de una hoja
+                 maxdepth=  16)    #profundidad maxima del arbol
 
 
 #grafico el arbol
