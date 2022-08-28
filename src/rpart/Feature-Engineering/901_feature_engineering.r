@@ -1,3 +1,6 @@
+rm(list = ls())
+gc()
+
 require("data.table")
 require("rpart")
 require("rpart.plot")
