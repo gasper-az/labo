@@ -54,13 +54,16 @@ dapply[ , Predicted := as.numeric( prob_baja2 > 1/40 ) ]
 
 #genero el archivo para Kaggle
 #primero creo la carpeta donde va el experimento
+# TODO: cambiar el número del experimento
 dir.create( "./exp/" )
 dir.create( "./exp/KA2006" )
-dir.create( "./exp/KA2006/v1.1" )
+dir.create( "./exp/KA2006/v1.2" )
 
+# TODO: cambiar el número del experimento
 fwrite( dapply[ , list(numero_de_cliente, Predicted) ], #solo los campos para Kaggle
-        file= "./exp/KA2006/v1.1/K101_001.csv",
+        file= "./exp/KA2006/v1.2/K101_001.csv",
         sep=  "," )
 
 # guardo el modelo en un archivo, para aplicar F.E en sus reglas
-saveRDS(modelo, "./exp/KA2006/v1.1/modelo.v1.1.rda")
+# TODO: cambiar el número del experimento
+saveRDS(modelo, "./exp/KA2006/v1.2/modelo.v1.2.rda")
