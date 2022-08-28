@@ -1,5 +1,7 @@
 #Arbol elemental con libreria  rpart
 #Debe tener instaladas las librerias  data.table  ,  rpart  y  rpart.plot
+rm( list=ls() )  #Borro todos los objetos
+gc()   #Garbage Collection
 
 #cargo las librerias que necesito
 require("data.table")
@@ -10,10 +12,9 @@ require("rpart.plot")
 setwd("C:\\uba\\dmeyf\\")   #Establezco el Working Directory
 
 #cargo el dataset
-dataset  <- fread("./datasets/feature-engineering/v1/competencia1_2022_fe_v1.csv")
+dataset  <- fread("./datasets/competencia1_2022.csv")
 
 columnas.a.quitar <- c(
-  "ctrx_quarter"
 )
 
 if (length(columnas.a.quitar) > 0) {
@@ -27,10 +28,10 @@ dapply  <- dataset[ foto_mes==202103 ]  #defino donde voy a aplicar el modelo
 modelo  <- rpart(formula=   "clase_ternaria ~ .",  #quiero predecir clase_ternaria a partir de el resto de las variables
                  data=      dtrain,  #los datos donde voy a entrenar
                  xval=      5,
-                 cp=       -0.8612585,   #esto significa no limitar la complejidad de los splits
-                 minsplit=  1965,     #minima cantidad de registros para que se haga el split
-                 minbucket= 196,     #tamaño minimo de una hoja
-                 maxdepth=  16)    #profundidad maxima del arbol
+                 cp=       -0.9107645,   #esto significa no limitar la complejidad de los splits
+                 minsplit=  3612,     #minima cantidad de registros para que se haga el split
+                 minbucket= 783,     #tamaño minimo de una hoja
+                 maxdepth=  14)    #profundidad maxima del arbol
 
 
 #grafico el arbol
@@ -54,8 +55,9 @@ dapply[ , Predicted := as.numeric( prob_baja2 > 1/40 ) ]
 #genero el archivo para Kaggle
 #primero creo la carpeta donde va el experimento
 dir.create( "./exp/" )
-dir.create( "./exp/KA1993" )
+dir.create( "./exp/KA2006" )
+dir.create( "./exp/KA2006/v1.1" )
 
 fwrite( dapply[ , list(numero_de_cliente, Predicted) ], #solo los campos para Kaggle
-        file= "./exp/KA1993/K101_001.csv",
+        file= "./exp/KA2006/v1.1/K101_001.csv",
         sep=  "," )

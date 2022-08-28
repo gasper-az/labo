@@ -8,7 +8,7 @@ require("parallel")
 
 setwd("C:\\uba\\dmeyf\\") 
 
-file <- "./exp/HT3210/HT322.txt"
+file <- "./exp/HT3210/v1.1/HT321.txt"
 
 dataset.log <- fread(file)
 
