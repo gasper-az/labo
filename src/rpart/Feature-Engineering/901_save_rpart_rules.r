@@ -22,11 +22,86 @@ save.rules <- function(model, file) {
 parse.rule <- function(rule) {
   trimmed.rules <- trimws(unlist(strsplit(rule, "when")))
   if (!is.na(trimmed.rules[2])) {
-    return(trimmed.rules[2])
+    return(fix.to.pattern.in.rule(trimmed.rules[2]))
   } else {
     return("")
   }
 }
+
+# fix.to.pattern.in.rule <- function(rule) {
+#   # busco patrones del tipo "columna == num1 to num2"
+#   # la idea es cambiarlo por algo como "columna %in% (num1, num2-1)"
+#   my.regex <- "\\w{1,}\\s{1,}==\\s{1,}\\d{1,}\\s{1,}to\\s{1,}\\d{1,}"
+#   
+#   is.present <- grepl(my.regex, rule)
+#   
+#   if (!is.present) {
+#     return(rule)
+#   }
+#   
+#   res <- regexpr(my.regex, rule)
+#   matches <- regmatches(rule, res)
+#   
+#   # regex para numeros
+#   regex.number <- "\\d{1,}"
+#   
+#   numbers <- gregexpr(regex.number, matches)
+#   matches.number <- regmatches(matches, numbers)
+#   
+#   # regex para texto
+#   regex.text <- "\\w{1,}"
+#   
+#   text <- regexpr(regex.text, matches)
+#   match.text <- regmatches(matches, text)
+#   
+#   first.number <- matches.number[[1]][1]
+#   second.number <- matches.number[[1]][2]
+#   
+#   new.line <- paste0(match.text, " %in% c(", first.number, ", ", as.numeric(second.number) - 1, ")")
+#   final <- gsub(matches, new.line, rule)
+#   
+#   return(final)
+# }
+
+fix.to.pattern.in.rule <- function(rule) {
+  # busco patrones del tipo "columna == num1 to num2"
+  # la idea es cambiarlo por algo como "columna >= num1 and columna < num2"
+  my.regex <- "\\w{1,}\\s{1,}==\\s{1,}\\d+\\.*\\d*\\s{1,}to\\s{1,}\\d+\\.*\\d*"
+  
+  is.present <- grepl(my.regex, rule)
+  
+  if (!is.present) {
+    return(rule)
+  }
+  
+  res <- gregexec(my.regex, rule)
+  matches.list <- regmatches(rule, res)
+  
+  # regex para numeros
+  regex.number <- "\\d+\\.*\\d*"
+  
+  # regex para texto
+  regex.text <- "\\w{1,}"
+  
+  for (matches.row in matches.list) {
+    for (matches in matches.row) {
+      numbers <- gregexpr(regex.number, matches)
+      matches.number <- regmatches(matches, numbers)
+      
+      text <- regexpr(regex.text, matches)
+      match.text <- regmatches(matches, text)
+      
+      first.number <- matches.number[[1]][1]
+      second.number <- matches.number[[1]][2]
+      
+      new.line <- paste0(match.text, " >= ", first.number, " & ", match.text, " < ", second.number)
+      rule <- gsub(matches, new.line, rule)
+    }
+  }
+  
+  return(rule)
+}
+
 
 #---------------------------------------------------------------#
 #-------------------- Variables - Carpertas --------------------#
