@@ -140,14 +140,24 @@ EstimarGanancia  <- function( x )
 setwd( "C:\\uba\\dmeyf" ) # TODO: cambiar por carpeta de trabajo
 
 #cargo el dataset
-dataset  <- fread("./datasets/competencia1_2022.csv")   #TODO: cambiar path
+dataset  <- fread("./datasets/feature-engineering/v1.2/competencia1_2022_fe_v1.2.csv")   #TODO: cambiar path
+
+# TODO: quitar columnas que se consideren necesarias
+columnas.a.quitar <- c(
+  "ctrx_quarter"
+)
+
+if (length(columnas.a.quitar) > 0) {
+  dataset[, c(columnas.a.quitar):=NULL] 
+}
 
 #creo la carpeta donde va el experimento
 # HT  representa  Hiperparameter Tuning
 dir.create( "./exp/",  showWarnings = FALSE ) 
 dir.create( "./exp/HT3210/", showWarnings = FALSE )
 dir.create( "./exp/HT3210/v1.2", showWarnings = FALSE )
-setwd("./exp/HT3210/v1.2")   #Establezco el Working Directory DEL EXPERIMENTO
+dir.create( "./exp/HT3210/v1.2/FeatureEngineering", showWarnings = FALSE )
+setwd("./exp/HT3210/v1.2/FeatureEngineering")   #Establezco el Working Directory DEL EXPERIMENTO
 
 
 archivo_log  <- "HT321.txt"
