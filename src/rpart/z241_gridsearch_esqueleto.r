@@ -8,7 +8,7 @@ require("data.table")
 require("rpart")
 require("parallel")
 
-ksemillas  <- c(102191, 200177, 410551, 552581, 892237) #reemplazar por las propias semillas
+ksemillas  <- c( 763369, 763381, 763391, 763403, 763409  ) #reemplazar por las propias semillas
 
 #------------------------------------------------------------------------------
 #particionar agrega una columna llamada fold a un dataset que consiste en una particion estratificada segun agrupa
@@ -75,7 +75,7 @@ ArbolesMontecarlo  <- function( semillas, param_basicos )
 #------------------------------------------------------------------------------
 
 #Aqui se debe poner la carpeta de la computadora local
-setwd("D:\\gdrive\\UBA2022\\")   #Establezco el Working Directory
+setwd("C:\\uba\\dmeyf\\")   #Establezco el Working Directory
 #cargo los datos
 
 #cargo los datos
@@ -96,34 +96,43 @@ archivo_salida  <- "./exp/HT2020/gridsearch.txt"
 #la forma que no suceda lo anterior es con append=TRUE
 cat( file=archivo_salida,
      sep= "",
+     "cp", "\t",
      "max_depth", "\t",
      "min_split", "\t",
+     "minbucket", "\t",
      "ganancia_promedio", "\n")
 
 
 #itero por los loops anidados para cada hiperparametro
-
-for( vmax_depth  in  c( 4, 6, 8, 10, 12, 14 )  )
-{
-for( vmin_split  in  c( 1000, 800, 600, 400, 200, 100, 50, 20, 10 )  )
-{
-
-  #notar como se agrega
-  param_basicos  <- list( "cp"=         -0.5,       #complejidad minima
-                          "minsplit"=  vmin_split,  #minima cantidad de registros en un nodo para hacer el split
-                          "minbucket"=  5,          #minima cantidad de registros en una hoja
-                          "maxdepth"=  vmax_depth ) #profundidad máxima del arbol
-
-  #Un solo llamado, con la semilla 17
-  ganancia_promedio  <- ArbolesMontecarlo( ksemillas,  param_basicos )
-
-  #escribo los resultados al archivo de salida
-  cat(  file=archivo_salida,
-        append= TRUE,
-        sep= "",
-        vmax_depth, "\t",
-        vmin_split, "\t",
-        ganancia_promedio, "\n"  )
-
-}
+for ( cp in seq(from = -1, to = 0, by = 0.25)) {
+  for( vmax_depth  in  c( 4, 6, 8, 10, 12, 14 )  ) {
+    for( vmin_split  in  c( 1000, 800, 600, 400, 200, 100, 50, 20, 10 )  ) {
+      for (minbucket in seq(from=2, to=5, by=1)) {
+        #notar como se agrega
+        param_basicos  <- list( "cp"=         cp,       #complejidad minima; -0.5
+                                "minsplit"=  vmin_split,  #minima cantidad de registros en un nodo para hacer el split
+                                "minbucket"=  minbucket,          #minima cantidad de registros en una hoja; 5
+                                "maxdepth"=  vmax_depth ) #profundidad máxima del arbol
+        
+        #Un solo llamado, con la semilla 17
+        ganancia_promedio  <- ArbolesMontecarlo( ksemillas,  param_basicos )
+        
+        #escribo los resultados al archivo de salida
+        cat(  file=archivo_salida,
+              append= TRUE,
+              sep= "",
+              cp, "\t",
+              vmax_depth, "\t",
+              vmin_split, "\t",
+              minbucket, "\t",
+              ganancia_promedio, "\n"  )
+        
+        print(paste("ganancia_promedio", ganancia_promedio, sep = " "))
+        print(paste("minbucket", minbucket, sep = " "))
+      }
+      print(paste("vmin_split", vmin_split, sep = " "))
+    }
+    print(paste("vmax_depth", vmax_depth, sep = " "))
+  }
+  print(paste("cp", cp, sep = " "))
 }

@@ -6,10 +6,8 @@ gc()             #garbage collection
 
 require("data.table")
 require("rlist")
-
 require("rpart")
 require("parallel")
-#paquetes necesarios para la Bayesian Optimization
 require("DiceKriging")
 require("mlrMBO")
 
@@ -25,7 +23,7 @@ hs  <- makeParamSet(
           makeIntegerParam("maxdepth" , lower=  3L  , upper=   20L),
           forbidden = quote( minbucket > 0.5*minsplit ) )             # minbuket NO PUEDE ser mayor que la mitad de minsplit
 
-ksemilla_azar  <- 763369   #cambiar por la primer semilla
+ksemilla_azar  <- 763369   #TODO: cambiar por la primer semilla
 
 #------------------------------------------------------------------------------
 #graba a un archivo los componentes de lista
@@ -139,17 +137,27 @@ EstimarGanancia  <- function( x )
 #------------------------------------------------------------------------------
 #Aqui empieza el programa
 
-setwd( "C:\\uba\\dmeyf" )
+setwd( "C:\\uba\\dmeyf" ) # TODO: cambiar por carpeta de trabajo
 
 #cargo el dataset
-dataset  <- fread("./datasets/competencia1_2022.csv")   #donde entreno
+dataset  <- fread("./datasets/feature-engineering/v1.2/competencia1_2022_fe_v1.2.csv")   #TODO: cambiar path
 
+# TODO: quitar columnas que se consideren necesarias
+columnas.a.quitar <- c(
+  "ctrx_quarter"
+)
+
+if (length(columnas.a.quitar) > 0) {
+  dataset[, c(columnas.a.quitar):=NULL] 
+}
 
 #creo la carpeta donde va el experimento
 # HT  representa  Hiperparameter Tuning
 dir.create( "./exp/",  showWarnings = FALSE ) 
 dir.create( "./exp/HT3210/", showWarnings = FALSE )
-setwd("./exp/HT3210/")   #Establezco el Working Directory DEL EXPERIMENTO
+dir.create( "./exp/HT3210/v1.2", showWarnings = FALSE )
+dir.create( "./exp/HT3210/v1.2/FeatureEngineering", showWarnings = FALSE )
+setwd("./exp/HT3210/v1.2/FeatureEngineering")   #Establezco el Working Directory DEL EXPERIMENTO
 
 
 archivo_log  <- "HT321.txt"
