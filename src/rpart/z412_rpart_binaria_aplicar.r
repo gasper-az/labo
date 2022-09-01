@@ -8,7 +8,7 @@ require("rpart.plot")
 
 
 #Aqui se debe poner la carpeta de la materia de SU computadora local
-setwd("D:\\gdrive\\UBA2022\\")  #Establezco el Working Directory
+setwd("C:\\uba\\dmeyf")  #Establezco el Working Directory
 
 #cargo el dataset
 dataset  <- fread("./datasets/competencia1_2022.csv" )
@@ -74,7 +74,7 @@ dfinal[ , prob_SI := prediccion[ , "SI"] ]
 
 # por favor cambiar por una semilla propia
 # que sino el Fiscal General va a impugnar la prediccion
-set.seed(102191)  
+set.seed(763369)  
 dfinal[ , azar := runif( nrow(dapply) ) ]
 
 # ordeno en forma descentente, y cuando coincide la probabilidad, al azar
