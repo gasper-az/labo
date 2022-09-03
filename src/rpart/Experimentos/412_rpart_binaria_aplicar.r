@@ -83,6 +83,7 @@ setorder( dfinal, -prob_SI, azar )
 
 dir.create( "./exp/" )
 dir.create( "./exp/KA4120" )
+dir.create( "./exp/KA4120/v1.0" )
 
 
 for( corte  in  c( 7500, 8000, 8500, 9000, 9500, 10000, 10500, 11000 ) )
@@ -93,6 +94,6 @@ for( corte  in  c( 7500, 8000, 8500, 9000, 9500, 10000, 10500, 11000 ) )
 
 
   fwrite( dfinal[ , list(numero_de_cliente, Predicted) ], #solo los campos para Kaggle
-           file= paste0( "./exp/KA4120/KA4120_005_",  corte, ".csv"),
+           file= paste0( "./exp/KA4120/v1.0/KA4120_005_",  corte, ".csv"),
            sep=  "," )
 }
