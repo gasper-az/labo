@@ -27,7 +27,7 @@ dapply  <- dataset[ foto_mes==202103 ]  #defino donde voy a aplicar el modelo
 # obviamente rpart no puede ve  clase_ternaria para predecir  clase_binaria
 #  #no utilizo Visa_mpagado ni  mcomisiones_mantenimiento por drifting
 
-modelo  <- rpart(formula=   "clase_binaria ~ . -clase_ternaria",
+modelo  <- rpart(formula=   "clase_binaria ~ .  -Visa_mpagado -mcomisiones_mantenimiento -clase_ternaria",
                  data=      dtrain,  #los datos donde voy a entrenar
                  xval=         0,
                  cp=          -0.828575553623115,#  -0.89
@@ -83,7 +83,7 @@ setorder( dfinal, -prob_SI, azar )
 
 dir.create( "./exp/" )
 dir.create( "./exp/KA4120" )
-dir.create( "./exp/KA4120/v1.0" )
+dir.create( "./exp/KA4120/v1.1" )
 
 
 for( corte  in  c( 7500, 8000, 8500, 9000, 9500, 10000, 10500, 11000 ) )
@@ -94,6 +94,6 @@ for( corte  in  c( 7500, 8000, 8500, 9000, 9500, 10000, 10500, 11000 ) )
 
 
   fwrite( dfinal[ , list(numero_de_cliente, Predicted) ], #solo los campos para Kaggle
-           file= paste0( "./exp/KA4120/v1.0/KA4120_005_",  corte, ".csv"),
+           file= paste0( "./exp/KA4120/v1.1/KA4120_005_",  corte, ".csv"),
            sep=  "," )
 }
