@@ -30,10 +30,10 @@ dapply  <- dataset[ foto_mes==202103 ]  #defino donde voy a aplicar el modelo
 modelo  <- rpart(formula=   "clase_binaria ~ . -clase_ternaria",
                  data=      dtrain,  #los datos donde voy a entrenar
                  xval=         0,
-                 cp=          -0.54,#  -0.89
-                 minsplit=  1073,   # 621
-                 minbucket=  278,   # 309
-                 maxdepth=     9 )  #  12
+                 cp=          -0.828575553623115,#  -0.89
+                 minsplit=  1004,   # 621
+                 minbucket=  103,   # 309
+                 maxdepth=     14 )  #  12
 
 
 #----------------------------------------------------------------------------
