@@ -6,6 +6,24 @@ require("data.table")
 require("rpart")
 require("rpart.plot")
 
+# Creo función para aplicar binning al dataset (subset, es decir, 202101 o 202103)
+agregar.bins <- function(subset, col, probs = NULL) {
+  if (is.null(probs)) {
+    probs <- seq(0, 1, by = 0.25)
+  }
+  
+  var.quantiles <- subset[, unique(quantile(get(col), probs = probs, na.rm = T))]
+  labels.bins <- 1:(length(var.quantiles) - 1)
+  
+  new.col <- paste(col, "bin", sep = "__")
+  
+  subset[, (new.col) := cut(
+    get(col),
+    var.quantiles,
+    include.lowest = T,
+    labels.bins
+  )]
+}
 
 #Aqui se debe poner la carpeta de la materia de SU computadora local
 setwd("C:\\uba\\dmeyf\\")   #Establezco el Working Directory
@@ -22,6 +40,28 @@ dataset[ foto_mes==202101,
 dtrain  <- dataset[ foto_mes==202101 ]  #defino donde voy a entrenar
 dapply  <- dataset[ foto_mes==202103 ]  #defino donde voy a aplicar el modelo
 
+variables.para.binning <- c(
+  "mcuentas_saldo",
+  "mcuenta_corriente",
+  "mprestamos_personales",
+  "mcaja_ahorro",
+  "mactivos_margen",   ## ???
+  "mpasivos_margen",
+  "mtarjeta_visa_consumo",
+  "mcomisiones",       ## ???
+  "mcomisiones_otras", ## ???
+  "Visa_msaldototal",
+  "Visa_msaldopesos"
+)
+
+for (variable in variables.para.binning) {
+  print(variable)
+  agregar.bins(dtrain, variable)
+  dtrain[, (variable) := NULL]
+  
+  agregar.bins(dapply, variable)
+  dapply[, (variable) := NULL]
+}
 
 # Entreno el modelo
 # obviamente rpart no puede ve  clase_ternaria para predecir  clase_binaria
@@ -75,7 +115,7 @@ prediccion  <- predict( object=  modelo,
 #cada columna es el vector de probabilidades 
 
 #agrego a dapply una columna nueva que es la probabilidad de BAJA+2
-dfinal  <- copy( dapply[ , list(numero_de_cliente) ] )
+dfinal  <- data.table::copy( dapply[ , list(numero_de_cliente) ] )
 dfinal[ , prob_SI := prediccion[ , "SI"] ]
 
 
@@ -90,7 +130,7 @@ setorder( dfinal, -prob_SI, azar )
 
 dir.create( "./exp/" )
 dir.create( "./exp/KA4120" )
-dir.create( "./exp/KA4120/v1.1" )
+dir.create( "./exp/KA4120/v1.2" )
 
 
 for( corte  in  c( 7500, 8000, 8500, 9000, 9500, 10000, 10500, 11000 ) )
@@ -101,6 +141,6 @@ for( corte  in  c( 7500, 8000, 8500, 9000, 9500, 10000, 10500, 11000 ) )
 
 
   fwrite( dfinal[ , list(numero_de_cliente, Predicted) ], #solo los campos para Kaggle
-           file= paste0( "./exp/KA4120/v1.1/KA4120_005_",  corte, ".csv"),
+           file= paste0( "./exp/KA4120/v1.2/KA4120_005_",  corte, ".csv"),
            sep=  "," )
 }
