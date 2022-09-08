@@ -132,7 +132,7 @@ ArbolesCrossValidation  <- function( semilla, data, param, qfolds, pagrupa )
                           seq(qfolds), # 1 2 3 4 5
                           MoreArgs= list( data, param), 
                           SIMPLIFY= FALSE,
-                          mc.cores= 1 )   #debe ir 1 si es Windows
+                          mc.cores= 5 )   #debe ir 1 si es Windows
 
   data[ , fold := NULL ]
 
@@ -157,7 +157,7 @@ EstimarGanancia  <- function( x )
                            ksemilla_azar,
                            MoreArgs= list ( dtrain, param=x, qfolds= xval_folds, pagrupa= "clase_ternaria" ),
                            SIMPLIFY= FALSE,
-                           mc.cores = 1 )  #debe ir 1 si es Windows
+                           mc.cores = 5 )  #debe ir 1 si es Windows
 
 
    ganancia_promedio  <- mean( unlist( vganancias ) )
