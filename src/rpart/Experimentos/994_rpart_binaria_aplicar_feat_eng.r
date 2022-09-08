@@ -47,7 +47,7 @@ dapply  <- dataset[ foto_mes==202103 ]  #defino donde voy a aplicar el modelo
 # 20220908 043923	-0.497441301	1421.061337	110.5774895	15			5			22493333.33		78                ===> Utilizo este para el v1.5.2 y v1.5.3 (esta última aplica data drifting)
 # 20220908 045148	-0.999975611	1766.373991	102.9455509	17			5			22466666.67		114
 
-# 20220908 043515	-0.392226668	1293.914332	89.18725811	14			5			22426666.67		66                ===> utilizo para v1.5.5
+# 20220908 043515	-0.392226668	1293.914332	89.18725811	14			5			22426666.67		66                ===> utilizo para v1.5.5 y v1.5.6 (la última, sin dd)
 
 # 20220908 043841	-0.559106273	1638.043231	126.3152622	16			5			22346666.67		76
 # 20220908 042847	-0.367361085	991.4506996	105.0783475	20			5			22320000		48
@@ -104,22 +104,22 @@ names(head(modelo$variable.importance, 20))
 #----------------------------------------------------------------------------
 
 # corrijo manualmente el drifting de  Visa_fultimo_cierre
-dapply[ Visa_fultimo_cierre== 1, Visa_fultimo_cierre :=  4 ]
-dapply[ Visa_fultimo_cierre== 7, Visa_fultimo_cierre := 11 ]
-dapply[ Visa_fultimo_cierre==21, Visa_fultimo_cierre := 25 ]
-dapply[ Visa_fultimo_cierre==14, Visa_fultimo_cierre := 18 ]
-dapply[ Visa_fultimo_cierre==28, Visa_fultimo_cierre := 32 ]
-dapply[ Visa_fultimo_cierre==35, Visa_fultimo_cierre := 39 ]
-dapply[ Visa_fultimo_cierre> 39, Visa_fultimo_cierre := Visa_fultimo_cierre + 4 ]
+# dapply[ Visa_fultimo_cierre== 1, Visa_fultimo_cierre :=  4 ]
+# dapply[ Visa_fultimo_cierre== 7, Visa_fultimo_cierre := 11 ]
+# dapply[ Visa_fultimo_cierre==21, Visa_fultimo_cierre := 25 ]
+# dapply[ Visa_fultimo_cierre==14, Visa_fultimo_cierre := 18 ]
+# dapply[ Visa_fultimo_cierre==28, Visa_fultimo_cierre := 32 ]
+# dapply[ Visa_fultimo_cierre==35, Visa_fultimo_cierre := 39 ]
+# dapply[ Visa_fultimo_cierre> 39, Visa_fultimo_cierre := Visa_fultimo_cierre + 4 ]
 
 # corrijo manualmente el drifting de  Visa_fultimo_cierre
-dapply[ Master_fultimo_cierre== 1, Master_fultimo_cierre :=  4 ]
-dapply[ Master_fultimo_cierre== 7, Master_fultimo_cierre := 11 ]
-dapply[ Master_fultimo_cierre==21, Master_fultimo_cierre := 25 ]
-dapply[ Master_fultimo_cierre==14, Master_fultimo_cierre := 18 ]
-dapply[ Master_fultimo_cierre==28, Master_fultimo_cierre := 32 ]
-dapply[ Master_fultimo_cierre==35, Master_fultimo_cierre := 39 ]
-dapply[ Master_fultimo_cierre> 39, Master_fultimo_cierre := Master_fultimo_cierre + 4 ]
+# dapply[ Master_fultimo_cierre== 1, Master_fultimo_cierre :=  4 ]
+# dapply[ Master_fultimo_cierre== 7, Master_fultimo_cierre := 11 ]
+# dapply[ Master_fultimo_cierre==21, Master_fultimo_cierre := 25 ]
+# dapply[ Master_fultimo_cierre==14, Master_fultimo_cierre := 18 ]
+# dapply[ Master_fultimo_cierre==28, Master_fultimo_cierre := 32 ]
+# dapply[ Master_fultimo_cierre==35, Master_fultimo_cierre := 39 ]
+# dapply[ Master_fultimo_cierre> 39, Master_fultimo_cierre := Master_fultimo_cierre + 4 ]
 
 
 #aplico el modelo a los datos nuevos
@@ -147,8 +147,8 @@ setorder( dfinal, -prob_SI, azar )
 dir.create( "./exp/" )
 dir.create( "./exp/KA4120" )
 dir.create( "./exp/KA4120/v1.5" )
-dir.create( "./exp/KA4120/v1.5/v1.5.5" )
-dir.create( "./exp/KA4120/v1.5/v1.5.5/FeatureEngineering" )
+dir.create( "./exp/KA4120/v1.5/v1.5.6" )
+dir.create( "./exp/KA4120/v1.5/v1.5.6/FeatureEngineering" )
 
 
 for( corte  in  c( 7500, 8000, 8500, 9000, 9500, 10000, 10500, 11000 ) )
@@ -159,7 +159,7 @@ for( corte  in  c( 7500, 8000, 8500, 9000, 9500, 10000, 10500, 11000 ) )
 
 
   fwrite( dfinal[ , list(numero_de_cliente, Predicted) ], #solo los campos para Kaggle
-           file= paste0( "./exp/KA4120/v1.5/v1.5.5/FeatureEngineering/KA4120_005_",  corte, ".csv"),
+           file= paste0( "./exp/KA4120/v1.5/v1.5.6/FeatureEngineering/KA4120_005_",  corte, ".csv"),
            sep=  "," )
 }
 
@@ -168,4 +168,4 @@ for( corte  in  c( 7500, 8000, 8500, 9000, 9500, 10000, 10500, 11000 ) )
 prp(modelo, extra=101, digits=5, branch=1, type=4, varlen=0, faclen=0)
 
 # TODO: cambiar el número del experimento
-saveRDS(modelo, "./exp/KA4120/v1.5/v1.5.5/FeatureEngineering/modelo.v1.5.5.rda")
+saveRDS(modelo, "./exp/KA4120/v1.5/v1.5.6/FeatureEngineering/modelo.v1.5.6.rda")
