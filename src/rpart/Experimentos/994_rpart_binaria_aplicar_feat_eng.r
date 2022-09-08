@@ -44,7 +44,7 @@ dapply  <- dataset[ foto_mes==202103 ]  #defino donde voy a aplicar el modelo
 
 # mis resultados:
 # fecha			      cp				    minsplit	  minbucket	  maxdepth	xval_folds	ganancia		iteracion
-# 20220908 043923	-0.497441301	1421.061337	110.5774895	15			5			22493333.33		78                ===> Utilizo este para el v1.5.2
+# 20220908 043923	-0.497441301	1421.061337	110.5774895	15			5			22493333.33		78                ===> Utilizo este para el v1.5.2 y v1.5.3 (esta última aplica data drifting)
 # 20220908 045148	-0.999975611	1766.373991	102.9455509	17			5			22466666.67		114
 # 20220908 043515	-0.392226668	1293.914332	89.18725811	14			5			22426666.67		66
 # 20220908 043841	-0.559106273	1638.043231	126.3152622	16			5			22346666.67		76
@@ -74,16 +74,26 @@ dapply  <- dataset[ foto_mes==202103 ]  #defino donde voy a aplicar el modelo
 # 20220908 044300	-0.627205269	1551.031686	27.52618659	20			5			21573333.33		88
 # 20220908 044029	-0.714972918	1590.470265	340.7484519	16			5			21533333.33		81
 # 20220908 043902	-0.595498146	2034.049703	316.1334611	15			5			21426666.67		77
+# 20220908 044626	-0.265192504	1159.335604	300.6360177	20	5	21386666.67	98
+# 20220908 043139	-0.353374845	796.1757762	273.5066292	20	5	21373333.33	56
+# 20220908 041437	-0.392653159	1248.533694	354.123288	9	  5	21360000	1
+
+# 20220908 043304	-0.426880397	1266.426979	304.2984535	9	  5	21360000	60                  ===> utilizo para v1.5.4
+
+# 20220908 044128	-0.462582909	1314.726079	131.6300142	16	5	21346666.67	84
+# 20220908 044452	-0.637743372	701.9041757	331.5991054	16	5	21346666.67	94
+# 20220908 043247	-0.375469371	1155.209304	247.6126025	19	5	21333333.33	59
+# 20220908 045024	-0.57377371	  1669.967599	6.716119974	9	  5	21320000	110
 
 
 
 modelo  <- rpart(formula=   "clase_binaria ~ .  -Visa_mpagado -mcomisiones_mantenimiento -clase_ternaria",
                  data=      dtrain,  #los datos donde voy a entrenar
                  xval=         5,
-                 cp=          -0.497441301,#  -0.54, -0.89
-                 minsplit=  1422,   # 1073, 621
-                 minbucket=  111,   # 278, 309
-                 maxdepth=     15)  #  9, 12
+                 cp=          -0.426880397,#  -0.54, -0.89
+                 minsplit=  1267,   # 1073, 621
+                 minbucket=  305,   # 278, 309
+                 maxdepth=     9)  #  9, 12
 
 
 names(head(modelo$variable.importance, 20))
@@ -135,8 +145,8 @@ setorder( dfinal, -prob_SI, azar )
 dir.create( "./exp/" )
 dir.create( "./exp/KA4120" )
 dir.create( "./exp/KA4120/v1.5" )
-dir.create( "./exp/KA4120/v1.5/v1.5.3" )
-dir.create( "./exp/KA4120/v1.5/v1.5.3/FeatureEngineering" )
+dir.create( "./exp/KA4120/v1.5/v1.5.4" )
+dir.create( "./exp/KA4120/v1.5/v1.5.4/FeatureEngineering" )
 
 
 for( corte  in  c( 7500, 8000, 8500, 9000, 9500, 10000, 10500, 11000 ) )
@@ -147,7 +157,7 @@ for( corte  in  c( 7500, 8000, 8500, 9000, 9500, 10000, 10500, 11000 ) )
 
 
   fwrite( dfinal[ , list(numero_de_cliente, Predicted) ], #solo los campos para Kaggle
-           file= paste0( "./exp/KA4120/v1.5/v1.5.2/FeatureEngineering/KA4120_005_",  corte, ".csv"),
+           file= paste0( "./exp/KA4120/v1.5/v1.5.4/FeatureEngineering/KA4120_005_",  corte, ".csv"),
            sep=  "," )
 }
 
@@ -156,4 +166,4 @@ for( corte  in  c( 7500, 8000, 8500, 9000, 9500, 10000, 10500, 11000 ) )
 prp(modelo, extra=101, digits=5, branch=1, type=4, varlen=0, faclen=0)
 
 # TODO: cambiar el número del experimento
-saveRDS(modelo, "./exp/KA4120/v1.5/v1.5.3/FeatureEngineering/modelo.v1.5.3.rda")
+saveRDS(modelo, "./exp/KA4120/v1.5/v1.5.4/FeatureEngineering/modelo.v1.5.4.rda")
