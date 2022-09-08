@@ -19,7 +19,7 @@ aplicar.Predicados <- function (dataset, predicados) {
     if (predicado %notin% colnames(dataset)) {
       # predicado[1] devuelve el valor literal, lo usamos como colname
       # eval(parse()) nos permite evaluar el predicado
-      dataset[, predicado[1] := eval(parse(text = predicado.value))] 
+      dataset[, predicado[1] := ifelse(eval(parse(text = predicado.value)) == TRUE, 1, 0)] 
     }
   }
 }

@@ -101,7 +101,7 @@ ArbolSimple  <- function( fold_test, data, param )
                           type= "prob")   #quiero que me devuelva probabilidades
 
   #En el 1er cuatrimestre del Tercer Año de la Maestria se explicaran las siguientes 12 lineas
-  dtest <- copy( data[ fold==fold_test , list( clase_ternaria )] )
+  dtest <- data.table::copy( data[ fold==fold_test , list( clase_ternaria )] )
   dtest[ , pred := prediccion[ ,"SI"] ]
   dtest[ , azar := runif( nrow( dtest ) ) ]
   setorder(  dtest, -pred, azar )
@@ -132,7 +132,7 @@ ArbolesCrossValidation  <- function( semilla, data, param, qfolds, pagrupa )
                           seq(qfolds), # 1 2 3 4 5
                           MoreArgs= list( data, param), 
                           SIMPLIFY= FALSE,
-                          mc.cores= 5 )   #debe ir 1 si es Windows
+                          mc.cores= 1 )   #debe ir 1 si es Windows
 
   data[ , fold := NULL ]
 
@@ -157,7 +157,7 @@ EstimarGanancia  <- function( x )
                            ksemilla_azar,
                            MoreArgs= list ( dtrain, param=x, qfolds= xval_folds, pagrupa= "clase_ternaria" ),
                            SIMPLIFY= FALSE,
-                           mc.cores = 5 )  #debe ir 1 si es Windows
+                           mc.cores = 1 )  #debe ir 1 si es Windows
 
 
    ganancia_promedio  <- mean( unlist( vganancias ) )
@@ -173,11 +173,40 @@ EstimarGanancia  <- function( x )
 #------------------------------------------------------------------------------
 #Aqui empieza el programa
 
+# TODO: cambiar
 setwd( "~/buckets/b1/" )
 
 #cargo el dataset, aqui debe poner  SU RUTA
-# TODO: cambiar path aquí por el que tiene Feature Engineering
-dataset  <- fread("./datasets/feature-engineering/v1.5/v1.5.1/competencia1_2022_fe_v1.5.1.csv")   #donde entreno
+dataset  <- fread("./datasets/competencia1_2022.csv")   #donde entreno
+
+dataset[, predicado_01 := ifelse((ctrx_quarter >= 14 & ctrx_quarter < 30 & mcaja_ahorro >= 16275 & mtarjeta_visa_consumo >= 3748), 1, 0)]
+dataset[, predicado_02 := ifelse((ctrx_quarter >= 14 & ctrx_quarter < 30 & mcaja_ahorro >= 2604 & mcaja_ahorro < 7610 & mtarjeta_visa_consumo >= 3748), 1, 0)]
+dataset[, predicado_03 := ifelse((ctrx_quarter <  14 & mcuentas_saldo >= 366 & (Master_fechaalta < 468 | is.na(Master_fechaalta)) & ctarjeta_visa >= 0.5), 1, 0)]
+dataset[, predicado_04 := ifelse((ctrx_quarter >= 30 & ctrx_quarter < 49 & mcaja_ahorro >= 15 & mcaja_ahorro < 573 & Visa_msaldototal >= 3527 & !is.na(Visa_msaldototal)), 1, 0)]
+dataset[, predicado_05 := ifelse((ctrx_quarter >= 14 & ctrx_quarter < 30 & mcaja_ahorro < 2604 & (Visa_msaldototal < 1624 | is.na(Visa_msaldototal)) & mprestamos_personales >= 14858), 1, 0)]
+dataset[, predicado_06 := ifelse((ctrx_quarter <  14 & mcuentas_saldo < -1256 & cprestamos_personales >= 1.5), 1, 0)]
+dataset[, predicado_07 := ifelse((ctrx_quarter >= 30 & ctrx_quarter < 49 & mcaja_ahorro < 573 & (Visa_msaldototal < 3527 | is.na(Visa_msaldototal))), 1, 0)]
+dataset[, predicado_08 := ifelse((ctrx_quarter >= 14 & ctrx_quarter < 30 & mcaja_ahorro < 439 & mpasivos_margen >= 5.8 & (Visa_msaldototal < 1624 | is.na(Visa_msaldototal)) & mprestamos_personales <  14858), 1, 0)]
+dataset[, predicado_09 := ifelse((ctrx_quarter >= 14 & ctrx_quarter < 30 & mcaja_ahorro >= 439 & mcaja_ahorro < 2604 & mpasivos_margen >= 5.8 & (Visa_msaldototal < 1624 | is.na(Visa_msaldototal)) & mprestamos_personales < 14858), 1, 0)]
+dataset[, predicado_10 := ifelse((ctrx_quarter <  14 & mcuentas_saldo < -1256 & (Master_fechaalta < 793 | is.na(Master_fechaalta)) & cprestamos_personales < 1.5 & ctarjeta_master >= 0.5), 1, 0)]
+dataset[, predicado_11 := ifelse((ctrx_quarter >= 14 & ctrx_quarter < 30 & mcaja_ahorro <  2604 & mpasivos_margen < 5.8 & (Visa_msaldototal < 1624 | is.na(Visa_msaldototal)) & mprestamos_personales < 14858), 1, 0)]
+dataset[, predicado_12 := ifelse((ctrx_quarter <  14 & mcuentas_saldo < -1256 & Master_fechaalta >= 793 & !is.na(Master_fechaalta) & cprestamos_personales < 1.5 & ctarjeta_master >= 0.5), 1, 0)]
+dataset[, predicado_13 := ifelse((ctrx_quarter <  14 & mcuentas_saldo < -1256 & cprestamos_personales < 1.5 & ctarjeta_master <  0.5), 1, 0)]
+
+
+# ctrx_quarter >= 14 & ctrx_quarter < 30 & mcaja_ahorro >= 16275 & mtarjeta_visa_consumo >= 3748
+# ctrx_quarter >= 14 & ctrx_quarter < 30 & mcaja_ahorro >= 2604 & mcaja_ahorro < 7610 & mtarjeta_visa_consumo >= 3748
+# ctrx_quarter <  14 & mcuentas_saldo >= 366 & Master_fechaalta < 468 & ctarjeta_visa >= 0.5
+# ctrx_quarter >= 30 & ctrx_quarter < 49 & mcaja_ahorro >= 15 & mcaja_ahorro < 573 & Visa_msaldototal >= 3527
+# ctrx_quarter >= 14 & ctrx_quarter < 30 & mcaja_ahorro < 2604 & Visa_msaldototal < 1624 & mprestamos_personales >= 14858
+# ctrx_quarter <  14 & mcuentas_saldo < -1256 & cprestamos_personales >= 1.5
+# ctrx_quarter >= 30 & ctrx_quarter < 49 & mcaja_ahorro < 573 & Visa_msaldototal < 3527
+# ctrx_quarter >= 14 & ctrx_quarter < 30 & mcaja_ahorro < 439 & mpasivos_margen >= 5.8 & Visa_msaldototal < 1624 & mprestamos_personales <  14858
+# ctrx_quarter >= 14 & ctrx_quarter < 30 & mcaja_ahorro >= 439 & mcaja_ahorro < 2604 & mpasivos_margen >= 5.8 & Visa_msaldototal < 1624 & mprestamos_personales < 14858
+# ctrx_quarter <  14 & mcuentas_saldo < -1256 & Master_fechaalta < 793 & cprestamos_personales < 1.5 & ctarjeta_master >= 0.5
+# ctrx_quarter >= 14 & ctrx_quarter < 30 & mcaja_ahorro <  2604 & mpasivos_margen < 5.8 & Visa_msaldototal < 1624 & mprestamos_personales < 14858
+# ctrx_quarter <  14 & mcuentas_saldo < -1256 & Master_fechaalta >= 793 & cprestamos_personales < 1.5 & ctarjeta_master >= 0.5
+# ctrx_quarter <  14 & mcuentas_saldo < -1256 & cprestamos_personales < 1.5 & ctarjeta_master <  0.5
 
 #creo la clase_binaria  SI= {BAJA+1, BAJA+2}  NO={CONTINUA}
 dataset[ foto_mes==202101, clase_binaria :=  ifelse( clase_ternaria=="CONTINUA", "NO", "SI" ) ]
