@@ -177,7 +177,7 @@ setwd( "~/buckets/b1/" )
 
 #cargo el dataset, aqui debe poner  SU RUTA
 # TODO: cambiar path aquí por el que tiene Feature Engineering
-dataset  <- fread("./datasets/competencia1_2022_fe_v1.5.1.csv")   #donde entreno
+dataset  <- fread("./datasets/feature-engineering/v1.5/v1.5.1/competencia1_2022_fe_v1.5.1.csv")   #donde entreno
 
 #creo la clase_binaria  SI= {BAJA+1, BAJA+2}  NO={CONTINUA}
 dataset[ foto_mes==202101, clase_binaria :=  ifelse( clase_ternaria=="CONTINUA", "NO", "SI" ) ]
