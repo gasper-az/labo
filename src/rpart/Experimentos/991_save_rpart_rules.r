@@ -81,9 +81,9 @@ fix.to.pattern.in.rule <- function(rule) {
 # TODO: cambiar valores según la ubicación del repo
 # TODO: cambiar valores según número de experimento
 base.path <- "C:\\uba\\dmeyf\\"
-folder.path <- "./exp/KA4120/v1.5/FeatureEngineering/"
-model.file.name <- "modelo.v1.5.rda"
-rules.file.name <- "rules.v1.5.txt"
+folder.path <- "./exp/KA4120/v1.5/v1.5.1/FeatureEngineering/"
+model.file.name <- "modelo.v1.5.1.rda"
+rules.file.name <- "rules.v1.5.1.txt"
 
 model.file.path <- paste0(folder.path, model.file.name)
 rules.file.path <- paste0(folder.path, rules.file.name)
