@@ -5,6 +5,7 @@ require("data.table")
 require("rpart")
 require("rpart.plot")
 require("genTS") # para utiliar "is_empty"
+require("stringi") #para stri_replace
 
 #---------------------------------------------------------------#
 #-------------------- Funciones de utilidad --------------------#

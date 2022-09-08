@@ -63,7 +63,7 @@ procesar.archivo.reglas <- function(my.hash, rules.file.path) {
 # TODO: cambiar valores según la ubicación del repo
 base.path <- "C:\\uba\\dmeyf\\"
 dataset.path <- "./datasets/competencia1_2022.csv"
-new.dataset.folder <- "./datasets/feature-engineering/v1.5/v1.5.1"
+new.dataset.folder <- "./datasets/feature-engineering/v1.5/v1.5.1/"
 new.dataset.name <- "competencia1_2022_fe_v1.5.1.csv"
 
 rules.file.path <- "./exp/KA4120/v1.5/v1.5.1/FeatureEngineering/rules.v1.5.1.txt"
