@@ -189,6 +189,7 @@ dtrain  <- dataset[ foto_mes==202101, ]
 #creo la carpeta donde va el experimento
 # HT  representa  Hiperparameter Tuning
 dir.create( "./exp/",  showWarnings = FALSE ) 
+dir.create( "./exp/HT4115/", showWarnings = FALSE )
 dir.create( "./exp/HT4115/v1.5.1/", showWarnings = FALSE )
 setwd("./exp/HT4115/v1.5.1/")   #Establezco el Working Directory DEL EXPERIMENTO
 
