@@ -1,4 +1,6 @@
-#cargo las librerias que necesito
+rm(list=ls())
+gc()
+
 require("data.table")
 require("rpart")
 require("rpart.plot")
@@ -115,3 +117,11 @@ for(corte in c(7500, 8000, 8500, 9000, 9500, 10000, 10500, 11000)) {
     sep=  ","
   )
 }
+
+#-------------------------------------------------------------------#
+#-------------------- Guardo el modelo como PDF --------------------#
+#-------------------------------------------------------------------#
+
+pdf(file = "./exp/HT0909/v1.0/rpart.pdf", width=28, height=4)
+prp(modelo, extra=101, digits=5, branch=1, type=4, varlen=0, faclen=0)
+dev.off()
