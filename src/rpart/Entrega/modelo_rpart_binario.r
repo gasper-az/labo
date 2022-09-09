@@ -39,7 +39,7 @@ dataset[, master_fe_suma_all := Master_mfinanciacion_limite +
           Master_mlimitecompra + Master_madelantopesos +
           Master_madelantodolares + Master_mpagado + Master_mpagospesos +
           Master_mpagosdolares + Master_mconsumototal + Master_mpagominimo
-        ]
+]
 
 # Feature Engineering del tipo AX + BY, aplicado a columnas asociadas a la
 # tarjeta del cliente (Visa)
@@ -48,7 +48,7 @@ dataset[, visa_fe_suma_all := Visa_mfinanciacion_limite + Visa_msaldototal +
           Visa_mconsumosdolares + Visa_mlimitecompra + Visa_madelantopesos +
           Visa_madelantodolares + Visa_mpagado + Visa_mpagospesos +
           Visa_mpagosdolares + Visa_mconsumototal + Visa_mpagominimo
-        ]
+]
 
 # Feature Engineering del tipo AX + BY, aplicado a columnas asociadas a las
 # tarjetas del cliente (Master + Visa)
@@ -74,13 +74,13 @@ dataset[, pesos_fe_suma_menos_tarjetas := mrentabilidad + mrentabilidad_annual +
           mextraccion_autoservicio + mcheques_depositados + mcheques_emitidos +
           mcheques_depositados_rechazados + mcheques_emitidos_rechazados +
           matm + matm_other
-        ]
+]
 
 # Feature Engineering del tipo AX + BY, aplicado a todas las columnas en pesos
 dataset[, pesos_fe_suma_all :=
           pesos_fe_suma_menos_tarjetas +
           tarjetas_fe_suma_all
-        ]
+]
 
 #-------------------------------------------------------------------#
 #-------------------- Divido en train y testing --------------------#
@@ -165,7 +165,7 @@ dir.create( "./exp/HT0909/v1.0" )
 for(corte in c(7500, 8000, 8500, 9000, 9500, 10000, 10500, 11000)) {
   dfinal[ , Predicted := 0L ]
   dfinal[ 1:corte , Predicted := 1L ]
-
+  
   fwrite(
     dfinal[, list(numero_de_cliente, Predicted)], #solo los campos para Kaggle
     file= paste0("./exp/HT0909/v1.0/KA4120_005_", corte, ".csv"),
