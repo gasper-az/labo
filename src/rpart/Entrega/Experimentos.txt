@@ -1,0 +1,36 @@
+Experimentos
+
+	v1.0 (o v1.0.0)
+		Feature Engineering
+			Creo clase binaria
+			Creo las siguientes columnas, utilizando una combinación del tipo AX + BY
+				master_fe_suma_all
+				visa_fe_suma_all
+				tarjetas_fe_suma_all
+				pesos_fe_suma_menos_tarjetas
+				pesos_fe_suma_all
+		Defino fórmula
+			Saco de la fórmula del modelo las siguientes columnas
+				Visa_mpagado (por Data Drifting)
+				mcomisiones_mantenimiento (por Data Drifting)
+				clase_ternaria (por Feature Engineering)
+		Aplico Bayessian Optimization
+			Obtengo
+				orden x ganancia descendente: posición 3
+				cp			-0.479951608770421
+				minsplit	1271	(1271.27933238465)
+				minbucket	337		(336.467075110383)
+				maxdepth	8
+		Corro modelo con salida de Bayessian Optimization
+			Genero 8 cortes y obtengo estas ganancias en el PUBLIC LEADERBOARD
+				7500		===>
+				8000		===>		
+				8500		===>
+				9000		===>
+				9500		===>
+				10000		===>
+				10500		===>
+				11000		===>
+		NOTAS A FUTURO
+			Debo sacar variables que presentan Data Drifting también del Feature Engineering????
+		
