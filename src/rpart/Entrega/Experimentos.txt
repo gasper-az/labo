@@ -23,14 +23,83 @@ Experimentos
 				maxdepth	8
 		Corro modelo con salida de Bayessian Optimization
 			Genero 8 cortes y obtengo estas ganancias en el PUBLIC LEADERBOARD
-				7500		===>
-				8000		===>		
-				8500		===>
-				9000		===>
-				9500		===>
-				10000		===>
-				10500		===>
-				11000		===>
+				7500		===>	no la entregué
+				8000		===>	no la entregué	
+				8500		===>	24546.16439	(Primer salida entregada - commit message: modelo v1.08500src: https://github.com/gasper-az/labo/tree/competencia/modelo-v1.0)
+				9000		===>	24672.82846 (Segund salida entregada - commit message: modelo v1.0 - 9000 - src: https://github.com/gasper-az/labo/tree/competencia/modelo-v1.0)
+				9500		===>	24979.48885	(Tercer salida entregada - commit message: modelo v1.0 - 9500 - src: https://github.com/gasper-az/labo/tree/competencia/modelo-v1.0)
+				10000		===>	25026.15457	(Cuarta salida entregada - commit message: modelo v1.0 - 10000 - src: https://github.com/gasper-az/labo/tree/competencia/modelo-v1.0)
+				10500		===>	24266.17012 (Quinta salida entregada - commit message: modelo v1.0 - 10500 - src: https://github.com/gasper-az/labo/tree/competencia/modelo-v1.0)
+				11000		===>	no la entregué
 		NOTAS A FUTURO
 			Debo sacar variables que presentan Data Drifting también del Feature Engineering????
-		
+				Debería probar con un experimento similar al v1.0 al inicio
+					Creo clase binaria
+					Analizo Data Drifting
+					Guardo variables afectadas en vector
+					Las quito de la fórmula
+					NO las agrego a F.Engineering
+					Creo otras vars de F. Engineering => BO => misma historia
+			Conviene hacer fix a las variables afectadas x Data Drifting (esto, aplica a dapply, o test)?
+				Similar al posible experimento de NO ponerlas en F.Engineering. La diferencia es:
+					Creo clase binaria
+					Analizo Data Drifting
+					SI las agrego a F.Engineering
+					Creo otras vars de F. Engineering => BO => misma historia
+					Antes de predecir, hacer el fix en dapply
+		PRUEBAS A FUTURO
+			Aplicar CANARIOS al modelo generado, para ver si las variables son REALMENTE importantes		====> MUCHO, MUY IMPORTANTE
+			Analizar features más importantes, como así también el gráfico del árbol, para ver si las variables son REALMENTE importantes
+			Para el v1.0.x
+				Agarrar la features realmente importantes de v1.0
+				Crear nuevas features, a partir del cociente de 10/20 variables más importantes (posiblemente, de las 10 mejores)
+				Crear nuevas features, a partir de predicados
+					Analizar
+						Si tienen 10/20 variables + importantes
+						Si en el árbol el bucket tiene muchos items
+				Hacer BO
+				Modelas
+				CANARIZAR + ANALIZAR Gráfico + ANALIZAR Features importantes
+		Experimentos
+			v1.0.1		==>	Analisis de features de v1.0.0 (de las nuevas/creadas) + agarrar las mas importantes
+													===> SI hay variables espurias (los canarios mueren)(de las nuevas/creadas)
+														- quitar estas variables espurias
+														- BO
+														- Análisis nuevamente x las dudas
+													===> Si no hay (o si se hicieron los pasos x si hay)
+														- Cociente de las 10 + importantes
+														- BO
+														- Modelar
+														- Analizar nuevamente x las dudas
+			v1.0.2		==>	Sobre el Data Drifting (DD), sin fixear, quitando de la fórmula
+													===> Analizar columnas, viendo si hay DD o no (Enero vs Marzo)
+													===> SI hay
+														- ponerlas en un vector
+														- NO PONERLAS en las nuevas columnas (F. Engineering)
+														- Quitarlas de la función para modelar
+														- BO
+														- Modelar
+														- Analizar salida
+													===> Seguir con otros experimentos, similares a v1.0.1, pero con esta modalidad de DD
+			v1.0.3		==>	Sobre el Data Drifting (DD), con fix, quitando de la fórmula, SI arreglando los valores en dapply, NO PONER EN FEATURE ENGINEERING
+													===> Analizar columnas, viendo si hay DD o no (Enero vs Marzo)
+													===> SI hay
+														- ponerlas en un vector
+														- HACER FIX EN dapply
+														- NO PONERLAS en las nuevas columnas (F. Engineering)
+														- SI Quitarlas de la función para modelar
+														- BO
+														- Modelar
+														- Analizar salida
+													===> Seguir con otros experimentos, similares a v1.0.1, pero con esta modalidad de DD
+			v1.0.4		==>	Sobre el Data Drifting (DD), con fix, sin quitar de la fórmula, SI arreglando los valores en dapply, SI EN FEATURE ENGINEERING
+													===> Analizar columnas, viendo si hay DD o no (Enero vs Marzo)
+													===> SI hay
+														- ponerlas en un vector
+														- HACER FIX EN dapply
+														- SI PONERLAS en las nuevas columnas (F. Engineering)
+														- NO Quitarlas de la función para modelar
+														- BO
+														- Modelar
+														- Analizar salida
+													===> Seguir con otros experimentos, similares a v1.0.1, pero con esta modalidad de DD
