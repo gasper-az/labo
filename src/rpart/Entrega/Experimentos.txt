@@ -210,19 +210,79 @@ Experimentos
 					10000		===>	21372.89599	(Cuarta salida entregada - commit message: modelo v1.0.1 - 10000 - src: https://github.com/gasper-az/labo/tree/competencia/modelo-v1.0)
 					10500		===>	21232.89885 (Quinta salida entregada - commit message: modelo v1.0.1 - 10500 - src: https://github.com/gasper-az/labo/tree/competencia/modelo-v1.0)
 					11000		===>	no la entregué
-					
-					
+
 	v1.0.2
 		Análisis del árbol obtenido en v1.0.1
-					
-                      ctrx_quarter       pesos_fe_suma_menos_tarjetas           cdescubierto_preacordado                  ccomisiones_otras                      mrentabilidad 
-                        105.269587                          68.899392                          35.205154                          27.735338                          27.330689
-						
-       ctarjeta_visa_transacciones              mprestamos_personales              cprestamos_personales                    mactivos_margen                       mcaja_ahorro 
-                         17.688249                          17.042495                          16.115452                          15.100349                          14.514182 
-						 
-                cliente_antiguedad                      ctarjeta_visa               mcaja_ahorro_dolares                       cpayroll_trx                     Visa_fechaalta 
-                          7.369088                           7.009271                           6.730188                           6.437108                           3.059530 
+		
+		
+		Variable Importance
+
+										  ctrx_quarter       pesos_fe_suma_menos_tarjetas           cdescubierto_preacordado                  ccomisiones_otras                      mrentabilidad 
+											105.269587                          68.899392                          35.205154                          27.735338                          27.330689
+
+						   ctarjeta_visa_transacciones              mprestamos_personales              cprestamos_personales                    mactivos_margen                       mcaja_ahorro 
+											 17.688249                          17.042495                          16.115452                          15.100349                          14.514182 
+
+									cliente_antiguedad                      ctarjeta_visa               mcaja_ahorro_dolares                       cpayroll_trx                     Visa_fechaalta 
+											  7.369088                           7.009271                           6.730188                           6.437108                           3.059530 
+
+					mttarjeta_visa_debitos_automaticos  ctarjeta_visa_debitos_automaticos                           internet                  Visa_Fvencimiento                Visa_mconsumospesos 
+											  2.963159                           2.607673                           2.252301                           1.785900                           1.186353
 						  
-mttarjeta_visa_debitos_automaticos  ctarjeta_visa_debitos_automaticos                           internet                  Visa_Fvencimiento                Visa_mconsumospesos 
-                          2.963159                           2.607673                           2.252301                           1.785900                           1.186353
+		Variables Importance que NO APARECEN en Gráfico del árbol
+			ccomisiones_otras			===>	importancia #4
+			cprestamos_personales		===>	importancia	#8
+			internet					===>	importancia	#18
+			Visa_Fvencimiento			===>	importancia	#19
+			Visa_mconsumospesos			===>	importancia	#20
+			
+		Análisis de CANARIOS
+				Primero
+					USO HP de v1.0.1
+						cp			-0.862228373
+						minsplit	1704	(1703.426919)
+						minbucket	280		(279.2001459)
+						maxdepth	8
+					
+					RES: Hay variables debajo de canarios
+						chomebanking_transacciones
+						pesos_fe_suma_menos_tarjetas
+						
+				Segundo
+					Uso casi mismo HP de v1.0(.0), pero con MAXDEPTH 30
+						cp			-0.862228373
+						minsplit	1704	(1703.426919)
+						minbucket	280		(279.2001459)
+						maxdepth	30
+						
+					RES: Hay variables debajo de canarios
+						Master_mconsumospesos
+						mtarjeta_master_descuentos
+						pesos_fe_suma_all
+						Master_msaldototal
+						chomebanking_transacciones
+						mautoservicio
+						mrentabilidad
+						pesos_fe_suma_menos_tarjetas
+						master_fe_suma_all
+						cliente_antiguedad
+						mcaja_ahorro
+						mtarjeta_master_consumo
+						mcaja_ahorro_dolares
+						mextraccion_autoservicio
+						ccaja_ahorro
+						mactivos_margen
+						cliente_antiguedad
+						Master_Fvencimiento
+						cliente_antiguedad
+						mcaja_ahorro
+						mactivos_margen
+		
+		Noto lo siguiente:
+			Muchas variables importantes están para sacar (x canarios)
+			Las variables importantes tiene poco valor de importancia (comparando con v1.0.0)
+			Posiblemente haya sacado de más, es decir, no debería fijarme únicamente si la var aparece debajo de un canario, sino si aparece en otros cortes (que NO estén debajo de pájaros)
+			
+		Entonces
+			Vuelvo al final de v1.0.0, y re-analizo los canarios
+			A esto lo llamaré v1.0.2

@@ -105,6 +105,16 @@ dataset[, pesos_fe_suma_all :=
 ]
 
 #-------------------------------------------------------------------#
+#------------------- AGREGO N VARIABLES CANARIOS -------------------#
+#-------------------------------------------------------------------#
+
+cantidad.canarios <- 30
+
+for(i in 1:cantidad.canarios) {
+  dataset[, paste0("canarito", i) :=  runif(nrow(dataset))]
+}
+
+#-------------------------------------------------------------------#
 #-------------------- Divido en train y testing --------------------#
 #-------------------------------------------------------------------#
 
@@ -224,12 +234,13 @@ modelo.pruned <- prune(modelo.original, -666)
 entrega.directory <- "C:/uba/repos/labo/src/rpart/Entrega/Salida BO/HT0909/"
 setwd(entrega.directory)
 
-dir.create("./v1.0.1")
+dir.create("./v1.0.2")
+dir.create("./v1.0.2/Canarios")
 
-pdf(file = "./v1.0.1/canaritos_unprunned.pdf", width=28, height=4)
+pdf(file = "./v1.0.2/Canarios/canaritos_unprunned.pdf", width=28, height=4)
 prp(modelo.original, extra=101, digits=5, branch=1, type=4, varlen=0, faclen=0)
 dev.off()
 
-pdf(file = "./v1.0.1/canaritos_prunned.pdf", width=28, height=4)
+pdf(file = "./v1.0.2/Canarios/canaritos_prunned.pdf", width=28, height=4)
 prp(modelo.pruned, extra=101, digits=5, branch=1, type=4, varlen=0, faclen=0)
 dev.off()
