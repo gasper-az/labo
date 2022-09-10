@@ -45,20 +45,20 @@ dataset[, master_fe_suma_all := Master_mfinanciacion_limite +
 
 # Feature Engineering del tipo AX + BY, aplicado a columnas asociadas a la
 # tarjeta del cliente (Visa)
-dataset[, visa_fe_suma_all := Visa_mfinanciacion_limite + 
-          # Visa_msaldototal +
-          # Visa_msaldopesos +
-          Visa_msaldodolares + Visa_mconsumospesos +
-          Visa_mconsumosdolares + Visa_mlimitecompra + Visa_madelantopesos +
-          Visa_madelantodolares + Visa_mpagado + 
-          # Visa_mpagospesos +
-          Visa_mpagosdolares + Visa_mconsumototal 
-        # + Visa_mpagominimo
-        ]
+# dataset[, visa_fe_suma_all := Visa_mfinanciacion_limite + 
+#           # Visa_msaldototal +
+#           # Visa_msaldopesos +
+#           Visa_msaldodolares + Visa_mconsumospesos +
+#           Visa_mconsumosdolares + Visa_mlimitecompra + Visa_madelantopesos +
+#           Visa_madelantodolares + Visa_mpagado + 
+#           # Visa_mpagospesos +
+#           Visa_mpagosdolares + Visa_mconsumototal 
+#         # + Visa_mpagominimo
+#         ]
 
 # Feature Engineering del tipo AX + BY, aplicado a columnas asociadas a las
 # tarjetas del cliente (Master + Visa)
-dataset[, tarjetas_fe_suma_all := master_fe_suma_all + visa_fe_suma_all]
+# dataset[, tarjetas_fe_suma_all := master_fe_suma_all + visa_fe_suma_all]
 
 
 # Feature Engineering del tipo AX + BY, aplicado a todas las columnas en pesos
@@ -99,10 +99,10 @@ dataset[, pesos_fe_suma_menos_tarjetas := mrentabilidad +
         ]
 
 # Feature Engineering del tipo AX + BY, aplicado a todas las columnas en pesos
-dataset[, pesos_fe_suma_all :=
-          pesos_fe_suma_menos_tarjetas +
-          tarjetas_fe_suma_all
-        ]
+# dataset[, pesos_fe_suma_all :=
+#           pesos_fe_suma_menos_tarjetas +
+#           tarjetas_fe_suma_all
+#         ]
 
 #-------------------------------------------------------------------#
 #-------------------- Divido en train y testing --------------------#
