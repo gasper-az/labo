@@ -300,6 +300,11 @@ dataset[, pesos_fe_suma_menos_tarjetas := mrentabilidad +
           matm + matm_other
 ]
 
+dataset[, pesos_fe_suma_all :=
+          pesos_fe_suma_menos_tarjetas +
+          master_fe_suma_all
+]
+
 #-------------------------------------------------------------------#
 #-------------------- Divido en train y testing --------------------#
 #-------------------------------------------------------------------#

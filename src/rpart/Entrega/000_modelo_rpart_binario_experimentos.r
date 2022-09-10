@@ -99,10 +99,10 @@ dataset[, pesos_fe_suma_menos_tarjetas := mrentabilidad +
         ]
 
 # Feature Engineering del tipo AX + BY, aplicado a todas las columnas en pesos
-# dataset[, pesos_fe_suma_all :=
-#           pesos_fe_suma_menos_tarjetas +
-#           tarjetas_fe_suma_all
-#         ]
+dataset[, pesos_fe_suma_all :=
+          pesos_fe_suma_menos_tarjetas +
+          master_fe_suma_all
+        ]
 
 #-------------------------------------------------------------------#
 #-------------------- Divido en train y testing --------------------#
