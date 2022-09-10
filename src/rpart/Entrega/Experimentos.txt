@@ -107,3 +107,77 @@ Experimentos
 		
 	v1.0.1
 		Análisis del árbol obtenido en v1.0(.0)
+		
+			Variable Importance
+				pesos_fe_suma_menos_tarjetas        mtarjeta_visa_consumo  ctarjeta_visa_transacciones       mactivos_margen     cdescubierto_preacordado             Visa_msaldopesos 
+					  145.478435                    53.669827                    44.741283                    31.295410                    31.130347                    29.577180 
+				
+				Visa_msaldototal                 ctrx_quarter              mpasivos_margen               active_quarter                mrentabilidad                  mcomisiones 
+					   29.250375                    29.236191                    28.585334                    28.210769                    20.468915                    20.382377 
+				
+				mcomisiones_otras    ccomisiones_mantenimiento         mrentabilidad_annual               mcuentas_saldo                     tcuentas            Visa_Fvencimiento 
+					   20.286649                    16.913341                    11.850062                    10.630544                     6.022739                     4.470789 
+				
+				Visa_mpagominimo                 mcaja_ahorro 
+						4.112160                     3.062262 
+						
+			Variables Importance que NO APARECEN en Gráfico del árbol
+				Visa_msaldopesos				importancia #6
+				Visa_msaldototal				importancia #7
+				active_quarter					importancia #10
+				mcomisiones_otras				importancia #13
+				ccomisiones_mantenimiento		importancia #14
+				tcuentas						importancia #17
+				Visa_mpagominimo				importancia #19
+				
+			Análisis de CANARIOS
+				Primero
+					Hago sobre el arbol con los HP:
+						cp			-1
+						minsplit	2
+						minbucket	1
+						maxdepth	30
+					
+					Res: nada para descartar (o mejor dicho, árbol muy grande, no puedo ver nada)
+					
+				Segundo
+					USO HP de v1.0(.0)
+						cp			-0.479951608770421
+						minsplit	1271
+						minbucket	337
+						maxdepth	8
+					
+					RES: Hay variables debajo de canarios
+						numero_de_cliente
+						Visa_mpagospesos
+				
+				Tercero
+					Uso casi mismo HP de v1.0(.0), pero con MAXDEPTH 30
+						cp			-0.479951608770421
+						minsplit	1271
+						minbucket	337
+						maxdepth	30
+						
+					RES: Hay variables debajo de canarios
+						cproductos
+						mpayroll
+						cliente_edad
+						visa_fe_suma_all
+						mcuenta_debitos_automaticos
+						ctransferencias_emitidas
+						Master_mpagado
+						cpagomiscuentas
+						mcomisiones								===> variable importante! importance #12
+						numero_de_cliente
+						Visa_msaldototal						===> variable importante! importance #7
+						mcuenta_corriente
+						minversion1_pesos
+						tarjeta_master_debitos_automaticos
+						mtarjeta_visa_consumo					===> variable importante! importance #2!!!!!!!
+						mtransferencias_recibidas
+						mcaja_ahorro_adicional
+						Master_fechaalta
+						mpasivos_margen							===> variable importante! importance #9
+						mcuentas_saldo							===> variable importante! importance #16
+						mtransferencias_emitidas
+						mrentabilidad_annual
