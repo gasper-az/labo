@@ -103,3 +103,7 @@ Experimentos
 														- Modelar
 														- Analizar salida
 													===> Seguir con otros experimentos, similares a v1.0.1, pero con esta modalidad de DD
+													
+		
+	v1.0.1
+		Análisis del árbol obtenido en v1.0(.0)
