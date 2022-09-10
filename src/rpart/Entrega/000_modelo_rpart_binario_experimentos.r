@@ -41,7 +41,7 @@ dataset[, master_fe_suma_all := Master_mfinanciacion_limite +
           # Master_mpagado + 
           Master_mpagospesos +
           Master_mpagosdolares + Master_mconsumototal + Master_mpagominimo
-        ]
+]
 
 # Feature Engineering del tipo AX + BY, aplicado a columnas asociadas a la
 # tarjeta del cliente (Visa)
@@ -64,7 +64,7 @@ dataset[, master_fe_suma_all := Master_mfinanciacion_limite +
 # Feature Engineering del tipo AX + BY, aplicado a todas las columnas en pesos
 # salvo las tarjetas
 dataset[, pesos_fe_suma_menos_tarjetas := mrentabilidad + 
-          # mrentabilidad_annual +
+          mrentabilidad_annual +
           # mcomisiones +
           mactivos_margen + 
           # mpasivos_margen +
@@ -74,8 +74,7 @@ dataset[, pesos_fe_suma_menos_tarjetas := mrentabilidad +
           # mcaja_ahorro_adicional + 
           mcaja_ahorro_dolares + 
           # mcuentas_saldo +
-          mautoservicio + 
-          # mtarjeta_visa_consumo +
+          mautoservicio + mtarjeta_visa_consumo +
           mtarjeta_master_consumo +
           mprestamos_personales + mprestamos_prendarios +
           mprestamos_hipotecarios + mplazo_fijo_dolares + mplazo_fijo_pesos +
@@ -96,13 +95,32 @@ dataset[, pesos_fe_suma_menos_tarjetas := mrentabilidad +
           mextraccion_autoservicio + mcheques_depositados + mcheques_emitidos +
           mcheques_depositados_rechazados + mcheques_emitidos_rechazados +
           matm + matm_other
-        ]
+]
 
 # Feature Engineering del tipo AX + BY, aplicado a todas las columnas en pesos
 dataset[, pesos_fe_suma_all :=
           pesos_fe_suma_menos_tarjetas +
           master_fe_suma_all
-        ]
+]
+
+# Feature Engineering del tipo A/B
+# Aplico sobre 10 Var + importantes (de modelo anterior - v1.0), pero
+# sacando aquellas que considero que performan peor que canarios
+dataset[, cociente_fe_01 := pesos_fe_suma_menos_tarjetas/mtarjeta_visa_consumo]
+dataset[, cociente_fe_02 := pesos_fe_suma_menos_tarjetas/ctarjeta_visa_transacciones]
+dataset[, cociente_fe_03 := pesos_fe_suma_menos_tarjetas/mactivos_margen]
+dataset[, cociente_fe_04 := pesos_fe_suma_menos_tarjetas/cdescubierto_preacordado]
+dataset[, cociente_fe_05 := pesos_fe_suma_menos_tarjetas/ctrx_quarter]
+dataset[, cociente_fe_06 := mtarjeta_visa_consumo/ctarjeta_visa_transacciones]
+dataset[, cociente_fe_07 := mtarjeta_visa_consumo/mactivos_margen]
+dataset[, cociente_fe_08 := mtarjeta_visa_consumo/cdescubierto_preacordado]
+dataset[, cociente_fe_09 := mtarjeta_visa_consumo/ctrx_quarter]
+dataset[, cociente_fe_10 := ctarjeta_visa_transacciones/mactivos_margen]
+dataset[, cociente_fe_11 := ctarjeta_visa_transacciones/cdescubierto_preacordado]
+dataset[, cociente_fe_12 := ctarjeta_visa_transacciones/ctrx_quarter]
+dataset[, cociente_fe_13 := mactivos_margen/cdescubierto_preacordado]
+dataset[, cociente_fe_14 := mactivos_margen/ctrx_quarter]
+dataset[, cociente_fe_15 := cdescubierto_preacordado/ctrx_quarter]
 
 #-------------------------------------------------------------------#
 #-------------------- Divido en train y testing --------------------#
@@ -148,14 +166,12 @@ variables.sacar <- c(
   "mcuenta_corriente",
   "minversion1_pesos",
   "ctarjeta_master_debitos_automaticos",
-  "mtarjeta_visa_consumo",
   "mtransferencias_recibidas",
   "mcaja_ahorro_adicional",
   "Master_fechaalta",
   "mpasivos_margen",					
   "mcuentas_saldo",					
   "mtransferencias_emitidas",
-  "mrentabilidad_annual",
   "Visa_mpagospesos",
   
   "Visa_msaldopesos",   ## APARECÍAN COMO IMPORTANTES, PERO NO APARECÍAN EN EL GRÁFICO DEL ÁRBOL
@@ -184,9 +200,9 @@ modelo  <- rpart(
   formula  = formula.modelo,
   data     = dtrain,
   xval     = 0,
-  cp       = -0.862228373,
-  minsplit = 1704,
-  minbucket= 280,
+  cp       = -0.479951608770421,
+  minsplit = 1271,
+  minbucket= 337,
   maxdepth = 8
 )
 
@@ -224,7 +240,7 @@ dir.create( "./exp/HT0909/v1.0.2" )
 for(corte in c(7500, 8000, 8500, 9000, 9500, 10000, 10500, 11000)) {
   dfinal[ , Predicted := 0L ]
   dfinal[ 1:corte , Predicted := 1L ]
-
+  
   fwrite(
     dfinal[, list(numero_de_cliente, Predicted)], #solo los campos para Kaggle
     file= paste0("./exp/HT0909/v1.0.2/KA4120_005_", corte, ".csv"),

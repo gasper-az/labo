@@ -286,3 +286,106 @@ Experimentos
 		Entonces
 			Vuelvo al final de v1.0.0, y re-analizo los canarios
 			A esto lo llamaré v1.0.2
+			
+	
+	
+	v1.0.2 (continuación de v1.0.0)
+		Análisis del árbol obtenido en v1.0(.0)
+		
+			Variable Importance
+				pesos_fe_suma_menos_tarjetas        mtarjeta_visa_consumo  ctarjeta_visa_transacciones       mactivos_margen     cdescubierto_preacordado             Visa_msaldopesos 
+					  145.478435                    53.669827                    44.741283                    31.295410                    31.130347                    29.577180 
+				
+				Visa_msaldototal                 ctrx_quarter              mpasivos_margen               active_quarter                mrentabilidad                  mcomisiones 
+					   29.250375                    29.236191                    28.585334                    28.210769                    20.468915                    20.382377 
+				
+				mcomisiones_otras    ccomisiones_mantenimiento         mrentabilidad_annual               mcuentas_saldo                     tcuentas            Visa_Fvencimiento 
+					   20.286649                    16.913341                    11.850062                    10.630544                     6.022739                     4.470789 
+				
+				Visa_mpagominimo                 mcaja_ahorro 
+						4.112160                     3.062262 
+						
+			Variables Importance que NO APARECEN en Gráfico del árbol
+				Visa_msaldopesos				importancia #6
+				Visa_msaldototal				importancia #7
+				active_quarter					importancia #10
+				mcomisiones_otras				importancia #13
+				ccomisiones_mantenimiento		importancia #14
+				tcuentas						importancia #17
+				Visa_mpagominimo				importancia #19
+				
+			Análisis de CANARIOS
+				Primero
+					Hago sobre el arbol con los HP:
+						cp			-1
+						minsplit	2
+						minbucket	1
+						maxdepth	30
+					
+					Res: nada para descartar (o mejor dicho, árbol muy grande, no puedo ver nada)
+					
+				Segundo
+					USO HP de v1.0(.0)
+						cp			-0.479951608770421
+						minsplit	1271
+						minbucket	337
+						maxdepth	8
+						
+					RES: Hay variables debajo de canarios
+						numero_de_cliente
+						Visa_mpagospesos
+						
+				Tercero
+					Uso casi mismo HP de v1.0(.0), pero con MAXDEPTH 30
+						cp			-0.479951608770421
+						minsplit	1271
+						minbucket	337
+						maxdepth	30
+						
+					RES: Hay variables debajo de canarios
+						cproductos							(aparece 4 en total, 3 debajo de canarito)	Los splits incluyen (0.9 y 0.2) % de registros ==> LO SACO
+						mpayroll							(aparece 3 en total, 1 debajo de canarito)	Los splits incluyen (47; 14) % de registro. La que si, un (46) %	==> LO SACO
+						cliente_edad						(aparece 2 en total, 1 debajo de canarito)	Los splits incluyen (0.8) % de registro.	==> LO SACO
+						visa_fe_suma_all					(aparece 2 en total, 1 debajo de canarito)	Los splits incluyen (0.7) % de registro. La que si, un (36)	==> LO SACO
+						mcuenta_debitos_automaticos			(100% debajo de canarios) ===> LO SACO
+						ctransferencias_emitidas			(100% debajo de canarios) ===> LO SACO
+						Master_mpagado						(100% debajo de canarios) ===> LO SACO
+						cpagomiscuentas						(100% debajo de canarios) ===> LO SACO
+						mcomisiones							(aparece 4 en total, 2 debajo de canarito)	Los splits incluyen (0.6; 1.6) % de registro. La que si, un (31; 6) % ===> variable importante! importance #12	==> LO SACO
+						numero_de_cliente					(aparece 4 en total, 2 debajo de canarito)	Los splits incluyen (0.6; 0.8) % de registro. La que si, un (0.4; 4)	==> LO SACO
+						Visa_msaldototal					(100% debajo de canarios)	===> variable importante! importance #7	===> LO SACO
+						mcuenta_corriente					(aparece 2 en total, 1 debajo de canarito)	Los splits incluyen (8) % de registro. La que si, un (0.5)	==> LO SACO
+						minversion1_pesos					(100% debajo de canarios) ===> LO SACO
+						ctarjeta_master_debitos_automaticos	(100% debajo de canarios) ===> LO SACO
+						mtarjeta_visa_consumo				(aparece 4 en total, 1 debajo de canarito)	Los splits incluyen (25; 6; 2) % de registro. La que si, un (9) %	===> variable importante! importance #2!!!!!!!		==> NO LA SACO
+						mtransferencias_recibidas			(100% debajo de canarios) ===> LO SACO
+						mcaja_ahorro_adicional				(100% debajo de canarios) ===> LO SACO
+						Master_fechaalta					(aparece 3 en total, 1 debajo de canarito)	Los splits incluyen (0.2 y 0.7) % de registros ==> LO SACO
+						mpasivos_margen						(aparece 3 en total, 1 debajo de canarito)	Los splits incluyen (1.4 y 0.6) % de registros.  La que si, un (0.8) % ===> variable importante! importance #9 ===> LO SACO
+						mcuentas_saldo						(100% debajo de canarios)	===> variable importante! importance #16	===> LO SACO
+						mtransferencias_emitidas			(100% debajo de canarios)
+						mrentabilidad_annual				(aparece 5 en total, 1 debajo de canarito)	==> Los splits incluyen (11; 8; 4.3; 0.8) % de registros. La que si, un (1.2) % ==> NO LA SACO
+						
+			Saco casi todas
+				quedan
+					mtarjeta_visa_consumo
+					mrentabilidad_annual
+			
+			Creo nuevas features, del tipo A/B
+			
+				USO 10 + importantes, menos aquellas que saco x pasos anteriores
+					dataset[, cociente_fe_01 := pesos_fe_suma_menos_tarjetas/mtarjeta_visa_consumo]
+					dataset[, cociente_fe_02 := pesos_fe_suma_menos_tarjetas/ctarjeta_visa_transacciones]
+					dataset[, cociente_fe_03 := pesos_fe_suma_menos_tarjetas/mactivos_margen]
+					dataset[, cociente_fe_04 := pesos_fe_suma_menos_tarjetas/cdescubierto_preacordado]
+					dataset[, cociente_fe_05 := pesos_fe_suma_menos_tarjetas/ctrx_quarter]
+					dataset[, cociente_fe_06 := mtarjeta_visa_consumo/ctarjeta_visa_transacciones]
+					dataset[, cociente_fe_07 := mtarjeta_visa_consumo/mactivos_margen]
+					dataset[, cociente_fe_08 := mtarjeta_visa_consumo/cdescubierto_preacordado]
+					dataset[, cociente_fe_09 := mtarjeta_visa_consumo/ctrx_quarter]
+					dataset[, cociente_fe_10 := ctarjeta_visa_transacciones/mactivos_margen]
+					dataset[, cociente_fe_11 := ctarjeta_visa_transacciones/cdescubierto_preacordado]
+					dataset[, cociente_fe_12 := ctarjeta_visa_transacciones/ctrx_quarter]
+					dataset[, cociente_fe_13 := mactivos_margen/cdescubierto_preacordado]
+					dataset[, cociente_fe_14 := mactivos_margen/ctrx_quarter]
+					dataset[, cociente_fe_15 := cdescubierto_preacordado/ctrx_quarter]
