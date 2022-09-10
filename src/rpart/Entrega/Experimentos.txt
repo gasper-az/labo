@@ -31,6 +31,7 @@ Experimentos
 				10000		===>	25026.15457	(Cuarta salida entregada - commit message: modelo v1.0 - 10000 - src: https://github.com/gasper-az/labo/tree/competencia/modelo-v1.0)
 				10500		===>	24266.17012 (Quinta salida entregada - commit message: modelo v1.0 - 10500 - src: https://github.com/gasper-az/labo/tree/competencia/modelo-v1.0)
 				11000		===>	no la entregué
+		
 		NOTAS A FUTURO
 			Debo sacar variables que presentan Data Drifting también del Feature Engineering????
 				Debería probar con un experimento similar al v1.0 al inicio
@@ -203,9 +204,9 @@ Experimentos
 				Genero 8 cortes y obtengo estas ganancias en el PUBLIC LEADERBOARD
 					7500		===>	no la entregué
 					8000		===>	no la entregué	
-					8500		===>	24546.16439	(Primer salida entregada - commit message: modelo v1.0.1 - 8500src: https://github.com/gasper-az/labo/tree/competencia/modelo-v1.0)
-					9000		===>	24672.82846 (Segund salida entregada - commit message: modelo v1.0.1 - 9000 - src: https://github.com/gasper-az/labo/tree/competencia/modelo-v1.0)
-					9500		===>	24979.48885	(Tercer salida entregada - commit message: modelo v1.0.1 - 9500 - src: https://github.com/gasper-az/labo/tree/competencia/modelo-v1.0)
-					10000		===>	25026.15457	(Cuarta salida entregada - commit message: modelo v1.0.1 - 10000 - src: https://github.com/gasper-az/labo/tree/competencia/modelo-v1.0)
-					10500		===>	24266.17012 (Quinta salida entregada - commit message: modelo v1.0.1 - 10500 - src: https://github.com/gasper-az/labo/tree/competencia/modelo-v1.0)
+					8500		===>	22406.20818	(Primer salida entregada - commit message: modelo v1.0.1 - 8500src: https://github.com/gasper-az/labo/tree/competencia/modelo-v1.0)
+					9000		===>	22226.21186 (Segund salida entregada - commit message: modelo v1.0.1 - 9000 - src: https://github.com/gasper-az/labo/tree/competencia/modelo-v1.0)
+					9500		===>	21506.22659	(Tercer salida entregada - commit message: modelo v1.0.1 - 9500 - src: https://github.com/gasper-az/labo/tree/competencia/modelo-v1.0)
+					10000		===>	21372.89599	(Cuarta salida entregada - commit message: modelo v1.0.1 - 10000 - src: https://github.com/gasper-az/labo/tree/competencia/modelo-v1.0)
+					10500		===>	21232.89885 (Quinta salida entregada - commit message: modelo v1.0.1 - 10500 - src: https://github.com/gasper-az/labo/tree/competencia/modelo-v1.0)
 					11000		===>	no la entregué
