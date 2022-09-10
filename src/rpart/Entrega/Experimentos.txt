@@ -210,3 +210,19 @@ Experimentos
 					10000		===>	21372.89599	(Cuarta salida entregada - commit message: modelo v1.0.1 - 10000 - src: https://github.com/gasper-az/labo/tree/competencia/modelo-v1.0)
 					10500		===>	21232.89885 (Quinta salida entregada - commit message: modelo v1.0.1 - 10500 - src: https://github.com/gasper-az/labo/tree/competencia/modelo-v1.0)
 					11000		===>	no la entregué
+					
+					
+	v1.0.2
+		Análisis del árbol obtenido en v1.0.1
+					
+                      ctrx_quarter       pesos_fe_suma_menos_tarjetas           cdescubierto_preacordado                  ccomisiones_otras                      mrentabilidad 
+                        105.269587                          68.899392                          35.205154                          27.735338                          27.330689
+						
+       ctarjeta_visa_transacciones              mprestamos_personales              cprestamos_personales                    mactivos_margen                       mcaja_ahorro 
+                         17.688249                          17.042495                          16.115452                          15.100349                          14.514182 
+						 
+                cliente_antiguedad                      ctarjeta_visa               mcaja_ahorro_dolares                       cpayroll_trx                     Visa_fechaalta 
+                          7.369088                           7.009271                           6.730188                           6.437108                           3.059530 
+						  
+mttarjeta_visa_debitos_automaticos  ctarjeta_visa_debitos_automaticos                           internet                  Visa_Fvencimiento                Visa_mconsumospesos 
+                          2.963159                           2.607673                           2.252301                           1.785900                           1.186353

@@ -37,60 +37,72 @@ dataset[, master_fe_suma_all := Master_mfinanciacion_limite +
           Master_msaldototal + Master_msaldopesos + Master_msaldodolares +
           Master_mconsumospesos + Master_mconsumosdolares +
           Master_mlimitecompra + Master_madelantopesos +
-          Master_madelantodolares + Master_mpagado + Master_mpagospesos +
+          Master_madelantodolares + 
+          # Master_mpagado + 
+          Master_mpagospesos +
           Master_mpagosdolares + Master_mconsumototal + Master_mpagominimo
-        ]
+]
 
 # Feature Engineering del tipo AX + BY, aplicado a columnas asociadas a la
 # tarjeta del cliente (Visa)
-dataset[, visa_fe_suma_all := Visa_mfinanciacion_limite + Visa_msaldototal +
-          Visa_msaldopesos + Visa_msaldodolares + Visa_mconsumospesos +
-          Visa_mconsumosdolares + Visa_mlimitecompra + Visa_madelantopesos +
-          Visa_madelantodolares + Visa_mpagado + Visa_mpagospesos +
-          Visa_mpagosdolares + Visa_mconsumototal + Visa_mpagominimo
-        ]
+# dataset[, visa_fe_suma_all := Visa_mfinanciacion_limite + 
+#           # Visa_msaldototal +
+#           # Visa_msaldopesos +
+#           Visa_msaldodolares + Visa_mconsumospesos +
+#           Visa_mconsumosdolares + Visa_mlimitecompra + Visa_madelantopesos +
+#           Visa_madelantodolares + Visa_mpagado + 
+#           # Visa_mpagospesos +
+#           Visa_mpagosdolares + Visa_mconsumototal 
+#         # + Visa_mpagominimo
+#         ]
 
 # Feature Engineering del tipo AX + BY, aplicado a columnas asociadas a las
 # tarjetas del cliente (Master + Visa)
-dataset[, tarjetas_fe_suma_all := master_fe_suma_all + visa_fe_suma_all]
+# dataset[, tarjetas_fe_suma_all := master_fe_suma_all + visa_fe_suma_all]
 
 
 # Feature Engineering del tipo AX + BY, aplicado a todas las columnas en pesos
 # salvo las tarjetas
-dataset[, pesos_fe_suma_menos_tarjetas := mrentabilidad + mrentabilidad_annual +
-          mcomisiones + mactivos_margen + mpasivos_margen +
-          mcuenta_corriente_adicional + mcuenta_corriente + mcaja_ahorro +
-          mcaja_ahorro_adicional + mcaja_ahorro_dolares + mcuentas_saldo +
-          mautoservicio + mtarjeta_visa_consumo + mtarjeta_master_consumo +
+dataset[, pesos_fe_suma_menos_tarjetas := mrentabilidad + 
+          # mrentabilidad_annual +
+          # mcomisiones +
+          mactivos_margen + 
+          # mpasivos_margen +
+          mcuenta_corriente_adicional + 
+          # mcuenta_corriente + 
+          mcaja_ahorro +
+          # mcaja_ahorro_adicional + 
+          mcaja_ahorro_dolares + 
+          # mcuentas_saldo +
+          mautoservicio + 
+          # mtarjeta_visa_consumo +
+          mtarjeta_master_consumo +
           mprestamos_personales + mprestamos_prendarios +
           mprestamos_hipotecarios + mplazo_fijo_dolares + mplazo_fijo_pesos +
-          minversion1_pesos + minversion1_dolares + minversion2 + mpayroll +
-          mpayroll2 + mcuenta_debitos_automaticos +
+          # minversion1_pesos + 
+          minversion1_dolares + minversion2 + 
+          # mpayroll +
+          mpayroll2 + 
+          # mcuenta_debitos_automaticos +
           mttarjeta_master_debitos_automaticos + mpagodeservicios +
           mpagomiscuentas + mcajeros_propios_descuentos +
           mtarjeta_visa_descuentos + mtarjeta_master_descuentos +
-          mcomisiones_mantenimiento + mcomisiones_otras + mforex_buy +
-          mforex_sell + mtransferencias_recibidas + mtransferencias_emitidas +
+          mcomisiones_mantenimiento + 
+          # mcomisiones_otras + 
+          mforex_buy +
+          mforex_sell + 
+          # mtransferencias_recibidas + 
+          # mtransferencias_emitidas +
           mextraccion_autoservicio + mcheques_depositados + mcheques_emitidos +
           mcheques_depositados_rechazados + mcheques_emitidos_rechazados +
           matm + matm_other
-        ]
+]
 
 # Feature Engineering del tipo AX + BY, aplicado a todas las columnas en pesos
 dataset[, pesos_fe_suma_all :=
           pesos_fe_suma_menos_tarjetas +
-          tarjetas_fe_suma_all
-        ]
-
-#-------------------------------------------------------------------#
-#------------------- AGREGO N VARIABLES CANARIOS -------------------#
-#-------------------------------------------------------------------#
-
-cantidad.canarios <- 30
-
-for(i in 1:cantidad.canarios) {
-  dataset[, paste0("canarito", i) :=  runif(nrow(dataset))]
-}
+          master_fe_suma_all
+]
 
 #-------------------------------------------------------------------#
 #-------------------- Divido en train y testing --------------------#
@@ -115,6 +127,43 @@ variables.drifting <- c(
 variables.sacar <- c(
   "clase_ternaria",
   variables.drifting
+)
+
+#--------------------------------------------------------------------------------------------#
+#--------------------- Quito variables que performan PEOR que canarios ----------------------#
+#--------------------------------------------------------------------------------------------#
+
+variables.sacar <- c(
+  variables.sacar,
+  "cproductos",
+  "mpayroll",
+  "cliente_edad",
+  "mcuenta_debitos_automaticos",
+  "ctransferencias_emitidas",
+  "Master_mpagado",
+  "cpagomiscuentas",
+  "mcomisiones",					
+  "numero_de_cliente",
+  "Visa_msaldototal",			
+  "mcuenta_corriente",
+  "minversion1_pesos",
+  "ctarjeta_master_debitos_automaticos",
+  "mtarjeta_visa_consumo",
+  "mtransferencias_recibidas",
+  "mcaja_ahorro_adicional",
+  "Master_fechaalta",
+  "mpasivos_margen",					
+  "mcuentas_saldo",					
+  "mtransferencias_emitidas",
+  "mrentabilidad_annual",
+  "Visa_mpagospesos",
+  
+  "Visa_msaldopesos",   ## APARECÍAN COMO IMPORTANTES, PERO NO APARECÍAN EN EL GRÁFICO DEL ÁRBOL
+  "mcomisiones_otras",
+  "active_quarter",
+  "ccomisiones_mantenimiento",
+  "tcuentas",
+  "Visa_mpagominimo"
 )
 
 #-----------------------------------------------------------------#
@@ -145,9 +194,9 @@ for (variable in variables.sacar) {
 #   formula  = formula.modelo,
 #   data     = dtrain,
 #   xval     = 0,
-#   cp       = -0.479951608770421,
-#   minsplit = 1271,
-#   minbucket= 337,
+#   cp       = -0.862228373,
+#   minsplit = 1704,
+#   minbucket= 280,
 #   maxdepth = 8  # MAX DEPTH ORIGINAL (la que salió del HO del exp anterior)
 # )
 
@@ -155,9 +204,9 @@ modelo.original  <- rpart(
   formula  = formula.modelo,
   data     = dtrain,
   xval     = 0,
-  cp       = -0.479951608770421,
-  minsplit = 1271,
-  minbucket= 337,
+  cp       = -0.862228373,
+  minsplit = 1704,
+  minbucket= 280,
   maxdepth = 30
 )
 
