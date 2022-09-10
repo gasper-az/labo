@@ -181,3 +181,31 @@ Experimentos
 						mcuentas_saldo							===> variable importante! importance #16
 						mtransferencias_emitidas
 						mrentabilidad_annual
+						
+			Las saco TODAS!!!!!!!!!!!!!!!!!!!!!!!!
+				de la fórmula del modelo, y de variables de FE
+			
+			Hago un nuevo FE
+				Creo las siguientes columnas, utilizando una combinación del tipo AX + BY
+					master_fe_suma_all
+					pesos_fe_suma_menos_tarjetas
+					pesos_fe_suma_all
+			
+			Aplico Bayessian Optimization
+				Obtengo
+					orden x ganancia descendente: posición 5
+					cp			-0.862228373
+					minsplit	1704	(1703.426919)
+					minbucket	280		(279.2001459)
+					maxdepth	8
+
+			Corro modelo con salida de Bayessian Optimization
+				Genero 8 cortes y obtengo estas ganancias en el PUBLIC LEADERBOARD
+					7500		===>	no la entregué
+					8000		===>	no la entregué	
+					8500		===>	24546.16439	(Primer salida entregada - commit message: modelo v1.0.1 - 8500src: https://github.com/gasper-az/labo/tree/competencia/modelo-v1.0)
+					9000		===>	24672.82846 (Segund salida entregada - commit message: modelo v1.0.1 - 9000 - src: https://github.com/gasper-az/labo/tree/competencia/modelo-v1.0)
+					9500		===>	24979.48885	(Tercer salida entregada - commit message: modelo v1.0.1 - 9500 - src: https://github.com/gasper-az/labo/tree/competencia/modelo-v1.0)
+					10000		===>	25026.15457	(Cuarta salida entregada - commit message: modelo v1.0.1 - 10000 - src: https://github.com/gasper-az/labo/tree/competencia/modelo-v1.0)
+					10500		===>	24266.17012 (Quinta salida entregada - commit message: modelo v1.0.1 - 10500 - src: https://github.com/gasper-az/labo/tree/competencia/modelo-v1.0)
+					11000		===>	no la entregué
