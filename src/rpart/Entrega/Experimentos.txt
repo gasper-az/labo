@@ -610,3 +610,31 @@ Experimentos
 				dataset[, predicado_fe_04 := pesos_fe_suma_menos_tarjetas >= 92919 & !is.na(pesos_fe_suma_menos_tarjetas) & ctrx_quarter < 49 & ctarjeta_visa < 1 & mprestamos_personales < 99725]
 				dataset[, predicado_fe_05 := pesos_fe_suma_menos_tarjetas >= 24778 & (pesos_fe_suma_menos_tarjetas < 92919 | !is.na(pesos_fe_suma_menos_tarjetas)) & mtarjeta_visa_consumo >= 1873.1 & mpasivos_margen >= 112.5 & mcaja_ahorro >= 29.855 & Visa_mpagominimo >= 627.56 & !is.na(Visa_mpagominimo) & mcuentas_saldo >= 11801]
 				dataset[, predicado_fe_06 := pesos_fe_suma_menos_tarjetas >= 24778 & (pesos_fe_suma_menos_tarjetas < 92919 | !is.na(pesos_fe_suma_menos_tarjetas)) & mtarjeta_visa_consumo >= 1873.1 & mpasivos_margen >= 112.5 & mcaja_ahorro >= 29.855 & Visa_mpagominimo >= 627.56 & !is.na(Visa_mpagominimo) & mcuentas_saldo < 11801]
+				
+	v1.0.4	(continuación de v1.0.3)
+		Identifico variables con Data Drifting	(mismas que v1.0.3)
+			Master_mlimitecompra
+			mcomisiones_mantenimiento
+			mextraccion_autoservicio
+			mforex_sell
+			Visa_mlimitecompra
+			Visa_mpagado
+		Feature Engineering
+			Creo clase binaria
+			Creo las siguientes columnas, utilizando una combinación del tipo AX + BY, sin contar variables de Data Drifting
+				master_fe_suma_all
+				visa_fe_suma_all
+				tarjetas_fe_suma_all
+				pesos_fe_suma_menos_tarjetas
+				pesos_fe_suma_all
+		Defino fórmula
+			Saco de la fórmula del modelo las siguientes columnas
+				clase_ternaria (por Feature Engineering)
+				variables con data drifting
+		Aplico Bayessian Optimization
+			Obtengo
+				orden x ganancia descendente: posición 1
+				cp			-0.790032585
+				minsplit	1424	(1423.190938)
+				minbucket	706		(705.3523091)
+				maxdepth	9

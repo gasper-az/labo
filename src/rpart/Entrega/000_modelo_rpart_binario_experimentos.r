@@ -34,7 +34,8 @@ dataset[ foto_mes==202101,
 # Feature Engineering del tipo AX + BY, aplicado a columnas asociadas a la
 # tarjeta del cliente (Master)
 dataset[, master_fe_suma_all := Master_mfinanciacion_limite +
-          Master_msaldototal + Master_msaldopesos + Master_msaldodolares +
+          # Master_msaldototal + 
+          Master_msaldopesos + Master_msaldodolares +
           Master_mconsumospesos + Master_mconsumosdolares +
           # Master_mlimitecompra +
           Master_madelantopesos +
@@ -46,31 +47,32 @@ dataset[, master_fe_suma_all := Master_mfinanciacion_limite +
 
 # Feature Engineering del tipo AX + BY, aplicado a columnas asociadas a la
 # tarjeta del cliente (Visa)
-dataset[, visa_fe_suma_all := Visa_mfinanciacion_limite +
-          Visa_msaldototal +
-          Visa_msaldopesos +
-          Visa_msaldodolares + Visa_mconsumospesos +
-          Visa_mconsumosdolares + 
-          # Visa_mlimitecompra + 
-          Visa_madelantopesos +
-          Visa_madelantodolares + 
-          # Visa_mpagado +
-          Visa_mpagospesos +
-          Visa_mpagosdolares + Visa_mconsumototal
-        + Visa_mpagominimo
-        ]
+# dataset[, visa_fe_suma_all := Visa_mfinanciacion_limite +
+#           # Visa_msaldototal +
+#           # Visa_msaldopesos +
+#           Visa_msaldodolares + Visa_mconsumospesos +
+#           Visa_mconsumosdolares + 
+#           # Visa_mlimitecompra + 
+#           Visa_madelantopesos +
+#           Visa_madelantodolares + 
+#           # Visa_mpagado +
+#           Visa_mpagospesos +
+#           Visa_mpagosdolares + Visa_mconsumototal
+#         + Visa_mpagominimo
+#         ]
 
 # Feature Engineering del tipo AX + BY, aplicado a columnas asociadas a las
 # tarjetas del cliente (Master + Visa)
-dataset[, tarjetas_fe_suma_all := master_fe_suma_all + visa_fe_suma_all]
+# dataset[, tarjetas_fe_suma_all := master_fe_suma_all + visa_fe_suma_all]
 
 
 # Feature Engineering del tipo AX + BY, aplicado a todas las columnas en pesos
 # salvo las tarjetas
-dataset[, pesos_fe_suma_menos_tarjetas := mrentabilidad + 
-          mrentabilidad_annual +
+dataset[, pesos_fe_suma_menos_tarjetas := 
+          # mrentabilidad + 
+          # mrentabilidad_annual +
           mcomisiones +
-          mactivos_margen + 
+          # mactivos_margen + 
           mpasivos_margen +
           mcuenta_corriente_adicional + 
           mcuenta_corriente +
@@ -88,7 +90,8 @@ dataset[, pesos_fe_suma_menos_tarjetas := mrentabilidad +
           mpayroll2 + 
           mcuenta_debitos_automaticos +
           mttarjeta_master_debitos_automaticos + mpagodeservicios +
-          mpagomiscuentas + mcajeros_propios_descuentos +
+          # mpagomiscuentas + 
+          mcajeros_propios_descuentos +
           mtarjeta_visa_descuentos + mtarjeta_master_descuentos +
           # mcomisiones_mantenimiento + 
           mcomisiones_otras +
@@ -105,8 +108,30 @@ dataset[, pesos_fe_suma_menos_tarjetas := mrentabilidad +
 # Feature Engineering del tipo AX + BY, aplicado a todas las columnas en pesos
 dataset[, pesos_fe_suma_all :=
           pesos_fe_suma_menos_tarjetas +
-          tarjetas_fe_suma_all
+          master_fe_suma_all
 ]
+
+# Feature Engineering del tipo A/B, aplicado a variables más importantes para el
+# modelo, pero que SI estén en el gráfico, y performen mejor que canarios
+dataset[, cociente_fe_01 := pesos_fe_suma_menos_tarjetas/mtarjeta_visa_consumo]
+dataset[, cociente_fe_02 := pesos_fe_suma_menos_tarjetas/ctrx_quarter]
+dataset[, cociente_fe_03 := pesos_fe_suma_menos_tarjetas/mpasivos_margen]
+dataset[, cociente_fe_04 := pesos_fe_suma_menos_tarjetas/ctarjeta_master]
+dataset[, cociente_fe_05 := mtarjeta_visa_consumo/ctrx_quarter]
+dataset[, cociente_fe_06 := mtarjeta_visa_consumo/mpasivos_margen]
+dataset[, cociente_fe_07 := mtarjeta_visa_consumo/ctarjeta_master]
+dataset[, cociente_fe_08 := ctrx_quarter/mpasivos_margen]
+dataset[, cociente_fe_09 := ctrx_quarter/ctarjeta_master]
+dataset[, cociente_fe_10 := mpasivos_margen/ctarjeta_master]
+
+# Feature Engineering del tipo de predicados. Tomo ramas del árbol cuyos nodos
+# no hayan sido spliteados por variables que performen peor que canarios
+dataset[, predicado_fe_01 := pesos_fe_suma_menos_tarjetas >= 92919 & !is.na(pesos_fe_suma_menos_tarjetas) & ctrx_quarter >= 49 & mpayroll >= 7043.5 & ccaja_ahorro < 4 & mpayroll < 631260 & cproductos >= 6]
+dataset[, predicado_fe_02 := pesos_fe_suma_menos_tarjetas >= 92919 & !is.na(pesos_fe_suma_menos_tarjetas) & ctrx_quarter < 49 & ctarjeta_visa >= 1 & cpayroll_trx >= 1 & mcuentas_saldo < 9630.9]
+dataset[, predicado_fe_03 := pesos_fe_suma_menos_tarjetas >= 92919 & !is.na(pesos_fe_suma_menos_tarjetas) & ctrx_quarter < 49 & ctarjeta_visa < 1 & mprestamos_personales >= 99725]
+dataset[, predicado_fe_04 := pesos_fe_suma_menos_tarjetas >= 92919 & !is.na(pesos_fe_suma_menos_tarjetas) & ctrx_quarter < 49 & ctarjeta_visa < 1 & mprestamos_personales < 99725]
+dataset[, predicado_fe_05 := pesos_fe_suma_menos_tarjetas >= 24778 & (pesos_fe_suma_menos_tarjetas < 92919 | !is.na(pesos_fe_suma_menos_tarjetas)) & mtarjeta_visa_consumo >= 1873.1 & mpasivos_margen >= 112.5 & mcaja_ahorro >= 29.855 & Visa_mpagominimo >= 627.56 & !is.na(Visa_mpagominimo) & mcuentas_saldo >= 11801]
+dataset[, predicado_fe_06 := pesos_fe_suma_menos_tarjetas >= 24778 & (pesos_fe_suma_menos_tarjetas < 92919 | !is.na(pesos_fe_suma_menos_tarjetas)) & mtarjeta_visa_consumo >= 1873.1 & mpasivos_margen >= 112.5 & mcaja_ahorro >= 29.855 & Visa_mpagominimo >= 627.56 & !is.na(Visa_mpagominimo) & mcuentas_saldo < 11801]
 
 #-------------------------------------------------------------------#
 #-------------------- Divido en train y testing --------------------#
@@ -141,10 +166,19 @@ variables.sacar <- c(
 #--------------------------------------------------------------------------------------------#
 #--------------------- Quito variables que performan PEOR que canarios ----------------------#
 #--------------------------------------------------------------------------------------------#
-# O que aparecen como importantes, pero NO aparecen en el gráfico del árbol final
 
 variables.sacar <- c(
-  variables.sacar
+  variables.sacar,
+  # variables que aparecen debajo de canarios
+  "cliente_antiguedad",
+  "cliente_edad",
+  "Master_msaldototal",
+  "mactivos_margen",
+  "mrentabilidad",
+  "mpagomiscuentas",		
+  "Visa_fechaalta",	
+  "mrentabilidad_annual"
+  # "visa_fe_suma_all"
 )
 
 #-----------------------------------------------------------------#
@@ -200,7 +234,7 @@ setorder(dfinal, -prob_SI, azar)
 
 dir.create( "./exp/" )
 dir.create( "./exp/HT0909" )
-dir.create( "./exp/HT0909/v1.0.3" )
+dir.create( "./exp/HT0909/v1.0.4" )
 
 for(corte in c(7500, 8000, 8500, 9000, 9500, 10000, 10500, 11000)) {
   dfinal[ , Predicted := 0L ]
@@ -208,7 +242,7 @@ for(corte in c(7500, 8000, 8500, 9000, 9500, 10000, 10500, 11000)) {
   
   fwrite(
     dfinal[, list(numero_de_cliente, Predicted)], #solo los campos para Kaggle
-    file= paste0("./exp/HT0909/v1.0.3/KA4120_005_", corte, ".csv"),
+    file= paste0("./exp/HT0909/v1.0.4/KA4120_005_", corte, ".csv"),
     sep=  ","
   )
 }
@@ -217,6 +251,6 @@ for(corte in c(7500, 8000, 8500, 9000, 9500, 10000, 10500, 11000)) {
 #-------------------- Guardo el modelo como PDF --------------------#
 #-------------------------------------------------------------------#
 
-pdf(file = "./exp/HT0909/v1.0.3/rpart.pdf", width=28, height=4)
+pdf(file = "./exp/HT0909/v1.0.4/rpart.pdf", width=28, height=4)
 prp(modelo, extra=101, digits=5, branch=1, type=4, varlen=0, faclen=0)
 dev.off()
