@@ -220,9 +220,9 @@ for (variable in variables.sacar) {
 #   formula  = formula.modelo,
 #   data     = dtrain,
 #   xval     = 0,
-#   cp       = -0.862228373,
-#   minsplit = 1704,
-#   minbucket= 280,
+#   cp       = -0.7422262,
+#   minsplit = 1205,
+#   minbucket= 314,
 #   maxdepth = 8  # MAX DEPTH ORIGINAL (la que salió del HO del exp anterior)
 # )
 
@@ -230,9 +230,9 @@ modelo.original  <- rpart(
   formula  = formula.modelo,
   data     = dtrain,
   xval     = 0,
-  cp       = -0.862228373,
-  minsplit = 1704,
-  minbucket= 280,
+  cp       = -0.7422262,
+  minsplit = 1205,
+  minbucket= 314,
   maxdepth = 30
 )
 

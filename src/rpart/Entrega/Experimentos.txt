@@ -442,8 +442,8 @@ Experimentos
 						maxdepth	8
 						
 					RES: Hay variables debajo de canarios
-						numero_de_cliente
-						Visa_mpagospesos
+						mcaja_ahorro
+						cociente_fe_14
 						
 				Segundo
 					Uso casi mismo HP de v1.0(.0), pero con MAXDEPTH 30
@@ -453,5 +453,25 @@ Experimentos
 						maxdepth	30
 						
 					RES: Hay variables debajo de canarios
-						cproductos							(aparece 4 en total, 3 debajo de canarito)	Los splits incluyen (0.9 y 0.2) % de registros ==> LO SACO
-						mpayroll							(aparece 3 en total, 1 debajo de canarito)	Los splits incluyen (47; 14) % de registro. La que si, un (46) %	==> LO SACO				
+						<>							(aparece 3 en total, 1 debajo de canarito)	Los splits que no están debajo de canarios incluyen (47; 14) % de registro. La que si, un (46) %	==> LO SACO
+						cociente_fe_04							Total vs debajo de canario: (2; 1) | Splits % NO debajo (28.5) | Split % SI debajo (28.76) ===> LO SACO 
+						mtarjeta_visa_consumo					Total vs debajo de canario: (4; 2) | Splits % NO debajo (31.296; 0.395) | Split % SI debajo (2.175; 3.38) ===> NO la saco
+						cociente_fe_07							Total vs debajo de canario: (3; 2) | Splits % NO debajo (3.78)  | Split % SI debajo (8.4; 1.93) ===> LO SACO
+						mtarjeta_master_descuentos				100% debajo de canarios ===> LO SACO
+						cliente_antiguedad						Total vs debajo de canario: (2; 1) | Splits % NO debajo (29) | Split % SI debajo (8.9) ===> LO SACO 
+						mautoservicio							100% debajo de canarios ===> LO SACO
+						Visa_mconsumospesos						100% debajo de canarios ===> LO SACO
+						cociente_fe_14							Total vs debajo de canario: (2; 1) | Splits % NO debajo (1) | Split % SI debajo (15) ===> LO SACO 
+						cociente_fe_08							100% debajo de canarios ===> LO SACO
+						ccallcenter_transacciones				Total vs debajo de canario: (3; 1) | Splits % NO debajo (28; 3)  | Split % SI debajo (4) ===> NO la saco
+						Visa_msaldodolares						100% debajo de canarios ===> LO SACO
+						mrentabilidad_annual					Total vs debajo de canario: (4; 3) | Splits % NO debajo (5) | Split % SI debajo (1.2; 1.2; 2.2) ===> LO SACO 
+						ctransferencias_recibidas				100% debajo de canarios ===> LO SACO
+						cociente_fe_10							Total vs debajo de canario: (2; 1) | Splits % NO debajo (19) | Split % SI debajo (4.9) ===> No la saco
+						cociente_fe_09							100% debajo de canarios ===> LO SACO
+						Visa_fechaalta							Total vs debajo de canario: (3; 1) | Splits % NO debajo (44; 0.2)  | Split % SI debajo (3.5) ===> NO la saco
+						cociente_fe_02							100% debajo de canarios ===> LO SACO
+						cociente_fe_03							Total vs debajo de canario: (2; 1) | Splits % NO debajo (9.6) | Split % SI debajo (2.01) ===> No la saco
+						mttarjeta_visa_debitos_automaticos		100% debajo de canarios ===> LO SACO
+						mactivos_margen							Total vs debajo de canario: (2; 1) | Splits % NO debajo (2.609) | Split % SI debajo (0.769) ===> No la saco 
+						ctarjeta_visa							Total vs debajo de canario: (2; 1) | Splits % NO debajo (2.1) | Split % SI debajo (1.9) ===> LO SACO
