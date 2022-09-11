@@ -370,7 +370,8 @@ Experimentos
 				quedan
 					mtarjeta_visa_consumo
 					mrentabilidad_annual
-			
+		
+		Feature Engineering
 			Creo nuevas features, del tipo A/B
 			
 				USO 10 + importantes, menos aquellas que saco x pasos anteriores
@@ -390,10 +391,67 @@ Experimentos
 					dataset[, cociente_fe_14 := mactivos_margen/ctrx_quarter]
 					dataset[, cociente_fe_15 := cdescubierto_preacordado/ctrx_quarter]
 					
-			Aplico Bayessian Optimization
-				Obtengo
-					orden x ganancia descendente: posición 29
-					cp			-0.7422262
-					minsplit	1205	(1204.340347)
-					minbucket	314		(313.4184036)
-					maxdepth	8
+		Aplico Bayessian Optimization
+			Obtengo
+				orden x ganancia descendente: posición 29
+				cp			-0.7422262
+				minsplit	1205	(1204.340347)
+				minbucket	314		(313.4184036)
+				maxdepth	8
+					
+		Corro modelo con salida de Bayessian Optimization
+			Genero 8 cortes y obtengo estas ganancias en el PUBLIC LEADERBOARD
+				7500		===>	no la entregué
+				8000		===>	no la entregué	
+				8500		===>	21412.89517	(Primer salida entregada - commit message: modelo v1.0.2 - 8500 - src: https://github.com/gasper-az/labo/tree/competencia/modelo-v1.0)
+				9000		===>	22112.88084 (Segund salida entregada - commit message: modelo v1.0.2 - 9000 - src: https://github.com/gasper-az/labo/tree/competencia/modelo-v1.0)
+				9500		===>	21912.88494	(Tercer salida entregada - commit message: modelo v1.0.2 - 9500 - src: https://github.com/gasper-az/labo/tree/competencia/modelo-v1.0)
+				10000		===>	21752.88821	(Cuarta salida entregada - commit message: modelo v1.0.2 - 10000 - src: https://github.com/gasper-az/labo/tree/competencia/modelo-v1.0)
+				10500		===>	no la entregué	
+				11000		===>	no la entregué
+				
+		Variable Importance
+			
+			Var Importance
+				pesos_fe_suma_menos_tarjetas               cociente_fe_04               cociente_fe_07               cociente_fe_10              mactivos_margen        mtarjeta_visa_consumo 
+								  117.219729                    71.778534                    61.372382                    60.762195                    53.338727                    51.276661 
+								  
+				 ctarjeta_visa_transacciones               cociente_fe_03     cdescubierto_preacordado                 ctrx_quarter               cociente_fe_05                mrentabilidad 
+								   47.486227                    43.574980                    31.052670                    28.959528                    20.711740                    18.251983 
+								   
+						mrentabilidad_annual               cociente_fe_15               cociente_fe_08               cociente_fe_13               cociente_fe_11                 cpayroll_trx 
+								   14.477106                    13.642012                    12.184053                     9.566295                     8.961789                     7.444721 
+								   
+						   ccomisiones_otras                 mcaja_ahorro 
+									5.585298                     4.372158 
+		
+			
+			Variables Importance que NO APARECEN en Gráfico del árbol
+				cociente_fe_03
+				cociente_fe_08
+				cociente_fe_13
+				cociente_fe_11
+				
+				
+			Análisis de CANARIOS
+				Primero
+					USO HP de v1.0(.0)
+						cp			-0.7422262
+						minsplit	1205	(1204.340347)
+						minbucket	314		(313.4184036)
+						maxdepth	8
+						
+					RES: Hay variables debajo de canarios
+						numero_de_cliente
+						Visa_mpagospesos
+						
+				Segundo
+					Uso casi mismo HP de v1.0(.0), pero con MAXDEPTH 30
+						cp			-0.7422262
+						minsplit	1205	(1204.340347)
+						minbucket	314		(313.4184036)
+						maxdepth	30
+						
+					RES: Hay variables debajo de canarios
+						cproductos							(aparece 4 en total, 3 debajo de canarito)	Los splits incluyen (0.9 y 0.2) % de registros ==> LO SACO
+						mpayroll							(aparece 3 en total, 1 debajo de canarito)	Los splits incluyen (47; 14) % de registro. La que si, un (46) %	==> LO SACO				
