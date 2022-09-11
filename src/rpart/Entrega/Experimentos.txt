@@ -633,8 +633,19 @@ Experimentos
 				variables con data drifting
 		Aplico Bayessian Optimization
 			Obtengo
-				orden x ganancia descendente: posición 1
-				cp			-0.790032585
-				minsplit	1424	(1423.190938)
-				minbucket	706		(705.3523091)
-				maxdepth	9
+				orden x ganancia descendente: posición 19
+				cp			-0.242138418
+				minsplit	1613	(1612.086927)
+				minbucket	279		(278.0327751)
+				maxdepth	8
+				
+		Corro modelo con salida de Bayessian Optimization
+			Genero 8 cortes y obtengo estas ganancias en el PUBLIC LEADERBOARD
+				7500		===>	no la entregué
+				8000		===>	no la entregué	
+				8500		===>	no la entregué
+				9000		===>	21872.88576 (Primer salida entregada - commit message: modelo v1.0.4 - 9000 - src: https://github.com/gasper-az/labo/tree/competencia/modelo-v1.0)
+				9500		===>	21606.22455	(segund salida entregada - commit message: modelo v1.0.4 - 9500 - src: https://github.com/gasper-az/labo/tree/competencia/modelo-v1.0)
+				10000		===>	no la entregué
+				10500		===>	no la entregué	
+				11000		===>	no la entregué
