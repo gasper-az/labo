@@ -60,7 +60,7 @@ dataset[, visa_fe_suma_all := Visa_mfinanciacion_limite +
           Visa_mpagospesos +
           Visa_mpagosdolares + Visa_mconsumototal
         + Visa_mpagominimo
-]
+        ]
 
 # Feature Engineering del tipo AX + BY, aplicado a columnas asociadas a las
 # tarjetas del cliente (Master + Visa)
@@ -119,16 +119,6 @@ dataset[, cociente_fe_02 := ctrx_quarter/mcomisiones]
 dataset[, cociente_fe_03 := mcuentas_saldo/mcomisiones]
 
 #-------------------------------------------------------------------#
-#------------------- AGREGO N VARIABLES CANARIOS -------------------#
-#-------------------------------------------------------------------#
-
-cantidad.canarios <- 30
-
-for(i in 1:cantidad.canarios) {
-  dataset[, paste0("canarito", i) :=  runif(nrow(dataset))]
-}
-
-#-------------------------------------------------------------------#
 #-------------------- Divido en train y testing --------------------#
 #-------------------------------------------------------------------#
 
@@ -139,6 +129,7 @@ dapply  <- dataset[ foto_mes==202103 ]  #defino donde voy a aplicar el modelo
 #-------------------- Marco variables en la que identifiqué Data Drifting --------------------#
 #---------------------------------------------------------------------------------------------#
 
+## Fiscal, vea el archivo "003_analisis_data_drifting.R"
 variables.drifting <- c(
   "Master_mlimitecompra",
   "mcomisiones_mantenimiento",
@@ -153,8 +144,7 @@ variables.drifting <- c(
 #--------------------------------------------------------------------------------------------#
 
 variables.sacar <- c(
-  "clase_ternaria"
-  ,
+  "clase_ternaria",
   variables.drifting
 )
 
@@ -163,32 +153,32 @@ variables.sacar <- c(
 #--------------------------------------------------------------------------------------------#
 
 variables.sacar <- c(
-  variables.sacar,
-  "cliente_edad",
-  "numero_de_cliente",
-  "Master_mfinanciacion_limite",
-  "mpasivos_margen",
-  "ccajas_extracciones",
-  "Visa_msaldototal",
-  "mcuenta_corriente",
-  "ctarjeta_master_debitos_automaticos",
-  "ccallcenter_transacciones",
-  "ctarjeta_master_transacciones",
-  "mttarjeta_visa_debitos_automaticos",
-  "mactivos_margen",
-  "Master_fechaalta",
-  "Master_Fvencimiento",
-  "mcaja_ahorro_dolares",
-  "mrentabilidad",
-  "cliente_antiguedad",
-  "mcaja_ahorro",
-  "Visa_status",
-  "Visa_Fvencimiento",
-  "Visa_fechaalta",
-  "mrentabilidad_annual",
-  "mcomisiones_mantenimiento"
+  variables.sacar
+  # ,
+  # "cliente_edad",
+  # "numero_de_cliente",
+  # "Master_mfinanciacion_limite",
+  # "mpasivos_margen",
+  # "ccajas_extracciones",
+  # "Visa_msaldototal",
+  # "mcuenta_corriente",
+  # "ctarjeta_master_debitos_automaticos",
+  # "ccallcenter_transacciones",
+  # "ctarjeta_master_transacciones",
+  # "mttarjeta_visa_debitos_automaticos",
+  # "mactivos_margen",
+  # "Master_fechaalta",
+  # "Master_Fvencimiento",
+  # "mcaja_ahorro_dolares",
+  # "mrentabilidad",
+  # "cliente_antiguedad",
+  # "mcaja_ahorro",
+  # "Visa_status",
+  # "Visa_Fvencimiento",
+  # "Visa_fechaalta",
+  # "mrentabilidad_annual",
+  # "mcomisiones_mantenimiento"
 )
-
 
 #-----------------------------------------------------------------#
 #-------------------- Creo fórmula del modelo --------------------#
@@ -204,67 +194,62 @@ for (variable in variables.sacar) {
 #-------------------- Creo el modelo --------------------#
 #--------------------------------------------------------#
 
-# modelo.original  <- rpart(
-#   formula  = formula.modelo,
-#   data     = dtrain,
-#   xval     = 0,
-#   cp       = -1,
-#   minsplit = 2,
-#   minbucket= 1,
-#   maxdepth = 10
-# )
+modelo  <- rpart(
+  formula  = formula.modelo,
+  data     = dtrain,
+  xval     = 0,
+  cp       = -0.890675877,
+  minsplit = 3783,
+  minbucket= 134,
+  maxdepth = 9
+)
 
-# modelo.original  <- rpart(
-#   formula  = formula.modelo,
-#   data     = dtrain,
-#   xval     = 0,
-#   cp       = -0.56159657,
-#   minsplit = 1485,
-#   minbucket= 129,
-#   maxdepth = 10
-# )
+#-------------------------------------------------------------------------------#
+#-------------------- Aplico modelo a datos nuevos (202103) --------------------#
+#-------------------------------------------------------------------------------#
 
-# modelo.original  <- rpart(
-#   formula  = formula.modelo,
-#   data     = dtrain,
-#   xval     = 0,
-#   cp       = -0.56159657,
-#   minsplit = 1485,
-#   minbucket= 129,
-#   maxdepth = 8
-# )
+prediccion  <- predict( object=  modelo,
+                        newdata= dapply,
+                        type = "prob")
 
-# modelo.original  <- rpart(
-#   formula  = formula.modelo,
-#   data     = dtrain,
-#   xval     = 0,
-#   cp       = -0.816404835,
-#   minsplit = 1629,
-#   minbucket= 814,
-#   maxdepth = 30
-# )
+#---------------------------------------------------------------------------------#
+#-------------------- Creo columna con probabilidad de BAJA+2 --------------------#
+#---------------------------------------------------------------------------------#
 
-#---------------------------------------------------------------------------#
-#-------------------- Hago Prunning del modelo original --------------------#
-#---------------------------------------------------------------------------#
+#prediccion es una matriz con DOS columnas, llamadas "NO", "SI"
+#cada columna es el vector de probabilidades 
+#agrego a dapply una columna nueva que es la probabilidad de BAJA+2
+dfinal  <- copy(dapply[, list(numero_de_cliente)])
+dfinal[, prob_SI := prediccion[, "SI"]]
+set.seed(semilla)
+dfinal[, azar := runif(nrow(dapply))]
 
-modelo.original$frame[modelo.original$frame$var %like% "canarito", "complexity"] <- -666
-modelo.pruned <- prune(modelo.original, -666)
+# ordeno en forma descentente, y cuando coincide la probabilidad, al azar
+setorder(dfinal, -prob_SI, azar)
 
-#-----------------------------------------------------------------------#
-#-------------------- Guardo ambos árboles como PDF --------------------#
-#-----------------------------------------------------------------------#
+#-------------------------------------------------------------------------------------------------------------------------#
+#-------------------- Grabo salida para kaggle, en función de los cortes y la probabilidad de prob_si --------------------#
+#-------------------------------------------------------------------------------------------------------------------------#
 
-entrega.directory <- "C:/uba/repos/labo/src/rpart/Entrega/Salida BO/HT0909/"
-setwd(entrega.directory)
+dir.create( "./exp/" )
+dir.create( "./exp/HT0909" )
+dir.create( "./exp/HT0909/v1.0.6" )
 
-dir.create("./v1.0.7")
-dir.create("./v1.0.7/Canarios")
+for(corte in c(7500, 8000, 8500, 9000, 9500, 10000, 10500, 11000)) {
+  dfinal[ , Predicted := 0L ]
+  dfinal[ 1:corte , Predicted := 1L ]
+  
+  fwrite(
+    dfinal[, list(numero_de_cliente, Predicted)], #solo los campos para Kaggle
+    file= paste0("./exp/HT0909/v1.0.6/KA4120_005_", corte, ".csv"),
+    sep=  ","
+  )
+}
 
-pdf(file = "./v1.0.7/Canarios/canaritos_unprunned.pdf", width=28, height=4)
-prp(modelo.original, extra=101, digits=5, branch=1, type=4, varlen=0, faclen=0)
-dev.off()
+#-------------------------------------------------------------------#
+#-------------------- Guardo el modelo como PDF --------------------#
+#-------------------------------------------------------------------#
 
-pdf(file = "./v1.0.7/Canarios/canaritos_prunned.pdf", width=28, height=4)
-prp(modelo.pruned, extra=101, digits=5, branch=1, type=4, varlen=0, faclen=0)
+pdf(file = "./exp/HT0909/v1.0.6/rpart.pdf", width=28, height=4)
+prp(modelo, extra=101, digits=5, branch=1, type=4, varlen=0, faclen=0)
 dev.off()
