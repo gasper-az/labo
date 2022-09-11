@@ -27,7 +27,7 @@ Experimentos
 				8000		===>	no la entregué	
 				8500		===>	24546.16439	(Primer salida entregada - commit message: modelo v1.08500src: https://github.com/gasper-az/labo/tree/competencia/modelo-v1.0)
 				9000		===>	24672.82846 (Segund salida entregada - commit message: modelo v1.0 - 9000 - src: https://github.com/gasper-az/labo/tree/competencia/modelo-v1.0)
-				9500		===>	24979.48885	(Tercer salida entregada - commit message: modelo v1.0 - 9500 - src: https://github.com/gasper-az/labo/tree/competencia/modelo-v1.0)
+			[x]	9500		===>	24979.48885	(Tercer salida entregada - commit message: modelo v1.0 - 9500 - src: https://github.com/gasper-az/labo/tree/competencia/modelo-v1.0)	[x] ME GUSTA PARA ENTREGAR (modelo_rpart_binario.r)
 				10000		===>	25026.15457	(Cuarta salida entregada - commit message: modelo v1.0 - 10000 - src: https://github.com/gasper-az/labo/tree/competencia/modelo-v1.0)
 				10500		===>	24266.17012 (Quinta salida entregada - commit message: modelo v1.0 - 10500 - src: https://github.com/gasper-az/labo/tree/competencia/modelo-v1.0)
 				11000		===>	no la entregué
@@ -475,3 +475,66 @@ Experimentos
 						mttarjeta_visa_debitos_automaticos		100% debajo de canarios ===> LO SACO
 						mactivos_margen							Total vs debajo de canario: (2; 1) | Splits % NO debajo (2.609) | Split % SI debajo (0.769) ===> No la saco 
 						ctarjeta_visa							Total vs debajo de canario: (2; 1) | Splits % NO debajo (2.1) | Split % SI debajo (1.9) ===> LO SACO
+						
+						
+	v1.0.3	(from scratch!)
+		Identifico variables con Data Drifting
+			Master_mlimitecompra
+			mcomisiones_mantenimiento
+			mextraccion_autoservicio
+			mforex_sell
+			Visa_mlimitecompra
+			Visa_mpagado
+		Feature Engineering
+			Creo clase binaria
+			Creo las siguientes columnas, utilizando una combinación del tipo AX + BY, sin contar variables de Data Drifting
+				master_fe_suma_all
+				visa_fe_suma_all
+				tarjetas_fe_suma_all
+				pesos_fe_suma_menos_tarjetas
+				pesos_fe_suma_all
+		Defino fórmula
+			Saco de la fórmula del modelo las siguientes columnas
+				clase_ternaria (por Feature Engineering)
+				variables con data drifting
+		Aplico Bayessian Optimization
+			Obtengo
+				orden x ganancia descendente: posición 1
+				cp			-0.790032585
+				minsplit	1424	(1423.190938)
+				minbucket	706		(705.3523091)
+				maxdepth	9
+		
+				Corro modelo con salida de Bayessian Optimization
+					Genero 8 cortes y obtengo estas ganancias en el PUBLIC LEADERBOARD
+						7500		===>	no la entregué
+						8000		===>	no la entregué	
+						8500		===>	21906.21841	(Primer salida entregada - commit message: modelo v1.0.3 - 8500 - src: https://github.com/gasper-az/labo/tree/competencia/modelo-v1.0)
+						9000		===>	21126.23437 (Segund salida entregada - commit message: modelo v1.0.3 - 9000 - src: https://github.com/gasper-az/labo/tree/competencia/modelo-v1.0)
+						9500		===>	21272.89803	(Tercer salida entregada - commit message: modelo v1.0.3 - 9500 - src: https://github.com/gasper-az/labo/tree/competencia/modelo-v1.0)
+						10000		===>	no la entregué	
+						10500		===>	no la entregué	
+						11000		===>	no la entregué
+			
+			Como no me gustan los valores, tomo esto HP
+				orden x ganancia descendente: posición 7
+				cp			-0.816404835
+				minsplit	1629	(1628.600382)
+				minbucket	814		(813.5398572)
+				maxdepth	7
+
+				Corro modelo con salida de Bayessian Optimization
+					Genero 8 cortes y obtengo estas ganancias en el PUBLIC LEADERBOARD
+						7500		===>	no la entregué
+						8000		===>	24006.17544	(Cuarta salida entregada - commit message: modelo v1.0.3 - 8000 - src: https://github.com/gasper-az/labo/tree/competencia/modelo-v1.0)
+						8500		===>	24652.82887	(Primer salida entregada - commit message: modelo v1.0.3 - 8500 - src: https://github.com/gasper-az/labo/tree/competencia/modelo-v1.0)
+					[x]	9000		===>	23912.84401 (Segund salida entregada - commit message: modelo v1.0.3 - 9000 - src: https://github.com/gasper-az/labo/tree/competencia/modelo-v1.0)	[x]	ME GUSTA PARA ENTREGAR (modelo_rpart_binario_02.r)
+						9500		===>	23586.18403	(Tercer salida entregada - commit message: modelo v1.0.3 - 9500 - src: https://github.com/gasper-az/labo/tree/competencia/modelo-v1.0)
+						10000		===>	no la entregué	
+						10500		===>	no la entregué	
+						11000		===>	no la entregué				
+
+				
+		Variable Importance
+			
+			Var Importance
