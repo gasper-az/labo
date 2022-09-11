@@ -538,3 +538,75 @@ Experimentos
 		Variable Importance
 			
 			Var Importance
+
+				pesos_fe_suma_menos_tarjetas        mtarjeta_visa_consumo  ctarjeta_visa_transacciones              mactivos_margen                 ctrx_quarter             Visa_msaldopesos 
+								  140.362565                    51.904275                    42.637369                    29.715977                    28.311725                    27.952525 
+								  
+							Visa_msaldototal               active_quarter              mpasivos_margen              ctarjeta_master                mrentabilidad                  mcomisiones 
+								   27.746278                    26.036638                    21.376184                    16.616396                    14.720425                    13.535080 
+								   
+						   mcomisiones_otras                   cproductos    ccomisiones_mantenimiento                ctarjeta_visa         mrentabilidad_annual               mcuentas_saldo 
+								   13.534553                    12.206342                    11.625862                    10.282178                     8.372529                     6.037045 
+								   
+									tcuentas     cdescubierto_preacordado 
+									5.848574                     4.978791 
+			
+			Variables Importance que NO APARECEN en Gráfico del árbol
+				ctarjeta_visa_transacciones
+				Visa_msaldopesos
+				Visa_msaldototal
+				active_quarter
+				mcomisiones_otras
+				ccomisiones_mantenimiento
+				tcuentas
+				cdescubierto_preacordado
+				
+			Analizo Variables mediante canarios
+				Utilizo 30 canarios y mismos HO
+					No encuentro vars para descartar
+				
+				Utilizo 30 canarios y mismos HO, salvo el maxdepth, que ahora es 30
+				Encuentro estas vars:
+					
+					Nombre variable				Cant de veces debajo de canarios vs no debajo		Porcentaje captado en nodos debajo de canarios	Porcentaje captado en nodos NO debajo de canarios	QUE HAGO???
+				=======================================================================================================================================================================================================
+					cliente_antiguedad			1 total											|		34.121%										|	NA												|	LA SACO
+					cliente_edad				3 total | 1 vs 2								|		31.438%										| 	5.598%; 4.855%									|	LA SACO
+					Master_msaldototal			1 total											|		30.099%										|	NA												|	LA SACO
+					mactivos_margen				5 total	| 2 vs 3								|		1.633%, 1.066%								| 	14.767%, 0.695%, 1.253%							|	LA SACO
+					mrentabilidad				5 total | 4 vs 1								|		1.639%, 2.402%, 1.292%, 1.128%				|	1.197%											|	LA SACO
+					mpagomiscuentas				1 total											|		5.253%										|	NA												|	LA SACO
+					Visa_fechaalta				1 total											|		4.350%										|	NA												|	LA SACO
+					mrentabilidad_annual		4 total | 1 vs 3								|		6.494%										|	8.494%, 4.128%, 0.693%							|	LA SACO
+					visa_fe_suma_all			1 total											|		3.462%										|	NA												|	LA SACO
+				
+		Creo nuevas variables de feature engineering para prox experimento			
+			Cociente de variables importantes (X/Y)
+				Tomo las 10 más importantes
+				Saco las que NO APARECEN en gráfico del árbol
+				Saco las que aparecen debajo de canarios	(mactivos_margen; mrentabilidad; mrentabilidad_annual)
+				Me quedan
+					pesos_fe_suma_menos_tarjetas
+					mtarjeta_visa_consumo
+					ctrx_quarter
+					mpasivos_margen
+					ctarjeta_master
+				Las combino, quedando
+					dataset[, cociente_fe_01 := pesos_fe_suma_menos_tarjetas/mtarjeta_visa_consumo]
+					dataset[, cociente_fe_02 := pesos_fe_suma_menos_tarjetas/ctrx_quarter]
+					dataset[, cociente_fe_03 := pesos_fe_suma_menos_tarjetas/mpasivos_margen]
+					dataset[, cociente_fe_04 := pesos_fe_suma_menos_tarjetas/ctarjeta_master]
+					dataset[, cociente_fe_05 := mtarjeta_visa_consumo/ctrx_quarter]
+					dataset[, cociente_fe_06 := mtarjeta_visa_consumo/mpasivos_margen]
+					dataset[, cociente_fe_07 := mtarjeta_visa_consumo/ctarjeta_master]
+					dataset[, cociente_fe_08 := ctrx_quarter/mpasivos_margen]
+					dataset[, cociente_fe_09 := ctrx_quarter/ctarjeta_master]
+					dataset[, cociente_fe_10 := mpasivos_margen/ctarjeta_master]
+					
+			Predicados
+				dataset[, predicado_fe_01 := pesos_fe_suma_menos_tarjetas >= 92919 & !is.na(pesos_fe_suma_menos_tarjetas) & ctrx_quarter >= 49 & mpayroll >= 7043.5 & ccaja_ahorro < 4 & mpayroll < 631260 & cproductos >= 6]
+				dataset[, predicado_fe_02 := pesos_fe_suma_menos_tarjetas >= 92919 & !is.na(pesos_fe_suma_menos_tarjetas) & ctrx_quarter < 49 & ctarjeta_visa >= 1 & cpayroll_trx >= 1 & mcuentas_saldo < 9630.9]
+				dataset[, predicado_fe_03 := pesos_fe_suma_menos_tarjetas >= 92919 & !is.na(pesos_fe_suma_menos_tarjetas) & ctrx_quarter < 49 & ctarjeta_visa < 1 & mprestamos_personales >= 99725]
+				dataset[, predicado_fe_04 := pesos_fe_suma_menos_tarjetas >= 92919 & !is.na(pesos_fe_suma_menos_tarjetas) & ctrx_quarter < 49 & ctarjeta_visa < 1 & mprestamos_personales < 99725]
+				dataset[, predicado_fe_05 := pesos_fe_suma_menos_tarjetas >= 24778 & (pesos_fe_suma_menos_tarjetas < 92919 | !is.na(pesos_fe_suma_menos_tarjetas)) & mtarjeta_visa_consumo >= 1873.1 & mpasivos_margen >= 112.5 & mcaja_ahorro >= 29.855 & Visa_mpagominimo >= 627.56 & !is.na(Visa_mpagominimo) & mcuentas_saldo >= 11801]
+				dataset[, predicado_fe_06 := pesos_fe_suma_menos_tarjetas >= 24778 & (pesos_fe_suma_menos_tarjetas < 92919 | !is.na(pesos_fe_suma_menos_tarjetas)) & mtarjeta_visa_consumo >= 1873.1 & mpasivos_margen >= 112.5 & mcaja_ahorro >= 29.855 & Visa_mpagominimo >= 627.56 & !is.na(Visa_mpagominimo) & mcuentas_saldo < 11801]
