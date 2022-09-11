@@ -685,3 +685,92 @@ Experimentos
 			mforex_sell
 			Visa_mlimitecompra
 			Visa_mpagado
+		
+		Corro Script de Canarios
+			Con estos HP
+				cp			-1
+				minsplit	2
+				minbucket	1
+				maxdepth	10
+			Sin FE
+			Sin sacar variables con DD
+			Obtengo las siguientes
+				cliente_edad
+				numero_de_cliente
+				Master_mfinanciacion_limite
+				mpasivos_margen
+				ccajas_extracciones
+				Visa_msaldototal
+				mcuenta_corriente
+				ctarjeta_master_debitos_automaticos
+				ccallcenter_transacciones
+				ctarjeta_master_transacciones
+				mttarjeta_visa_debitos_automaticos
+				mactivos_margen
+				Master_fechaalta
+				Master_Fvencimiento
+				mcaja_ahorro_dolares
+				mrentabilidad
+				cliente_antiguedad
+				mcaja_ahorro
+				Visa_status
+				Visa_Fvencimiento
+				Visa_fechaalta
+				mrentabilidad_annual
+				mcomisiones_mantenimiento
+		
+		Variable Importance
+			Var Importance
+
+				 ctrx_quarter            mcuentas_saldo         mcuenta_corriente               mcomisiones           mpasivos_margen         numero_de_cliente 
+					127.97505                  65.83453                  62.92266                  58.65761                  55.04057                  49.90167 
+					
+				mrentabilidad mcomisiones_mantenimiento         ccomisiones_otras         mcomisiones_otras        cliente_antiguedad           mactivos_margen 
+					 42.84077                  42.32910                  41.41161                  40.84388                  40.78878                  39.92892 
+					 
+		 mrentabilidad_annual  cdescubierto_preacordado            active_quarter     mprestamos_personales     cprestamos_personales              mcaja_ahorro 
+					 39.26507                  37.34806                  36.94882                  34.50951                  31.86696                  29.81335 
+					 
+				  Visa_status          Master_fechaalta 
+					 29.72517                  26.31288 	
+		
+		
+			Variables Importance que NO APARECEN en Gráfico del árbol
+				ccomisiones_otras
+				mcomisiones_otras
+				mactivos_margen
+				active_quarter
+				mcaja_ahorro
+				
+			Elijo variables para Feature Engineering del tipo X/Y
+				Tomo las 10 más importantes, resto aquellas afectadas x DD, que performan peor que canarios, y que NO están en gráfico del árbol
+				Quedan estas:
+					ctrx_quarter
+					mcuentas_saldo
+					mcomisiones
+					
+		Feature Engineering
+			Creo clase binaria
+			Creo las siguientes columnas, utilizando una combinación del tipo AX + BY	(NO voy a considerar las variables afectadas x DD, ni las peores que canarios)
+				master_fe_suma_all
+				visa_fe_suma_all
+				tarjetas_fe_suma_all
+				pesos_fe_suma_menos_tarjetas
+				pesos_fe_suma_all
+			Creo las siguientes columnas, utilizando las variables elejidas para FE del tipo X/Y. Queda:
+				dataset[, cociente_fe_01 := ctrx_quarter/mcuentas_saldo]
+				dataset[, cociente_fe_02 := ctrx_quarter/mcomisiones]
+				dataset[, cociente_fe_03 := mcuentas_saldo/mcomisiones]
+				
+		Defino fórmula
+			Saco de la fórmula del modelo las siguientes columnas
+				clase_ternaria (por Feature Engineering)
+				variables con data drifting
+				variables que performan peor que canarios
+		Aplico Bayessian Optimization
+			Obtengo
+				orden x ganancia descendente: posición 19
+				cp			-0.242138418
+				minsplit	1613	(1612.086927)
+				minbucket	279		(278.0327751)
+				maxdepth	8

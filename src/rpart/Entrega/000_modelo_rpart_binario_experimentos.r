@@ -33,11 +33,12 @@ dataset[ foto_mes==202101,
 
 # Feature Engineering del tipo AX + BY, aplicado a columnas asociadas a la
 # tarjeta del cliente (Master)
-dataset[, master_fe_suma_all := Master_mfinanciacion_limite +
-          # Master_msaldototal + 
+dataset[, master_fe_suma_all := 
+          # Master_mfinanciacion_limite +
+          Master_msaldototal +
           Master_msaldopesos + Master_msaldodolares +
           Master_mconsumospesos + Master_mconsumosdolares +
-          # Master_mlimitecompra +
+          Master_mlimitecompra +
           Master_madelantopesos +
           Master_madelantodolares + 
           Master_mpagado +
@@ -47,38 +48,38 @@ dataset[, master_fe_suma_all := Master_mfinanciacion_limite +
 
 # Feature Engineering del tipo AX + BY, aplicado a columnas asociadas a la
 # tarjeta del cliente (Visa)
-# dataset[, visa_fe_suma_all := Visa_mfinanciacion_limite +
-#           # Visa_msaldototal +
-#           # Visa_msaldopesos +
-#           Visa_msaldodolares + Visa_mconsumospesos +
-#           Visa_mconsumosdolares + 
-#           # Visa_mlimitecompra + 
-#           Visa_madelantopesos +
-#           Visa_madelantodolares + 
-#           # Visa_mpagado +
-#           Visa_mpagospesos +
-#           Visa_mpagosdolares + Visa_mconsumototal
-#         + Visa_mpagominimo
-#         ]
+dataset[, visa_fe_suma_all := Visa_mfinanciacion_limite +
+          # Visa_msaldototal +
+          Visa_msaldopesos +
+          Visa_msaldodolares + Visa_mconsumospesos +
+          Visa_mconsumosdolares +
+          Visa_mlimitecompra +
+          Visa_madelantopesos +
+          Visa_madelantodolares +
+          Visa_mpagado +
+          Visa_mpagospesos +
+          Visa_mpagosdolares + Visa_mconsumototal
+        + Visa_mpagominimo
+        ]
 
 # Feature Engineering del tipo AX + BY, aplicado a columnas asociadas a las
 # tarjetas del cliente (Master + Visa)
-# dataset[, tarjetas_fe_suma_all := master_fe_suma_all + visa_fe_suma_all]
+dataset[, tarjetas_fe_suma_all := master_fe_suma_all + visa_fe_suma_all]
 
 
 # Feature Engineering del tipo AX + BY, aplicado a todas las columnas en pesos
 # salvo las tarjetas
 dataset[, pesos_fe_suma_menos_tarjetas := 
-          # mrentabilidad + 
+          # mrentabilidad +
           # mrentabilidad_annual +
           mcomisiones +
-          # mactivos_margen + 
-          mpasivos_margen +
+          # mactivos_margen +
+          # mpasivos_margen +
           mcuenta_corriente_adicional + 
-          mcuenta_corriente +
-          mcaja_ahorro +
+          # mcuenta_corriente +
+          # mcaja_ahorro +
           mcaja_ahorro_adicional +
-          mcaja_ahorro_dolares + 
+          # mcaja_ahorro_dolares + 
           mcuentas_saldo +
           mautoservicio + mtarjeta_visa_consumo +
           mtarjeta_master_consumo +
@@ -90,16 +91,16 @@ dataset[, pesos_fe_suma_menos_tarjetas :=
           mpayroll2 + 
           mcuenta_debitos_automaticos +
           mttarjeta_master_debitos_automaticos + mpagodeservicios +
-          # mpagomiscuentas + 
+          mpagomiscuentas +
           mcajeros_propios_descuentos +
           mtarjeta_visa_descuentos + mtarjeta_master_descuentos +
-          # mcomisiones_mantenimiento + 
+          # mcomisiones_mantenimiento +
           mcomisiones_otras +
           mforex_buy +
-          # mforex_sell + 
+          mforex_sell +
           mtransferencias_recibidas +
           mtransferencias_emitidas +
-          # mextraccion_autoservicio + 
+          mextraccion_autoservicio +
           mcheques_depositados + mcheques_emitidos +
           mcheques_depositados_rechazados + mcheques_emitidos_rechazados +
           matm + matm_other
@@ -108,30 +109,14 @@ dataset[, pesos_fe_suma_menos_tarjetas :=
 # Feature Engineering del tipo AX + BY, aplicado a todas las columnas en pesos
 dataset[, pesos_fe_suma_all :=
           pesos_fe_suma_menos_tarjetas +
-          master_fe_suma_all
+          tarjetas_fe_suma_all
 ]
 
 # Feature Engineering del tipo A/B, aplicado a variables más importantes para el
 # modelo, pero que SI estén en el gráfico, y performen mejor que canarios
-dataset[, cociente_fe_01 := pesos_fe_suma_menos_tarjetas/mtarjeta_visa_consumo]
-dataset[, cociente_fe_02 := pesos_fe_suma_menos_tarjetas/ctrx_quarter]
-dataset[, cociente_fe_03 := pesos_fe_suma_menos_tarjetas/mpasivos_margen]
-dataset[, cociente_fe_04 := pesos_fe_suma_menos_tarjetas/ctarjeta_master]
-dataset[, cociente_fe_05 := mtarjeta_visa_consumo/ctrx_quarter]
-dataset[, cociente_fe_06 := mtarjeta_visa_consumo/mpasivos_margen]
-dataset[, cociente_fe_07 := mtarjeta_visa_consumo/ctarjeta_master]
-dataset[, cociente_fe_08 := ctrx_quarter/mpasivos_margen]
-dataset[, cociente_fe_09 := ctrx_quarter/ctarjeta_master]
-dataset[, cociente_fe_10 := mpasivos_margen/ctarjeta_master]
-
-# Feature Engineering del tipo de predicados. Tomo ramas del árbol cuyos nodos
-# no hayan sido spliteados por variables que performen peor que canarios
-dataset[, predicado_fe_01 := pesos_fe_suma_menos_tarjetas >= 92919 & !is.na(pesos_fe_suma_menos_tarjetas) & ctrx_quarter >= 49 & mpayroll >= 7043.5 & ccaja_ahorro < 4 & mpayroll < 631260 & cproductos >= 6]
-dataset[, predicado_fe_02 := pesos_fe_suma_menos_tarjetas >= 92919 & !is.na(pesos_fe_suma_menos_tarjetas) & ctrx_quarter < 49 & ctarjeta_visa >= 1 & cpayroll_trx >= 1 & mcuentas_saldo < 9630.9]
-dataset[, predicado_fe_03 := pesos_fe_suma_menos_tarjetas >= 92919 & !is.na(pesos_fe_suma_menos_tarjetas) & ctrx_quarter < 49 & ctarjeta_visa < 1 & mprestamos_personales >= 99725]
-dataset[, predicado_fe_04 := pesos_fe_suma_menos_tarjetas >= 92919 & !is.na(pesos_fe_suma_menos_tarjetas) & ctrx_quarter < 49 & ctarjeta_visa < 1 & mprestamos_personales < 99725]
-dataset[, predicado_fe_05 := pesos_fe_suma_menos_tarjetas >= 24778 & (pesos_fe_suma_menos_tarjetas < 92919 | !is.na(pesos_fe_suma_menos_tarjetas)) & mtarjeta_visa_consumo >= 1873.1 & mpasivos_margen >= 112.5 & mcaja_ahorro >= 29.855 & Visa_mpagominimo >= 627.56 & !is.na(Visa_mpagominimo) & mcuentas_saldo >= 11801]
-dataset[, predicado_fe_06 := pesos_fe_suma_menos_tarjetas >= 24778 & (pesos_fe_suma_menos_tarjetas < 92919 | !is.na(pesos_fe_suma_menos_tarjetas)) & mtarjeta_visa_consumo >= 1873.1 & mpasivos_margen >= 112.5 & mcaja_ahorro >= 29.855 & Visa_mpagominimo >= 627.56 & !is.na(Visa_mpagominimo) & mcuentas_saldo < 11801]
+dataset[, cociente_fe_01 := ctrx_quarter/mcuentas_saldo]
+dataset[, cociente_fe_02 := ctrx_quarter/mcomisiones]
+dataset[, cociente_fe_03 := mcuentas_saldo/mcomisiones]
 
 #-------------------------------------------------------------------#
 #-------------------- Divido en train y testing --------------------#
@@ -169,16 +154,29 @@ variables.sacar <- c(
 
 variables.sacar <- c(
   variables.sacar,
-  # variables que aparecen debajo de canarios
-  "cliente_antiguedad",
   "cliente_edad",
-  "Master_msaldototal",
+  "numero_de_cliente",
+  "Master_mfinanciacion_limite",
+  "mpasivos_margen",
+  "ccajas_extracciones",
+  "Visa_msaldototal",
+  "mcuenta_corriente",
+  "ctarjeta_master_debitos_automaticos",
+  "ccallcenter_transacciones",
+  "ctarjeta_master_transacciones",
+  "mttarjeta_visa_debitos_automaticos",
   "mactivos_margen",
+  "Master_fechaalta",
+  "Master_Fvencimiento",
+  "mcaja_ahorro_dolares",
   "mrentabilidad",
-  "mpagomiscuentas",		
-  "Visa_fechaalta",	
-  "mrentabilidad_annual"
-  # "visa_fe_suma_all"
+  "cliente_antiguedad",
+  "mcaja_ahorro",
+  "Visa_status",
+  "Visa_Fvencimiento",
+  "Visa_fechaalta",
+  "mrentabilidad_annual",
+  "mcomisiones_mantenimiento"
 )
 
 #-----------------------------------------------------------------#
