@@ -258,13 +258,13 @@ modelo.pruned <- prune(modelo.original, -666)
 entrega.directory <- "C:/uba/repos/labo/src/rpart/Entrega/Salida BO/HT0909/"
 setwd(entrega.directory)
 
-dir.create("./v1.0.5")
-dir.create("./v1.0.5/Canarios")
+dir.create("./v1.0.6")
+dir.create("./v1.0.6/Canarios")
 
-pdf(file = "./v1.0.5/Canarios/canaritos_unprunned.pdf", width=28, height=4)
+pdf(file = "./v1.0.6/Canarios/canaritos_unprunned.pdf", width=28, height=4)
 prp(modelo.original, extra=101, digits=5, branch=1, type=4, varlen=0, faclen=0)
 dev.off()
 
-pdf(file = "./v1.0.5/Canarios/canaritos_prunned.pdf", width=28, height=4)
+pdf(file = "./v1.0.6/Canarios/canaritos_prunned.pdf", width=28, height=4)
 prp(modelo.pruned, extra=101, digits=5, branch=1, type=4, varlen=0, faclen=0)
 dev.off()

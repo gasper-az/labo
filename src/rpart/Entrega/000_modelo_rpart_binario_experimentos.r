@@ -153,30 +153,31 @@ variables.sacar <- c(
 #--------------------------------------------------------------------------------------------#
 
 variables.sacar <- c(
-  variables.sacar,
-  "cliente_edad",
-  "numero_de_cliente",
-  "Master_mfinanciacion_limite",
-  "mpasivos_margen",
-  "ccajas_extracciones",
-  "Visa_msaldototal",
-  "mcuenta_corriente",
-  "ctarjeta_master_debitos_automaticos",
-  "ccallcenter_transacciones",
-  "ctarjeta_master_transacciones",
-  "mttarjeta_visa_debitos_automaticos",
-  "mactivos_margen",
-  "Master_fechaalta",
-  "Master_Fvencimiento",
-  "mcaja_ahorro_dolares",
-  "mrentabilidad",
-  "cliente_antiguedad",
-  "mcaja_ahorro",
-  "Visa_status",
-  "Visa_Fvencimiento",
-  "Visa_fechaalta",
-  "mrentabilidad_annual",
-  "mcomisiones_mantenimiento"
+  variables.sacar
+  # ,
+  # "cliente_edad",
+  # "numero_de_cliente",
+  # "Master_mfinanciacion_limite",
+  # "mpasivos_margen",
+  # "ccajas_extracciones",
+  # "Visa_msaldototal",
+  # "mcuenta_corriente",
+  # "ctarjeta_master_debitos_automaticos",
+  # "ccallcenter_transacciones",
+  # "ctarjeta_master_transacciones",
+  # "mttarjeta_visa_debitos_automaticos",
+  # "mactivos_margen",
+  # "Master_fechaalta",
+  # "Master_Fvencimiento",
+  # "mcaja_ahorro_dolares",
+  # "mrentabilidad",
+  # "cliente_antiguedad",
+  # "mcaja_ahorro",
+  # "Visa_status",
+  # "Visa_Fvencimiento",
+  # "Visa_fechaalta",
+  # "mrentabilidad_annual",
+  # "mcomisiones_mantenimiento"
 )
 
 #-----------------------------------------------------------------#
@@ -232,7 +233,7 @@ setorder(dfinal, -prob_SI, azar)
 
 dir.create( "./exp/" )
 dir.create( "./exp/HT0909" )
-dir.create( "./exp/HT0909/v1.0.5" )
+dir.create( "./exp/HT0909/v1.0.6" )
 
 for(corte in c(7500, 8000, 8500, 9000, 9500, 10000, 10500, 11000)) {
   dfinal[ , Predicted := 0L ]
@@ -240,7 +241,7 @@ for(corte in c(7500, 8000, 8500, 9000, 9500, 10000, 10500, 11000)) {
   
   fwrite(
     dfinal[, list(numero_de_cliente, Predicted)], #solo los campos para Kaggle
-    file= paste0("./exp/HT0909/v1.0.5/KA4120_005_", corte, ".csv"),
+    file= paste0("./exp/HT0909/v1.0.6/KA4120_005_", corte, ".csv"),
     sep=  ","
   )
 }
@@ -249,6 +250,6 @@ for(corte in c(7500, 8000, 8500, 9000, 9500, 10000, 10500, 11000)) {
 #-------------------- Guardo el modelo como PDF --------------------#
 #-------------------------------------------------------------------#
 
-pdf(file = "./exp/HT0909/v1.0.5/rpart.pdf", width=28, height=4)
+pdf(file = "./exp/HT0909/v1.0.6/rpart.pdf", width=28, height=4)
 prp(modelo, extra=101, digits=5, branch=1, type=4, varlen=0, faclen=0)
 dev.off()
