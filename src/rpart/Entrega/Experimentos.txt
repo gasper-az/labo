@@ -785,3 +785,47 @@ Experimentos
 				10000		===>	24472.83255 (Tercer salida entregada - commit message: modelo v1.0.5 - 10000 - src: https://github.com/gasper-az/labo/tree/competencia/modelo-v1.0)
 				10500		===>	no la entregué	
 				11000		===>	no la entregué
+				
+		Variable Importance
+			Var Importance
+
+				pesos_fe_suma_menos_tarjetas                      ctrx_quarter                    active_quarter          cdescubierto_preacordado             mtarjeta_visa_consumo 
+									   188.838351                         49.640989                         44.014676                         40.397604                         20.287555 
+									   
+									  mcomisiones                 mcomisiones_otras         ccomisiones_mantenimiento       ctarjeta_visa_transacciones                    cociente_fe_02 
+										18.591072                         18.478003                         16.425653                         12.077856                         11.752300 
+										
+								ccomisiones_otras                    mcuentas_saldo                   ctarjeta_master                  Visa_msaldopesos                  Visa_mpagominimo 
+										10.717710                         10.431138                          8.354703                          7.915698                          5.802028 
+										
+									Master_status ctarjeta_visa_debitos_automaticos                          mpayroll                      cpayroll_trx                        cproductos 
+										 5.409633                          4.279556                          3.616230                          3.383131                          2.443695 
+										 
+				Variables Importance que NO APARECEN en Gráfico del árbol
+					active_quarter
+					mcomisiones_otras
+					ccomisiones_mantenimiento
+					ctarjeta_visa_transacciones
+					ccomisiones_otras
+					mcuentas_saldo
+					ctarjeta_visa_debitos_automaticos
+					cproductos				
+				
+		Corro Script de Canarios
+			Con estos HP	(Valores originales de HP de BO, salvo el maxdepth)
+				cp			-0.56159657
+				minsplit	1485
+				minbucket	129
+				maxdepth	10
+			Con FE
+			Con sacar variables con DD
+			Obtengo las siguientes
+				cociente_fe_01				(100%, se va)
+				Visa_mpagospesos			(100%, se va)
+				cociente_fe_02				(1 de 3, se va igualmente, ya que la única capta un mayor porcentaje)
+				Visa_cconsumos				(100% se va)
+				Master_cconsumos			(100% se va)
+				mcomisiones_otras			(100% se va)
+				ctrx_quarter				(1 de 4, PROBEMOS)
+				mtransferencias_emitidas	(100%, se va)
+				Visa_mpagominimo			(1 de 2, se va, ya que la única capta un mayor porcentaje)
