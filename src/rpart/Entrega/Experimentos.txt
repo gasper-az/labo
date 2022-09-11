@@ -649,3 +649,39 @@ Experimentos
 				10000		===>	no la entregué
 				10500		===>	no la entregué	
 				11000		===>	no la entregué
+				
+		Variable Importance
+			
+			Var Importance
+			
+				pesos_fe_suma_menos_tarjetas                     cociente_fe_02           cdescubierto_preacordado                       ctrx_quarter                     active_quarter 
+										164.654697                          71.135560                          42.888643                          36.970055                          34.037230 
+										
+							 mtarjeta_visa_consumo        ctarjeta_visa_transacciones                   Visa_msaldopesos                   Visa_msaldototal                    mpasivos_margen 
+										 25.302091                          19.205761                          12.398783                          12.233026                          11.049515 
+										 
+									   mcomisiones                  mcomisiones_otras          ccomisiones_mantenimiento                  ccomisiones_otras                     mcuentas_saldo 
+										 10.335591                          10.335500                           8.549708                           7.666905                           6.831540 
+										 
+				mttarjeta_visa_debitos_automaticos                     cociente_fe_05                  mcuenta_corriente                     cociente_fe_06  ctarjeta_visa_debitos_automaticos 
+										  6.716339                           6.663627                           6.148162                           5.720346                           5.651576 
+										  
+			Variables Importance que NO APARECEN en Gráfico del árbol
+				cociente_fe_02
+				ctarjeta_visa_transacciones
+				Visa_msaldopesos
+				Visa_msaldototal
+				mcomisiones_otras
+				ccomisiones_mantenimiento
+				ccomisiones_otras
+				cociente_fe_05
+				ctarjeta_visa_debitos_automaticos
+	
+	v1.0.5 (from scratch)	
+		Identifico variables con Data Drifting	(mismas que v1.0.3)
+			Master_mlimitecompra
+			mcomisiones_mantenimiento
+			mextraccion_autoservicio
+			mforex_sell
+			Visa_mlimitecompra
+			Visa_mpagado
