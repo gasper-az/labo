@@ -770,7 +770,18 @@ Experimentos
 		Aplico Bayessian Optimization
 			Obtengo
 				orden x ganancia descendente: posición 19
-				cp			-0.242138418
-				minsplit	1613	(1612.086927)
-				minbucket	279		(278.0327751)
-				maxdepth	8
+				cp			-0.56159657
+				minsplit	1485	(1484.755033)
+				minbucket	129		(128.4153967)
+				maxdepth	7
+				
+		Corro modelo con salida de Bayessian Optimization
+			Genero 8 cortes y obtengo estas ganancias en el PUBLIC LEADERBOARD
+				7500		===>	no la entregué
+				8000		===>	no la entregué	
+				8500		===>	no la entregué
+				9000		===>	23506.18567 (Primer salida entregada - commit message: modelo v1.0.5 - 9000 - src: https://github.com/gasper-az/labo/tree/competencia/modelo-v1.0)
+			[x]	9500		===>	24832.82519	(segund salida entregada - commit message: modelo v1.0.5 - 9500 - src: https://github.com/gasper-az/labo/tree/competencia/modelo-v1.0)	[x] ME GUSTA PARA ENTREGAR (modelo_rpart_binario_04.r)
+				10000		===>	24472.83255 (Tercer salida entregada - commit message: modelo v1.0.5 - 10000 - src: https://github.com/gasper-az/labo/tree/competencia/modelo-v1.0)
+				10500		===>	no la entregué	
+				11000		===>	no la entregué
