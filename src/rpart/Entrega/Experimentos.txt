@@ -389,3 +389,11 @@ Experimentos
 					dataset[, cociente_fe_13 := mactivos_margen/cdescubierto_preacordado]
 					dataset[, cociente_fe_14 := mactivos_margen/ctrx_quarter]
 					dataset[, cociente_fe_15 := cdescubierto_preacordado/ctrx_quarter]
+					
+			Aplico Bayessian Optimization
+				Obtengo
+					orden x ganancia descendente: posición 29
+					cp			-0.7422262
+					minsplit	1205	(1204.340347)
+					minbucket	314		(313.4184036)
+					maxdepth	8
