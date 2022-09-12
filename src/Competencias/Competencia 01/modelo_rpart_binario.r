@@ -162,7 +162,6 @@ dir.create( "./exp/" )
 dir.create( "./exp/HT0909" )
 dir.create( "./exp/HT0909/vFinal" )
 
-# for(corte in c(7500, 8000, 8500, 9000, 9500, 10000, 10500, 11000)) {
 for(corte in c(9500)) {
   dfinal[ , Predicted := 0L ]
   dfinal[ 1:corte , Predicted := 1L ]
