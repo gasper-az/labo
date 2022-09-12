@@ -315,43 +315,6 @@ dataset[, pesos_fe_suma_all :=
 
 dataset[, cociente_fe_02 := ctrx_quarter/mcomisiones]
 
-#---------------------------------------------------------------------------------------------#
-#-------------------- Marco variables en la que identifiqué Data Drifting --------------------#
-#---------------------------------------------------------------------------------------------#
-
-## Fiscal, vea el archivo "003_analisis_data_drifting.R"
-variables.drifting <- c(
-  "Master_mlimitecompra",
-  "mcomisiones_mantenimiento",
-  "mextraccion_autoservicio",
-  "mforex_sell",
-  "Visa_mlimitecompra",
-  "Visa_mpagado"
-)
-
-#--------------------------------------------------------------------------------------------#
-#-------------------- Defino variables a quitar de la fórmula del modelo --------------------#
-#--------------------------------------------------------------------------------------------#
-
-variables.sacar <- c(
-  "clase_ternaria",
-  variables.drifting
-)
-
-#-----------------------------------------------------------#
-#--------------------- Aplico Binning ----------------------#
-#-----------------------------------------------------------#
-
-columnas.para.binning <- setdiff(colnames(dataset), variables.sacar)
-
-for(campo in  columnas.para.binning) {
-  if(  dataset[ , length( unique( get(campo) ) ) > 100 ]) {
-    dataset[  , paste0( campo, "_bin" ) := as.integer( cut2(  dataset[ , get(campo) ], m=1, g=31) ) ]
-    if(  campo !=  "numero_de_cliente" )  dataset[  , paste0( campo ) := NULL ]
-  }
-  # cat( campo, " " )
-}
-
 #-------------------------------------------------------------------#
 #-------------------- Divido en train y testing --------------------#
 #-------------------------------------------------------------------#

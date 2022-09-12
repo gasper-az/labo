@@ -146,20 +146,6 @@ variables.sacar <- c(
   # "mcomisiones_mantenimiento"
 )
 
-#-----------------------------------------------------------#
-#--------------------- Aplico Binning ----------------------#
-#-----------------------------------------------------------#
-
-columnas.para.binning <- setdiff(colnames(dataset), variables.sacar)
-
-for(campo in  columnas.para.binning) {
-  if(  dataset[ , length( unique( get(campo) ) ) > 100 ]) {
-    dataset[  , paste0( campo, "_bin" ) := as.integer( cut2(  dataset[ , get(campo) ], m=1, g=31) ) ]
-    if(  campo !=  "numero_de_cliente" )  dataset[  , paste0( campo ) := NULL ]
-  }
-  # cat( campo, " " )
-}
-
 #-------------------------------------------------------------------#
 #-------------------- Divido en train y testing --------------------#
 #-------------------------------------------------------------------#
