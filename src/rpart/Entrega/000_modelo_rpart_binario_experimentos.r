@@ -1,9 +1,16 @@
 rm(list=ls())
 gc()
 
+`%notin%` <- Negate(`%in%`)
+
+if ("Hmisc" %notin% installed.packages()) {
+  install.packages("Hmisc")
+}
+
 require("data.table")
 require("rpart")
 require("rpart.plot")
+require("Hmisc")
 
 #--------------------------------------------------------#
 #-------------------- PATH y SEMILLA --------------------#
@@ -33,97 +40,54 @@ dataset[ foto_mes==202101,
 
 # Feature Engineering del tipo AX + BY, aplicado a columnas asociadas a la
 # tarjeta del cliente (Master)
-# dataset[, master_fe_suma_all := 
-#           # Master_mfinanciacion_limite +
-#           Master_msaldototal +
-#           Master_msaldopesos + Master_msaldodolares +
-#           Master_mconsumospesos + Master_mconsumosdolares +
-#           Master_mlimitecompra +
-#           Master_madelantopesos +
-#           Master_madelantodolares + 
-#           Master_mpagado +
-#           Master_mpagospesos +
-#           Master_mpagosdolares + Master_mconsumototal + Master_mpagominimo
-# ]
+dataset[, master_fe_suma_all := Master_mfinanciacion_limite +
+          Master_msaldototal + Master_msaldopesos + Master_msaldodolares +
+          Master_mconsumospesos + Master_mconsumosdolares +
+          Master_mlimitecompra + Master_madelantopesos +
+          Master_madelantodolares + Master_mpagado + Master_mpagospesos +
+          Master_mpagosdolares + Master_mconsumototal + Master_mpagominimo
+]
 
 # Feature Engineering del tipo AX + BY, aplicado a columnas asociadas a la
 # tarjeta del cliente (Visa)
-# dataset[, visa_fe_suma_all := Visa_mfinanciacion_limite +
-#           # Visa_msaldototal +
-#           Visa_msaldopesos +
-#           Visa_msaldodolares + Visa_mconsumospesos +
-#           Visa_mconsumosdolares +
-#           Visa_mlimitecompra +
-#           Visa_madelantopesos +
-#           Visa_madelantodolares +
-#           Visa_mpagado +
-#           Visa_mpagospesos +
-#           Visa_mpagosdolares + Visa_mconsumototal
-#         + Visa_mpagominimo
-#         ]
+dataset[, visa_fe_suma_all := Visa_mfinanciacion_limite + Visa_msaldototal +
+          Visa_msaldopesos + Visa_msaldodolares + Visa_mconsumospesos +
+          Visa_mconsumosdolares + Visa_mlimitecompra + Visa_madelantopesos +
+          Visa_madelantodolares + Visa_mpagado + Visa_mpagospesos +
+          Visa_mpagosdolares + Visa_mconsumototal + Visa_mpagominimo
+]
 
 # Feature Engineering del tipo AX + BY, aplicado a columnas asociadas a las
 # tarjetas del cliente (Master + Visa)
-# dataset[, tarjetas_fe_suma_all := master_fe_suma_all + visa_fe_suma_all]
+dataset[, tarjetas_fe_suma_all := master_fe_suma_all + visa_fe_suma_all]
 
 
 # Feature Engineering del tipo AX + BY, aplicado a todas las columnas en pesos
 # salvo las tarjetas
-dataset[, pesos_fe_suma_menos_tarjetas := 
-          mrentabilidad +
-          mrentabilidad_annual +
-          mcomisiones +
-          mactivos_margen +
-          mpasivos_margen +
-          mcuenta_corriente_adicional + 
-          mcuenta_corriente +
-          mcaja_ahorro +
-          mcaja_ahorro_adicional +
-          mcaja_ahorro_dolares +
-          mcuentas_saldo +
-          mautoservicio + mtarjeta_visa_consumo +
-          mtarjeta_master_consumo +
+dataset[, pesos_fe_suma_menos_tarjetas := mrentabilidad + mrentabilidad_annual +
+          mcomisiones + mactivos_margen + mpasivos_margen +
+          mcuenta_corriente_adicional + mcuenta_corriente + mcaja_ahorro +
+          mcaja_ahorro_adicional + mcaja_ahorro_dolares + mcuentas_saldo +
+          mautoservicio + mtarjeta_visa_consumo + mtarjeta_master_consumo +
           mprestamos_personales + mprestamos_prendarios +
           mprestamos_hipotecarios + mplazo_fijo_dolares + mplazo_fijo_pesos +
-          minversion1_pesos +
-          minversion1_dolares + minversion2 + 
-          mpayroll +
-          mpayroll2 + 
-          mcuenta_debitos_automaticos +
+          minversion1_pesos + minversion1_dolares + minversion2 + mpayroll +
+          mpayroll2 + mcuenta_debitos_automaticos +
           mttarjeta_master_debitos_automaticos + mpagodeservicios +
-          mpagomiscuentas +
-          mcajeros_propios_descuentos +
+          mpagomiscuentas + mcajeros_propios_descuentos +
           mtarjeta_visa_descuentos + mtarjeta_master_descuentos +
-          mcomisiones_mantenimiento +
-          mcomisiones_otras +
-          mforex_buy +
-          mforex_sell +
-          mtransferencias_recibidas +
-          mtransferencias_emitidas +
-          mextraccion_autoservicio +
-          mcheques_depositados + mcheques_emitidos +
+          mcomisiones_mantenimiento + mcomisiones_otras + mforex_buy +
+          mforex_sell + mtransferencias_recibidas + mtransferencias_emitidas +
+          mextraccion_autoservicio + mcheques_depositados + mcheques_emitidos +
           mcheques_depositados_rechazados + mcheques_emitidos_rechazados +
           matm + matm_other
 ]
 
 # Feature Engineering del tipo AX + BY, aplicado a todas las columnas en pesos
-# dataset[, pesos_fe_suma_all :=
-#           pesos_fe_suma_menos_tarjetas +
-#           tarjetas_fe_suma_all
-# ]
-
-# Feature Engineering del tipo A/B, aplicado a variables más importantes para el
-# modelo, pero que SI estén en el gráfico, y performen mejor que canarios
-# dataset[, cociente_fe_01 := ctrx_quarter/mcuentas_saldo]
-dataset[, cociente_fe_02 := ctrx_quarter/mcomisiones]
-# dataset[, cociente_fe_03 := mcuentas_saldo/mcomisiones]
-
-#-------------------------------------------------------------------#
-#-------------------- Divido en train y testing --------------------#
-#-------------------------------------------------------------------#
-
-dtrain  <- dataset[ foto_mes==202101 ]  #defino donde voy a entrenar
-dapply  <- dataset[ foto_mes==202103 ]  #defino donde voy a aplicar el modelo
+dataset[, pesos_fe_suma_all :=
+          pesos_fe_suma_menos_tarjetas +
+          tarjetas_fe_suma_all
+]
 
 #---------------------------------------------------------------------------------------------#
 #-------------------- Marco variables en la que identifiqué Data Drifting --------------------#
@@ -180,6 +144,27 @@ variables.sacar <- c(
   # "mcomisiones_mantenimiento"
 )
 
+#-----------------------------------------------------------#
+#--------------------- Aplico Binning ----------------------#
+#-----------------------------------------------------------#
+
+columnas.para.binning <- setdiff(colnames(dataset), variables.sacar)
+
+for(campo in  columnas.para.binning) {
+  if(  dataset[ , length( unique( get(campo) ) ) > 100 ]) {
+    dataset[  , paste0( campo, "_bin" ) := as.integer( cut2(  dataset[ , get(campo) ], m=1, g=31) ) ]
+    if(  campo !=  "numero_de_cliente" )  dataset[  , paste0( campo ) := NULL ]
+  }
+  # cat( campo, " " )
+}
+
+#-------------------------------------------------------------------#
+#-------------------- Divido en train y testing --------------------#
+#-------------------------------------------------------------------#
+
+dtrain  <- dataset[ foto_mes==202101 ]  #defino donde voy a entrenar
+dapply  <- dataset[ foto_mes==202103 ]  #defino donde voy a aplicar el modelo
+
 #-----------------------------------------------------------------#
 #-------------------- Creo fórmula del modelo --------------------#
 #-----------------------------------------------------------------#
@@ -233,7 +218,7 @@ setorder(dfinal, -prob_SI, azar)
 
 dir.create( "./exp/" )
 dir.create( "./exp/HT0909" )
-dir.create( "./exp/HT0909/v1.0.7" )
+dir.create( "./exp/HT0909/v1.0.8" )
 
 for(corte in c(7500, 8000, 8500, 9000, 9500, 10000, 10500, 11000)) {
   dfinal[ , Predicted := 0L ]
@@ -241,7 +226,7 @@ for(corte in c(7500, 8000, 8500, 9000, 9500, 10000, 10500, 11000)) {
   
   fwrite(
     dfinal[, list(numero_de_cliente, Predicted)], #solo los campos para Kaggle
-    file= paste0("./exp/HT0909/v1.0.7/KA4120_005_", corte, ".csv"),
+    file= paste0("./exp/HT0909/v1.0.8/KA4120_005_", corte, ".csv"),
     sep=  ","
   )
 }
@@ -250,6 +235,6 @@ for(corte in c(7500, 8000, 8500, 9000, 9500, 10000, 10500, 11000)) {
 #-------------------- Guardo el modelo como PDF --------------------#
 #-------------------------------------------------------------------#
 
-pdf(file = "./exp/HT0909/v1.0.7/rpart.pdf", width=28, height=4)
+pdf(file = "./exp/HT0909/v1.0.8/rpart.pdf", width=28, height=4)
 prp(modelo, extra=101, digits=5, branch=1, type=4, varlen=0, faclen=0)
 dev.off()
