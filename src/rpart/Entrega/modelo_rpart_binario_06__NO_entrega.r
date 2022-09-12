@@ -1,9 +1,16 @@
 rm(list=ls())
 gc()
 
+`%notin%` <- Negate(`%in%`)
+
+if ("Hmisc" %notin% installed.packages()) {
+  install.packages("Hmisc")
+}
+
 require("data.table")
 require("rpart")
 require("rpart.plot")
+require("Hmisc")
 
 #--------------------------------------------------------#
 #-------------------- PATH y SEMILLA --------------------#
@@ -82,20 +89,20 @@ dataset[, pesos_fe_suma_all :=
           tarjetas_fe_suma_all
 ]
 
-#-------------------------------------------------------------------#
-#-------------------- Divido en train y testing --------------------#
-#-------------------------------------------------------------------#
-
-dtrain  <- dataset[ foto_mes==202101 ]  #defino donde voy a entrenar
-dapply  <- dataset[ foto_mes==202103 ]  #defino donde voy a aplicar el modelo
+dataset[, cociente_fe_02 := ctrx_quarter/mcomisiones]
 
 #---------------------------------------------------------------------------------------------#
 #-------------------- Marco variables en la que identifiqué Data Drifting --------------------#
 #---------------------------------------------------------------------------------------------#
 
+## Fiscal, vea el archivo "003_analisis_data_drifting.R"
 variables.drifting <- c(
-  "Visa_mpagado",
-  "mcomisiones_mantenimiento"
+  "Master_mlimitecompra",
+  "mcomisiones_mantenimiento",
+  "mextraccion_autoservicio",
+  "mforex_sell",
+  "Visa_mlimitecompra",
+  "Visa_mpagado"
 )
 
 #--------------------------------------------------------------------------------------------#
@@ -106,6 +113,45 @@ variables.sacar <- c(
   "clase_ternaria",
   variables.drifting
 )
+
+#--------------------------------------------------------------------------------------------#
+#--------------------- Quito variables que performan PEOR que canarios ----------------------#
+#--------------------------------------------------------------------------------------------#
+
+variables.sacar <- c(
+  variables.sacar
+  # ,
+  # "cliente_edad",
+  # "numero_de_cliente",
+  # "Master_mfinanciacion_limite",
+  # "mpasivos_margen",
+  # "ccajas_extracciones",
+  # "Visa_msaldototal",
+  # "mcuenta_corriente",
+  # "ctarjeta_master_debitos_automaticos",
+  # "ccallcenter_transacciones",
+  # "ctarjeta_master_transacciones",
+  # "mttarjeta_visa_debitos_automaticos",
+  # "mactivos_margen",
+  # "Master_fechaalta",
+  # "Master_Fvencimiento",
+  # "mcaja_ahorro_dolares",
+  # "mrentabilidad",
+  # "cliente_antiguedad",
+  # "mcaja_ahorro",
+  # "Visa_status",
+  # "Visa_Fvencimiento",
+  # "Visa_fechaalta",
+  # "mrentabilidad_annual",
+  # "mcomisiones_mantenimiento"
+)
+
+#-------------------------------------------------------------------#
+#-------------------- Divido en train y testing --------------------#
+#-------------------------------------------------------------------#
+
+dtrain  <- dataset[ foto_mes==202101 ]  #defino donde voy a entrenar
+dapply  <- dataset[ foto_mes==202103 ]  #defino donde voy a aplicar el modelo
 
 #-----------------------------------------------------------------#
 #-------------------- Creo fórmula del modelo --------------------#
@@ -125,29 +171,11 @@ modelo  <- rpart(
   formula  = formula.modelo,
   data     = dtrain,
   xval     = 0,
-  cp       = -0.479951608770421,
-  minsplit = 1271,
-  minbucket= 337,
+  cp       = -0.090736456,
+  minsplit = 910,
+  minbucket= 447,
   maxdepth = 8
 )
-
-# corrijo manualmente el drifting de  Visa_fultimo_cierre
-dapply[ Visa_fultimo_cierre== 1, Visa_fultimo_cierre :=  4 ]
-dapply[ Visa_fultimo_cierre== 7, Visa_fultimo_cierre := 11 ]
-dapply[ Visa_fultimo_cierre==21, Visa_fultimo_cierre := 25 ]
-dapply[ Visa_fultimo_cierre==14, Visa_fultimo_cierre := 18 ]
-dapply[ Visa_fultimo_cierre==28, Visa_fultimo_cierre := 32 ]
-dapply[ Visa_fultimo_cierre==35, Visa_fultimo_cierre := 39 ]
-dapply[ Visa_fultimo_cierre> 39, Visa_fultimo_cierre := Visa_fultimo_cierre + 4 ]
-
-# corrijo manualmente el drifting de  Visa_fultimo_cierre
-dapply[ Master_fultimo_cierre== 1, Master_fultimo_cierre :=  4 ]
-dapply[ Master_fultimo_cierre== 7, Master_fultimo_cierre := 11 ]
-dapply[ Master_fultimo_cierre==21, Master_fultimo_cierre := 25 ]
-dapply[ Master_fultimo_cierre==14, Master_fultimo_cierre := 18 ]
-dapply[ Master_fultimo_cierre==28, Master_fultimo_cierre := 32 ]
-dapply[ Master_fultimo_cierre==35, Master_fultimo_cierre := 39 ]
-dapply[ Master_fultimo_cierre> 39, Master_fultimo_cierre := Master_fultimo_cierre + 4 ]
 
 #-------------------------------------------------------------------------------#
 #-------------------- Aplico modelo a datos nuevos (202103) --------------------#
@@ -178,7 +206,7 @@ setorder(dfinal, -prob_SI, azar)
 
 dir.create( "./exp/" )
 dir.create( "./exp/HT0909" )
-dir.create( "./exp/HT0909/v1.0.9" )
+dir.create( "./exp/HT0909/v1.0.8" )
 
 for(corte in c(7500, 8000, 8500, 9000, 9500, 10000, 10500, 11000)) {
   dfinal[ , Predicted := 0L ]
@@ -186,7 +214,7 @@ for(corte in c(7500, 8000, 8500, 9000, 9500, 10000, 10500, 11000)) {
   
   fwrite(
     dfinal[, list(numero_de_cliente, Predicted)], #solo los campos para Kaggle
-    file= paste0("./exp/HT0909/v1.0.9/KA4120_005_", corte, ".csv"),
+    file= paste0("./exp/HT0909/v1.0.8/KA4120_005_", corte, ".csv"),
     sep=  ","
   )
 }
@@ -195,6 +223,6 @@ for(corte in c(7500, 8000, 8500, 9000, 9500, 10000, 10500, 11000)) {
 #-------------------- Guardo el modelo como PDF --------------------#
 #-------------------------------------------------------------------#
 
-pdf(file = "./exp/HT0909/v1.0.9/rpart.pdf", width=28, height=4)
+pdf(file = "./exp/HT0909/v1.0.8/rpart.pdf", width=28, height=4)
 prp(modelo, extra=101, digits=5, branch=1, type=4, varlen=0, faclen=0)
 dev.off()

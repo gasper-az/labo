@@ -1082,3 +1082,43 @@ Experimentos
 				10000		===>	no la entregué
 				10500		===>	no la entregué	
 				11000		===>	no la entregué
+
+
+
+
+
+
+	v1.0.8
+	
+		Aplico Bayessian Optimization
+			Obtengo
+				orden x ganancia descendente: posición 38
+				cp			-0.090736456
+				minsplit	910	(909.8237638)
+				minbucket	447		(446.6562811)
+				maxdepth	8
+
+		Corro modelo con salida de Bayessian Optimization
+			Genero 8 cortes y obtengo estas ganancias en el PUBLIC LEADERBOARD
+				7500		===>	no la entregué
+				8000		===>	no la entregué	
+				8500		===>	no la entregué
+				9000		===>	23186.19222 (Primer salida entregada - commit message: modelo v1.0.8 - 9000 - src: https://github.com/gasper-az/labo/tree/competencia/modelo-v1.0)
+				9500		===>	22646.20326	(segund salida entregada - commit message: modelo v1.0.8 - 9500 - src: https://github.com/gasper-az/labo/tree/competencia/modelo-v1.0)
+				10000		===>	no la entregué
+				10500		===>	no la entregué	
+				11000		===>	no la entregué
+				
+				
+	v1.0.9
+	
+		Corro modelo con salida de Bayessian Optimization
+			Genero 8 cortes y obtengo estas ganancias en el PUBLIC LEADERBOARD
+				7500		===>	no la entregué
+				8000		===>	no la entregué	
+				8500		===>	no la entregué
+				9000		===>	24672.82846 (Primer salida entregada - commit message: modelo v1.0.9 - 9000 - src: https://github.com/gasper-az/labo/tree/competencia/modelo-v1.0)
+				9500		===>	24979.48885	(segund salida entregada - commit message: modelo v1.0.9 - 9500 - src: https://github.com/gasper-az/labo/tree/competencia/modelo-v1.0)
+				10000		===>	25026.15457	(Tercer salida entregada - commit message: modelo v1.0.9 - 10000 - src: https://github.com/gasper-az/labo/tree/competencia/modelo-v1.0)
+				10500		===>	no la entregué	
+				11000		===>	no la entregué
