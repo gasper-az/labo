@@ -1,0 +1,11 @@
+Ejecuto Bayesian Optimization: 001_rpart_BO_binaria
+
+Salida de Bayesian Optimization: HT0909.txt
+Bayesian Optimization ordenada por ganancia descendente: HT0909_ORDENADO.txt
+Tomo los Hiperparámetros de la posición 3 del BO ordenado:
+	cp       = -0.479951608770421,
+	minsplit = 1271,
+	minbucket= 337,
+	maxdepth = 8
+
+Uso los hiperparámetros en el archivo con modelo: modelo_rpart_binario

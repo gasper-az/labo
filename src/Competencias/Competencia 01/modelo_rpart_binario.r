@@ -121,6 +121,8 @@ for (variable in variables.sacar) {
 #-------------------- Creo el modelo --------------------#
 #--------------------------------------------------------#
 
+# Los hiperparámetros se encuentran en la posición 3 de la salida de BO
+# Ordenadas x Ganancia descendente
 modelo  <- rpart(
   formula  = formula.modelo,
   data     = dtrain,

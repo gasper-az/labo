@@ -101,14 +101,10 @@ ArbolSimple  <- function( fold_test, data, param )
   #---------------------------------------------------------------------------------------------#
   #-------------------- Marco variables en la que identifiqué Data Drifting --------------------#
   #---------------------------------------------------------------------------------------------#
-
+  
   variables.drifting <- c(
-    "Master_mlimitecompra",
-    "mcomisiones_mantenimiento",
-    "mextraccion_autoservicio",
-    "mforex_sell",
-    "Visa_mlimitecompra",
-    "Visa_mpagado"
+    "Visa_mpagado",
+    "mcomisiones_mantenimiento"
   )
   
   #--------------------------------------------------------------------------------------------#
@@ -118,38 +114,6 @@ ArbolSimple  <- function( fold_test, data, param )
   variables.sacar <- c(
     "clase_ternaria",
     variables.drifting
-  )
-  
-  #--------------------------------------------------------------------------------------------#
-  #--------------------- Quito variables que performan PEOR que canarios ----------------------#
-  #--------------------------------------------------------------------------------------------#
-  
-  variables.sacar <- c(
-    variables.sacar
-    # ,
-    # "cliente_edad",
-    # "numero_de_cliente",
-    # "Master_mfinanciacion_limite",
-    # "mpasivos_margen",
-    # "ccajas_extracciones",
-    # "Visa_msaldototal",
-    # "mcuenta_corriente",
-    # "ctarjeta_master_debitos_automaticos",
-    # "ccallcenter_transacciones",
-    # "ctarjeta_master_transacciones",
-    # "mttarjeta_visa_debitos_automaticos",
-    # "mactivos_margen",
-    # "Master_fechaalta",
-    # "Master_Fvencimiento",
-    # "mcaja_ahorro_dolares",
-    # "mrentabilidad",
-    # "cliente_antiguedad",
-    # "mcaja_ahorro",
-    # "Visa_status",
-    # "Visa_Fvencimiento",
-    # "Visa_fechaalta",
-    # "mrentabilidad_annual",
-    # "mcomisiones_mantenimiento"
   )
   
   #-----------------------------------------------------------------#
@@ -258,10 +222,6 @@ dataset[ foto_mes==202101, clase_binaria :=  ifelse( clase_ternaria=="CONTINUA",
 #-------------------- FEATURE ENGINEERING --------------------#
 #-------------------------------------------------------------#
 
-#-------------------------------------------------------------#
-#-------------------- FEATURE ENGINEERING --------------------#
-#-------------------------------------------------------------#
-
 # Feature Engineering del tipo AX + BY, aplicado a columnas asociadas a la
 # tarjeta del cliente (Master)
 dataset[, master_fe_suma_all := Master_mfinanciacion_limite +
@@ -312,8 +272,6 @@ dataset[, pesos_fe_suma_all :=
           pesos_fe_suma_menos_tarjetas +
           tarjetas_fe_suma_all
 ]
-
-dataset[, cociente_fe_02 := ctrx_quarter/mcomisiones]
 
 #-------------------------------------------------------------------#
 #-------------------- Divido en train y testing --------------------#
