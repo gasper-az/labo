@@ -70,16 +70,16 @@ dataset[ foto_mes==202101,
 # Feature Engineering del tipo AX + BY, aplicado a todas las columnas en pesos
 # salvo las tarjetas
 dataset[, pesos_fe_suma_menos_tarjetas := 
-          # mrentabilidad +
-          # mrentabilidad_annual +
+          mrentabilidad +
+          mrentabilidad_annual +
           mcomisiones +
-          # mactivos_margen +
-          # mpasivos_margen +
+          mactivos_margen +
+          mpasivos_margen +
           mcuenta_corriente_adicional + 
-          # mcuenta_corriente +
-          # mcaja_ahorro +
+          mcuenta_corriente +
+          mcaja_ahorro +
           mcaja_ahorro_adicional +
-          # mcaja_ahorro_dolares + 
+          mcaja_ahorro_dolares +
           mcuentas_saldo +
           mautoservicio + mtarjeta_visa_consumo +
           mtarjeta_master_consumo +
@@ -94,7 +94,7 @@ dataset[, pesos_fe_suma_menos_tarjetas :=
           mpagomiscuentas +
           mcajeros_propios_descuentos +
           mtarjeta_visa_descuentos + mtarjeta_master_descuentos +
-          # mcomisiones_mantenimiento +
+          mcomisiones_mantenimiento +
           mcomisiones_otras +
           mforex_buy +
           mforex_sell +

@@ -934,8 +934,8 @@ Experimentos
 				8000		===>	no la entregué	
 				8500		===>	no la entregué
 			[x]	9000		===>	24246.17053 (Primer salida entregada - commit message: modelo v1.0.6 - 9000 - src: https://github.com/gasper-az/labo/tree/competencia/modelo-v1.0) ME GUSTA PARA ENTREGAR (modelo_rpart_binario_05.r) ===> TODO: revisar con 9.5k y 10k, y un par más
-				9500		===>	NE	(segund salida entregada - commit message: modelo v1.0.6 - 9500 - src: https://github.com/gasper-az/labo/tree/competencia/modelo-v1.0)
-				10000		===>	NE (Tercer salida entregada - commit message: modelo v1.0.6 - 10000 - src: https://github.com/gasper-az/labo/tree/competencia/modelo-v1.0)
+				9500		===>	23746.18076	(segund salida entregada - commit message: modelo v1.0.6 - 9500 - src: https://github.com/gasper-az/labo/tree/competencia/modelo-v1.0)
+				10000		===>	23552.85138 (Tercer salida entregada - commit message: modelo v1.0.6 - 10000 - src: https://github.com/gasper-az/labo/tree/competencia/modelo-v1.0)
 				10500		===>	no la entregué	
 				11000		===>	no la entregué
 				
@@ -1038,16 +1038,13 @@ Experimentos
 		Feature Engineering
 			Creo clase binaria
 			Creo las siguientes columnas, utilizando una combinación del tipo AX + BY	(NO voy a considerar las variables afectadas x DD, ni las peores que canarios)
-				master_fe_suma_all
 				pesos_fe_suma_menos_tarjetas
-				pesos_fe_suma_all
 			Creo las siguientes columnas, utilizando las variables elejidas para FE del tipo X/Y. Queda:
 				dataset[, cociente_fe_02 := ctrx_quarter/mcomisiones]
 		Defino fórmula
 			Saco de la fórmula del modelo las siguientes columnas
 				clase_ternaria (por Feature Engineering)
 				variables con data drifting
-				Esto al final no lo hago, quiero ver que pasa ~variables que performan peor que canarios~
 		Aplico Bayessian Optimization
 			Obtengo
 				orden x ganancia descendente: posición 31
