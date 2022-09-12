@@ -89,6 +89,8 @@ dataset[, pesos_fe_suma_all :=
           tarjetas_fe_suma_all
 ]
 
+dataset[, cociente_fe_02 := ctrx_quarter/mcomisiones]
+
 #---------------------------------------------------------------------------------------------#
 #-------------------- Marco variables en la que identifiqué Data Drifting --------------------#
 #---------------------------------------------------------------------------------------------#

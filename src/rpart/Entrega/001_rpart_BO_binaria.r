@@ -15,11 +15,19 @@
 rm( list=ls() )  #remove all objects
 gc()             #garbage collection
 
+
+`%notin%` <- Negate(`%in%`)
+
+if ("Hmisc" %notin% installed.packages()) {
+  install.packages("Hmisc")
+}
+
 require("data.table")
 require("rlist")
 
 require("rpart")
 require("parallel")
+require("Hmisc")
 
 #paquetes necesarios para la Bayesian Optimization
 require("DiceKriging")
@@ -304,6 +312,8 @@ dataset[, pesos_fe_suma_all :=
           pesos_fe_suma_menos_tarjetas +
           tarjetas_fe_suma_all
 ]
+
+dataset[, cociente_fe_02 := ctrx_quarter/mcomisiones]
 
 #---------------------------------------------------------------------------------------------#
 #-------------------- Marco variables en la que identifiqué Data Drifting --------------------#
