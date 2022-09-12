@@ -1,0 +1,46 @@
+Comparando salidas
+
+
+v1.0.0
+	Genero 8 cortes y obtengo estas ganancias en el PUBLIC LEADERBOARD
+		7500		===>	no la entregué
+		8000		===>	no la entregué	
+		8500		===>	24546.16439	(Primer salida entregada - commit message: modelo v1.08500src: https://github.com/gasper-az/labo/tree/competencia/modelo-v1.0)
+		9000		===>	24672.82846 (Segund salida entregada - commit message: modelo v1.0 - 9000 - src: https://github.com/gasper-az/labo/tree/competencia/modelo-v1.0)
+	[x]	9500		===>	24979.48885	(Tercer salida entregada - commit message: modelo v1.0 - 9500 - src: https://github.com/gasper-az/labo/tree/competencia/modelo-v1.0)	[x] ME GUSTA PARA ENTREGAR (modelo_rpart_binario.r)
+		10000		===>	25026.15457	(Cuarta salida entregada - commit message: modelo v1.0 - 10000 - src: https://github.com/gasper-az/labo/tree/competencia/modelo-v1.0)
+		10500		===>	24266.17012 (Quinta salida entregada - commit message: modelo v1.0 - 10500 - src: https://github.com/gasper-az/labo/tree/competencia/modelo-v1.0)
+		11000		===>	no la entregué
+		
+v1.0.3
+	Genero 8 cortes y obtengo estas ganancias en el PUBLIC LEADERBOARD
+		7500		===>	no la entregué
+		8000		===>	24006.17544	(Cuarta salida entregada - commit message: modelo v1.0.3 - 8000 - src: https://github.com/gasper-az/labo/tree/competencia/modelo-v1.0)
+		8500		===>	24652.82887	(Primer salida entregada - commit message: modelo v1.0.3 - 8500 - src: https://github.com/gasper-az/labo/tree/competencia/modelo-v1.0)
+	[x]	9000		===>	23912.84401 (Segund salida entregada - commit message: modelo v1.0.3 - 9000 - src: https://github.com/gasper-az/labo/tree/competencia/modelo-v1.0)	[x]	ME GUSTA PARA ENTREGAR (modelo_rpart_binario_02.r)
+		9500		===>	23586.18403	(Tercer salida entregada - commit message: modelo v1.0.3 - 9500 - src: https://github.com/gasper-az/labo/tree/competencia/modelo-v1.0)
+		10000		===>	no la entregué	
+		10500		===>	no la entregué	
+		11000		===>	no la entregué	
+
+v1.0.5	
+	Genero 8 cortes y obtengo estas ganancias en el PUBLIC LEADERBOARD
+		7500		===>	no la entregué
+		8000		===>	no la entregué	
+		8500		===>	no la entregué
+		9000		===>	23506.18567 (Primer salida entregada - commit message: modelo v1.0.5 - 9000 - src: https://github.com/gasper-az/labo/tree/competencia/modelo-v1.0)
+	[x]	9500		===>	24832.82519	(segund salida entregada - commit message: modelo v1.0.5 - 9500 - src: https://github.com/gasper-az/labo/tree/competencia/modelo-v1.0)	[x] ME GUSTA PARA ENTREGAR (modelo_rpart_binario_04.r)
+		10000		===>	24472.83255 (Tercer salida entregada - commit message: modelo v1.0.5 - 10000 - src: https://github.com/gasper-az/labo/tree/competencia/modelo-v1.0)
+		10500		===>	no la entregué	
+		11000		===>	no la entregué
+		
+v1.0.7
+	Genero 8 cortes y obtengo estas ganancias en el PUBLIC LEADERBOARD
+		7500		===>	no la entregué
+		8000		===>	no la entregué	
+		8500		===>	no la entregué
+	[x]	9000		===>	24246.17053 (Primer salida entregada - commit message: modelo v1.0.6 - 9000 - src: https://github.com/gasper-az/labo/tree/competencia/modelo-v1.0) ME GUSTA PARA ENTREGAR (modelo_rpart_binario_05.r) ===> TODO: revisar con 9.5k y 10k, y un par más
+		9500		===>	23746.18076	(segund salida entregada - commit message: modelo v1.0.6 - 9500 - src: https://github.com/gasper-az/labo/tree/competencia/modelo-v1.0)
+		10000		===>	23552.85138 (Tercer salida entregada - commit message: modelo v1.0.6 - 10000 - src: https://github.com/gasper-az/labo/tree/competencia/modelo-v1.0)
+		10500		===>	no la entregué	
+		11000		===>	no la entregué

@@ -1,0 +1,1124 @@
+Experimentos
+
+	v1.0 (o v1.0.0)
+		Feature Engineering
+			Creo clase binaria
+			Creo las siguientes columnas, utilizando una combinación del tipo AX + BY
+				master_fe_suma_all
+				visa_fe_suma_all
+				tarjetas_fe_suma_all
+				pesos_fe_suma_menos_tarjetas
+				pesos_fe_suma_all
+		Defino fórmula
+			Saco de la fórmula del modelo las siguientes columnas
+				Visa_mpagado (por Data Drifting)
+				mcomisiones_mantenimiento (por Data Drifting)
+				clase_ternaria (por Feature Engineering)
+		Aplico Bayessian Optimization
+			Obtengo
+				orden x ganancia descendente: posición 3
+				cp			-0.479951608770421
+				minsplit	1271	(1271.27933238465)
+				minbucket	337		(336.467075110383)
+				maxdepth	8
+		Corro modelo con salida de Bayessian Optimization
+			Genero 8 cortes y obtengo estas ganancias en el PUBLIC LEADERBOARD
+				7500		===>	no la entregué
+				8000		===>	no la entregué	
+				8500		===>	24546.16439	(Primer salida entregada - commit message: modelo v1.08500src: https://github.com/gasper-az/labo/tree/competencia/modelo-v1.0)
+				9000		===>	24672.82846 (Segund salida entregada - commit message: modelo v1.0 - 9000 - src: https://github.com/gasper-az/labo/tree/competencia/modelo-v1.0)
+			[x]	9500		===>	24979.48885	(Tercer salida entregada - commit message: modelo v1.0 - 9500 - src: https://github.com/gasper-az/labo/tree/competencia/modelo-v1.0)	[x] ME GUSTA PARA ENTREGAR (modelo_rpart_binario.r)
+				10000		===>	25026.15457	(Cuarta salida entregada - commit message: modelo v1.0 - 10000 - src: https://github.com/gasper-az/labo/tree/competencia/modelo-v1.0)
+				10500		===>	24266.17012 (Quinta salida entregada - commit message: modelo v1.0 - 10500 - src: https://github.com/gasper-az/labo/tree/competencia/modelo-v1.0)
+				11000		===>	no la entregué
+		
+		NOTAS A FUTURO
+			Debo sacar variables que presentan Data Drifting también del Feature Engineering????
+				Debería probar con un experimento similar al v1.0 al inicio
+					Creo clase binaria
+					Analizo Data Drifting
+					Guardo variables afectadas en vector
+					Las quito de la fórmula
+					NO las agrego a F.Engineering
+					Creo otras vars de F. Engineering => BO => misma historia
+			Conviene hacer fix a las variables afectadas x Data Drifting (esto, aplica a dapply, o test)?
+				Similar al posible experimento de NO ponerlas en F.Engineering. La diferencia es:
+					Creo clase binaria
+					Analizo Data Drifting
+					SI las agrego a F.Engineering
+					Creo otras vars de F. Engineering => BO => misma historia
+					Antes de predecir, hacer el fix en dapply
+		PRUEBAS A FUTURO
+			Aplicar CANARIOS al modelo generado, para ver si las variables son REALMENTE importantes		====> MUCHO, MUY IMPORTANTE
+			Analizar features más importantes, como así también el gráfico del árbol, para ver si las variables son REALMENTE importantes
+			Para el v1.0.x
+				Agarrar la features realmente importantes de v1.0
+				Crear nuevas features, a partir del cociente de 10/20 variables más importantes (posiblemente, de las 10 mejores)
+				Crear nuevas features, a partir de predicados
+					Analizar
+						Si tienen 10/20 variables + importantes
+						Si en el árbol el bucket tiene muchos items
+				Hacer BO
+				Modelas
+				CANARIZAR + ANALIZAR Gráfico + ANALIZAR Features importantes
+		Experimentos
+			v1.0.1		==>	Analisis de features de v1.0.0 (de las nuevas/creadas) + agarrar las mas importantes
+													===> SI hay variables espurias (los canarios mueren)(de las nuevas/creadas)
+														- quitar estas variables espurias
+														- BO
+														- Análisis nuevamente x las dudas
+													===> Si no hay (o si se hicieron los pasos x si hay)
+														- Cociente de las 10 + importantes
+														- BO
+														- Modelar
+														- Analizar nuevamente x las dudas
+			v1.0.2		==>	Sobre el Data Drifting (DD), sin fixear, quitando de la fórmula
+													===> Analizar columnas, viendo si hay DD o no (Enero vs Marzo)
+													===> SI hay
+														- ponerlas en un vector
+														- NO PONERLAS en las nuevas columnas (F. Engineering)
+														- Quitarlas de la función para modelar
+														- BO
+														- Modelar
+														- Analizar salida
+													===> Seguir con otros experimentos, similares a v1.0.1, pero con esta modalidad de DD
+			v1.0.3		==>	Sobre el Data Drifting (DD), con fix, quitando de la fórmula, SI arreglando los valores en dapply, NO PONER EN FEATURE ENGINEERING
+													===> Analizar columnas, viendo si hay DD o no (Enero vs Marzo)
+													===> SI hay
+														- ponerlas en un vector
+														- HACER FIX EN dapply
+														- NO PONERLAS en las nuevas columnas (F. Engineering)
+														- SI Quitarlas de la función para modelar
+														- BO
+														- Modelar
+														- Analizar salida
+													===> Seguir con otros experimentos, similares a v1.0.1, pero con esta modalidad de DD
+			v1.0.4		==>	Sobre el Data Drifting (DD), con fix, sin quitar de la fórmula, SI arreglando los valores en dapply, SI EN FEATURE ENGINEERING
+													===> Analizar columnas, viendo si hay DD o no (Enero vs Marzo)
+													===> SI hay
+														- ponerlas en un vector
+														- HACER FIX EN dapply
+														- SI PONERLAS en las nuevas columnas (F. Engineering)
+														- NO Quitarlas de la función para modelar
+														- BO
+														- Modelar
+														- Analizar salida
+													===> Seguir con otros experimentos, similares a v1.0.1, pero con esta modalidad de DD
+													
+		
+	v1.0.1
+		Análisis del árbol obtenido en v1.0(.0)
+		
+			Variable Importance
+				pesos_fe_suma_menos_tarjetas        mtarjeta_visa_consumo  ctarjeta_visa_transacciones       mactivos_margen     cdescubierto_preacordado             Visa_msaldopesos 
+					  145.478435                    53.669827                    44.741283                    31.295410                    31.130347                    29.577180 
+				
+				Visa_msaldototal                 ctrx_quarter              mpasivos_margen               active_quarter                mrentabilidad                  mcomisiones 
+					   29.250375                    29.236191                    28.585334                    28.210769                    20.468915                    20.382377 
+				
+				mcomisiones_otras    ccomisiones_mantenimiento         mrentabilidad_annual               mcuentas_saldo                     tcuentas            Visa_Fvencimiento 
+					   20.286649                    16.913341                    11.850062                    10.630544                     6.022739                     4.470789 
+				
+				Visa_mpagominimo                 mcaja_ahorro 
+						4.112160                     3.062262 
+						
+			Variables Importance que NO APARECEN en Gráfico del árbol
+				Visa_msaldopesos				importancia #6
+				Visa_msaldototal				importancia #7
+				active_quarter					importancia #10
+				mcomisiones_otras				importancia #13
+				ccomisiones_mantenimiento		importancia #14
+				tcuentas						importancia #17
+				Visa_mpagominimo				importancia #19
+				
+			Análisis de CANARIOS
+				Primero
+					Hago sobre el arbol con los HP:
+						cp			-1
+						minsplit	2
+						minbucket	1
+						maxdepth	30
+					
+					Res: nada para descartar (o mejor dicho, árbol muy grande, no puedo ver nada)
+					
+				Segundo
+					USO HP de v1.0(.0)
+						cp			-0.479951608770421
+						minsplit	1271
+						minbucket	337
+						maxdepth	8
+					
+					RES: Hay variables debajo de canarios
+						numero_de_cliente
+						Visa_mpagospesos
+				
+				Tercero
+					Uso casi mismo HP de v1.0(.0), pero con MAXDEPTH 30
+						cp			-0.479951608770421
+						minsplit	1271
+						minbucket	337
+						maxdepth	30
+						
+					RES: Hay variables debajo de canarios
+						cproductos
+						mpayroll
+						cliente_edad
+						visa_fe_suma_all
+						mcuenta_debitos_automaticos
+						ctransferencias_emitidas
+						Master_mpagado
+						cpagomiscuentas
+						mcomisiones								===> variable importante! importance #12
+						numero_de_cliente
+						Visa_msaldototal						===> variable importante! importance #7
+						mcuenta_corriente
+						minversion1_pesos
+						tarjeta_master_debitos_automaticos
+						mtarjeta_visa_consumo					===> variable importante! importance #2!!!!!!!
+						mtransferencias_recibidas
+						mcaja_ahorro_adicional
+						Master_fechaalta
+						mpasivos_margen							===> variable importante! importance #9
+						mcuentas_saldo							===> variable importante! importance #16
+						mtransferencias_emitidas
+						mrentabilidad_annual
+						
+			Las saco TODAS!!!!!!!!!!!!!!!!!!!!!!!!
+				de la fórmula del modelo, y de variables de FE
+			
+			Hago un nuevo FE
+				Creo las siguientes columnas, utilizando una combinación del tipo AX + BY
+					master_fe_suma_all
+					pesos_fe_suma_menos_tarjetas
+					pesos_fe_suma_all
+			
+			Aplico Bayessian Optimization
+				Obtengo
+					orden x ganancia descendente: posición 5
+					cp			-0.862228373
+					minsplit	1704	(1703.426919)
+					minbucket	280		(279.2001459)
+					maxdepth	8
+
+			Corro modelo con salida de Bayessian Optimization
+				Genero 8 cortes y obtengo estas ganancias en el PUBLIC LEADERBOARD
+					7500		===>	no la entregué
+					8000		===>	no la entregué	
+					8500		===>	22406.20818	(Primer salida entregada - commit message: modelo v1.0.1 - 8500src: https://github.com/gasper-az/labo/tree/competencia/modelo-v1.0)
+					9000		===>	22226.21186 (Segund salida entregada - commit message: modelo v1.0.1 - 9000 - src: https://github.com/gasper-az/labo/tree/competencia/modelo-v1.0)
+					9500		===>	21506.22659	(Tercer salida entregada - commit message: modelo v1.0.1 - 9500 - src: https://github.com/gasper-az/labo/tree/competencia/modelo-v1.0)
+					10000		===>	21372.89599	(Cuarta salida entregada - commit message: modelo v1.0.1 - 10000 - src: https://github.com/gasper-az/labo/tree/competencia/modelo-v1.0)
+					10500		===>	21232.89885 (Quinta salida entregada - commit message: modelo v1.0.1 - 10500 - src: https://github.com/gasper-az/labo/tree/competencia/modelo-v1.0)
+					11000		===>	no la entregué
+
+	v1.0.2
+		Análisis del árbol obtenido en v1.0.1
+		
+		
+		Variable Importance
+
+										  ctrx_quarter       pesos_fe_suma_menos_tarjetas           cdescubierto_preacordado                  ccomisiones_otras                      mrentabilidad 
+											105.269587                          68.899392                          35.205154                          27.735338                          27.330689
+
+						   ctarjeta_visa_transacciones              mprestamos_personales              cprestamos_personales                    mactivos_margen                       mcaja_ahorro 
+											 17.688249                          17.042495                          16.115452                          15.100349                          14.514182 
+
+									cliente_antiguedad                      ctarjeta_visa               mcaja_ahorro_dolares                       cpayroll_trx                     Visa_fechaalta 
+											  7.369088                           7.009271                           6.730188                           6.437108                           3.059530 
+
+					mttarjeta_visa_debitos_automaticos  ctarjeta_visa_debitos_automaticos                           internet                  Visa_Fvencimiento                Visa_mconsumospesos 
+											  2.963159                           2.607673                           2.252301                           1.785900                           1.186353
+						  
+		Variables Importance que NO APARECEN en Gráfico del árbol
+			ccomisiones_otras			===>	importancia #4
+			cprestamos_personales		===>	importancia	#8
+			internet					===>	importancia	#18
+			Visa_Fvencimiento			===>	importancia	#19
+			Visa_mconsumospesos			===>	importancia	#20
+			
+		Análisis de CANARIOS
+				Primero
+					USO HP de v1.0.1
+						cp			-0.862228373
+						minsplit	1704	(1703.426919)
+						minbucket	280		(279.2001459)
+						maxdepth	8
+					
+					RES: Hay variables debajo de canarios
+						chomebanking_transacciones
+						pesos_fe_suma_menos_tarjetas
+						
+				Segundo
+					Uso casi mismo HP de v1.0(.0), pero con MAXDEPTH 30
+						cp			-0.862228373
+						minsplit	1704	(1703.426919)
+						minbucket	280		(279.2001459)
+						maxdepth	30
+						
+					RES: Hay variables debajo de canarios
+						Master_mconsumospesos
+						mtarjeta_master_descuentos
+						pesos_fe_suma_all
+						Master_msaldototal
+						chomebanking_transacciones
+						mautoservicio
+						mrentabilidad
+						pesos_fe_suma_menos_tarjetas
+						master_fe_suma_all
+						cliente_antiguedad
+						mcaja_ahorro
+						mtarjeta_master_consumo
+						mcaja_ahorro_dolares
+						mextraccion_autoservicio
+						ccaja_ahorro
+						mactivos_margen
+						cliente_antiguedad
+						Master_Fvencimiento
+						cliente_antiguedad
+						mcaja_ahorro
+						mactivos_margen
+		
+		Noto lo siguiente:
+			Muchas variables importantes están para sacar (x canarios)
+			Las variables importantes tiene poco valor de importancia (comparando con v1.0.0)
+			Posiblemente haya sacado de más, es decir, no debería fijarme únicamente si la var aparece debajo de un canario, sino si aparece en otros cortes (que NO estén debajo de pájaros)
+			
+		Entonces
+			Vuelvo al final de v1.0.0, y re-analizo los canarios
+			A esto lo llamaré v1.0.2
+			
+	
+	
+	v1.0.2 (continuación de v1.0.0)
+		Análisis del árbol obtenido en v1.0(.0)
+		
+			Variable Importance
+				pesos_fe_suma_menos_tarjetas        mtarjeta_visa_consumo  ctarjeta_visa_transacciones       mactivos_margen     cdescubierto_preacordado             Visa_msaldopesos 
+					  145.478435                    53.669827                    44.741283                    31.295410                    31.130347                    29.577180 
+				
+				Visa_msaldototal                 ctrx_quarter              mpasivos_margen               active_quarter                mrentabilidad                  mcomisiones 
+					   29.250375                    29.236191                    28.585334                    28.210769                    20.468915                    20.382377 
+				
+				mcomisiones_otras    ccomisiones_mantenimiento         mrentabilidad_annual               mcuentas_saldo                     tcuentas            Visa_Fvencimiento 
+					   20.286649                    16.913341                    11.850062                    10.630544                     6.022739                     4.470789 
+				
+				Visa_mpagominimo                 mcaja_ahorro 
+						4.112160                     3.062262 
+						
+			Variables Importance que NO APARECEN en Gráfico del árbol
+				Visa_msaldopesos				importancia #6
+				Visa_msaldototal				importancia #7
+				active_quarter					importancia #10
+				mcomisiones_otras				importancia #13
+				ccomisiones_mantenimiento		importancia #14
+				tcuentas						importancia #17
+				Visa_mpagominimo				importancia #19
+				
+			Análisis de CANARIOS
+				Primero
+					Hago sobre el arbol con los HP:
+						cp			-1
+						minsplit	2
+						minbucket	1
+						maxdepth	30
+					
+					Res: nada para descartar (o mejor dicho, árbol muy grande, no puedo ver nada)
+					
+				Segundo
+					USO HP de v1.0(.0)
+						cp			-0.479951608770421
+						minsplit	1271
+						minbucket	337
+						maxdepth	8
+						
+					RES: Hay variables debajo de canarios
+						numero_de_cliente
+						Visa_mpagospesos
+						
+				Tercero
+					Uso casi mismo HP de v1.0(.0), pero con MAXDEPTH 30
+						cp			-0.479951608770421
+						minsplit	1271
+						minbucket	337
+						maxdepth	30
+						
+					RES: Hay variables debajo de canarios
+						cproductos							(aparece 4 en total, 3 debajo de canarito)	Los splits incluyen (0.9 y 0.2) % de registros ==> LO SACO
+						mpayroll							(aparece 3 en total, 1 debajo de canarito)	Los splits incluyen (47; 14) % de registro. La que si, un (46) %	==> LO SACO
+						cliente_edad						(aparece 2 en total, 1 debajo de canarito)	Los splits incluyen (0.8) % de registro.	==> LO SACO
+						visa_fe_suma_all					(aparece 2 en total, 1 debajo de canarito)	Los splits incluyen (0.7) % de registro. La que si, un (36)	==> LO SACO
+						mcuenta_debitos_automaticos			(100% debajo de canarios) ===> LO SACO
+						ctransferencias_emitidas			(100% debajo de canarios) ===> LO SACO
+						Master_mpagado						(100% debajo de canarios) ===> LO SACO
+						cpagomiscuentas						(100% debajo de canarios) ===> LO SACO
+						mcomisiones							(aparece 4 en total, 2 debajo de canarito)	Los splits incluyen (0.6; 1.6) % de registro. La que si, un (31; 6) % ===> variable importante! importance #12	==> LO SACO
+						numero_de_cliente					(aparece 4 en total, 2 debajo de canarito)	Los splits incluyen (0.6; 0.8) % de registro. La que si, un (0.4; 4)	==> LO SACO
+						Visa_msaldototal					(100% debajo de canarios)	===> variable importante! importance #7	===> LO SACO
+						mcuenta_corriente					(aparece 2 en total, 1 debajo de canarito)	Los splits incluyen (8) % de registro. La que si, un (0.5)	==> LO SACO
+						minversion1_pesos					(100% debajo de canarios) ===> LO SACO
+						ctarjeta_master_debitos_automaticos	(100% debajo de canarios) ===> LO SACO
+						mtarjeta_visa_consumo				(aparece 4 en total, 1 debajo de canarito)	Los splits incluyen (25; 6; 2) % de registro. La que si, un (9) %	===> variable importante! importance #2!!!!!!!		==> NO LA SACO
+						mtransferencias_recibidas			(100% debajo de canarios) ===> LO SACO
+						mcaja_ahorro_adicional				(100% debajo de canarios) ===> LO SACO
+						Master_fechaalta					(aparece 3 en total, 1 debajo de canarito)	Los splits incluyen (0.2 y 0.7) % de registros ==> LO SACO
+						mpasivos_margen						(aparece 3 en total, 1 debajo de canarito)	Los splits incluyen (1.4 y 0.6) % de registros.  La que si, un (0.8) % ===> variable importante! importance #9 ===> LO SACO
+						mcuentas_saldo						(100% debajo de canarios)	===> variable importante! importance #16	===> LO SACO
+						mtransferencias_emitidas			(100% debajo de canarios)
+						mrentabilidad_annual				(aparece 5 en total, 1 debajo de canarito)	==> Los splits incluyen (11; 8; 4.3; 0.8) % de registros. La que si, un (1.2) % ==> NO LA SACO
+						
+			Saco casi todas
+				quedan
+					mtarjeta_visa_consumo
+					mrentabilidad_annual
+		
+		Feature Engineering
+			Creo nuevas features, del tipo A/B
+			
+				USO 10 + importantes, menos aquellas que saco x pasos anteriores
+					dataset[, cociente_fe_01 := pesos_fe_suma_menos_tarjetas/mtarjeta_visa_consumo]
+					dataset[, cociente_fe_02 := pesos_fe_suma_menos_tarjetas/ctarjeta_visa_transacciones]
+					dataset[, cociente_fe_03 := pesos_fe_suma_menos_tarjetas/mactivos_margen]
+					dataset[, cociente_fe_04 := pesos_fe_suma_menos_tarjetas/cdescubierto_preacordado]
+					dataset[, cociente_fe_05 := pesos_fe_suma_menos_tarjetas/ctrx_quarter]
+					dataset[, cociente_fe_06 := mtarjeta_visa_consumo/ctarjeta_visa_transacciones]
+					dataset[, cociente_fe_07 := mtarjeta_visa_consumo/mactivos_margen]
+					dataset[, cociente_fe_08 := mtarjeta_visa_consumo/cdescubierto_preacordado]
+					dataset[, cociente_fe_09 := mtarjeta_visa_consumo/ctrx_quarter]
+					dataset[, cociente_fe_10 := ctarjeta_visa_transacciones/mactivos_margen]
+					dataset[, cociente_fe_11 := ctarjeta_visa_transacciones/cdescubierto_preacordado]
+					dataset[, cociente_fe_12 := ctarjeta_visa_transacciones/ctrx_quarter]
+					dataset[, cociente_fe_13 := mactivos_margen/cdescubierto_preacordado]
+					dataset[, cociente_fe_14 := mactivos_margen/ctrx_quarter]
+					dataset[, cociente_fe_15 := cdescubierto_preacordado/ctrx_quarter]
+					
+		Aplico Bayessian Optimization
+			Obtengo
+				orden x ganancia descendente: posición 29
+				cp			-0.7422262
+				minsplit	1205	(1204.340347)
+				minbucket	314		(313.4184036)
+				maxdepth	8
+					
+		Corro modelo con salida de Bayessian Optimization
+			Genero 8 cortes y obtengo estas ganancias en el PUBLIC LEADERBOARD
+				7500		===>	no la entregué
+				8000		===>	no la entregué	
+				8500		===>	21412.89517	(Primer salida entregada - commit message: modelo v1.0.2 - 8500 - src: https://github.com/gasper-az/labo/tree/competencia/modelo-v1.0)
+				9000		===>	22112.88084 (Segund salida entregada - commit message: modelo v1.0.2 - 9000 - src: https://github.com/gasper-az/labo/tree/competencia/modelo-v1.0)
+				9500		===>	21912.88494	(Tercer salida entregada - commit message: modelo v1.0.2 - 9500 - src: https://github.com/gasper-az/labo/tree/competencia/modelo-v1.0)
+				10000		===>	21752.88821	(Cuarta salida entregada - commit message: modelo v1.0.2 - 10000 - src: https://github.com/gasper-az/labo/tree/competencia/modelo-v1.0)
+				10500		===>	no la entregué	
+				11000		===>	no la entregué
+				
+		Variable Importance
+			
+			Var Importance
+				pesos_fe_suma_menos_tarjetas               cociente_fe_04               cociente_fe_07               cociente_fe_10              mactivos_margen        mtarjeta_visa_consumo 
+								  117.219729                    71.778534                    61.372382                    60.762195                    53.338727                    51.276661 
+								  
+				 ctarjeta_visa_transacciones               cociente_fe_03     cdescubierto_preacordado                 ctrx_quarter               cociente_fe_05                mrentabilidad 
+								   47.486227                    43.574980                    31.052670                    28.959528                    20.711740                    18.251983 
+								   
+						mrentabilidad_annual               cociente_fe_15               cociente_fe_08               cociente_fe_13               cociente_fe_11                 cpayroll_trx 
+								   14.477106                    13.642012                    12.184053                     9.566295                     8.961789                     7.444721 
+								   
+						   ccomisiones_otras                 mcaja_ahorro 
+									5.585298                     4.372158 
+		
+			
+			Variables Importance que NO APARECEN en Gráfico del árbol
+				cociente_fe_03
+				cociente_fe_08
+				cociente_fe_13
+				cociente_fe_11
+				
+				
+			Análisis de CANARIOS
+				Primero
+					USO HP de v1.0(.0)
+						cp			-0.7422262
+						minsplit	1205	(1204.340347)
+						minbucket	314		(313.4184036)
+						maxdepth	8
+						
+					RES: Hay variables debajo de canarios
+						mcaja_ahorro
+						cociente_fe_14
+						
+				Segundo
+					Uso casi mismo HP de v1.0(.0), pero con MAXDEPTH 30
+						cp			-0.7422262
+						minsplit	1205	(1204.340347)
+						minbucket	314		(313.4184036)
+						maxdepth	30
+						
+					RES: Hay variables debajo de canarios
+						<>							(aparece 3 en total, 1 debajo de canarito)	Los splits que no están debajo de canarios incluyen (47; 14) % de registro. La que si, un (46) %	==> LO SACO
+						cociente_fe_04							Total vs debajo de canario: (2; 1) | Splits % NO debajo (28.5) | Split % SI debajo (28.76) ===> LO SACO 
+						mtarjeta_visa_consumo					Total vs debajo de canario: (4; 2) | Splits % NO debajo (31.296; 0.395) | Split % SI debajo (2.175; 3.38) ===> NO la saco
+						cociente_fe_07							Total vs debajo de canario: (3; 2) | Splits % NO debajo (3.78)  | Split % SI debajo (8.4; 1.93) ===> LO SACO
+						mtarjeta_master_descuentos				100% debajo de canarios ===> LO SACO
+						cliente_antiguedad						Total vs debajo de canario: (2; 1) | Splits % NO debajo (29) | Split % SI debajo (8.9) ===> LO SACO 
+						mautoservicio							100% debajo de canarios ===> LO SACO
+						Visa_mconsumospesos						100% debajo de canarios ===> LO SACO
+						cociente_fe_14							Total vs debajo de canario: (2; 1) | Splits % NO debajo (1) | Split % SI debajo (15) ===> LO SACO 
+						cociente_fe_08							100% debajo de canarios ===> LO SACO
+						ccallcenter_transacciones				Total vs debajo de canario: (3; 1) | Splits % NO debajo (28; 3)  | Split % SI debajo (4) ===> NO la saco
+						Visa_msaldodolares						100% debajo de canarios ===> LO SACO
+						mrentabilidad_annual					Total vs debajo de canario: (4; 3) | Splits % NO debajo (5) | Split % SI debajo (1.2; 1.2; 2.2) ===> LO SACO 
+						ctransferencias_recibidas				100% debajo de canarios ===> LO SACO
+						cociente_fe_10							Total vs debajo de canario: (2; 1) | Splits % NO debajo (19) | Split % SI debajo (4.9) ===> No la saco
+						cociente_fe_09							100% debajo de canarios ===> LO SACO
+						Visa_fechaalta							Total vs debajo de canario: (3; 1) | Splits % NO debajo (44; 0.2)  | Split % SI debajo (3.5) ===> NO la saco
+						cociente_fe_02							100% debajo de canarios ===> LO SACO
+						cociente_fe_03							Total vs debajo de canario: (2; 1) | Splits % NO debajo (9.6) | Split % SI debajo (2.01) ===> No la saco
+						mttarjeta_visa_debitos_automaticos		100% debajo de canarios ===> LO SACO
+						mactivos_margen							Total vs debajo de canario: (2; 1) | Splits % NO debajo (2.609) | Split % SI debajo (0.769) ===> No la saco 
+						ctarjeta_visa							Total vs debajo de canario: (2; 1) | Splits % NO debajo (2.1) | Split % SI debajo (1.9) ===> LO SACO
+						
+						
+	v1.0.3	(from scratch!)
+		Identifico variables con Data Drifting
+			Master_mlimitecompra
+			mcomisiones_mantenimiento
+			mextraccion_autoservicio
+			mforex_sell
+			Visa_mlimitecompra
+			Visa_mpagado
+		Feature Engineering
+			Creo clase binaria
+			Creo las siguientes columnas, utilizando una combinación del tipo AX + BY, sin contar variables de Data Drifting
+				master_fe_suma_all
+				visa_fe_suma_all
+				tarjetas_fe_suma_all
+				pesos_fe_suma_menos_tarjetas
+				pesos_fe_suma_all
+		Defino fórmula
+			Saco de la fórmula del modelo las siguientes columnas
+				clase_ternaria (por Feature Engineering)
+				variables con data drifting
+		Aplico Bayessian Optimization
+			Obtengo
+				orden x ganancia descendente: posición 1
+				cp			-0.790032585
+				minsplit	1424	(1423.190938)
+				minbucket	706		(705.3523091)
+				maxdepth	9
+		
+				Corro modelo con salida de Bayessian Optimization
+					Genero 8 cortes y obtengo estas ganancias en el PUBLIC LEADERBOARD
+						7500		===>	no la entregué
+						8000		===>	no la entregué	
+						8500		===>	21906.21841	(Primer salida entregada - commit message: modelo v1.0.3 - 8500 - src: https://github.com/gasper-az/labo/tree/competencia/modelo-v1.0)
+						9000		===>	21126.23437 (Segund salida entregada - commit message: modelo v1.0.3 - 9000 - src: https://github.com/gasper-az/labo/tree/competencia/modelo-v1.0)
+						9500		===>	21272.89803	(Tercer salida entregada - commit message: modelo v1.0.3 - 9500 - src: https://github.com/gasper-az/labo/tree/competencia/modelo-v1.0)
+						10000		===>	no la entregué	
+						10500		===>	no la entregué	
+						11000		===>	no la entregué
+			
+			Como no me gustan los valores, tomo esto HP
+				orden x ganancia descendente: posición 7
+				cp			-0.816404835
+				minsplit	1629	(1628.600382)
+				minbucket	814		(813.5398572)
+				maxdepth	7
+
+				Corro modelo con salida de Bayessian Optimization
+					Genero 8 cortes y obtengo estas ganancias en el PUBLIC LEADERBOARD
+						7500		===>	no la entregué
+						8000		===>	24006.17544	(Cuarta salida entregada - commit message: modelo v1.0.3 - 8000 - src: https://github.com/gasper-az/labo/tree/competencia/modelo-v1.0)
+						8500		===>	24652.82887	(Primer salida entregada - commit message: modelo v1.0.3 - 8500 - src: https://github.com/gasper-az/labo/tree/competencia/modelo-v1.0)
+					[x]	9000		===>	23912.84401 (Segund salida entregada - commit message: modelo v1.0.3 - 9000 - src: https://github.com/gasper-az/labo/tree/competencia/modelo-v1.0)	[x]	ME GUSTA PARA ENTREGAR (modelo_rpart_binario_02.r)
+						9500		===>	23586.18403	(Tercer salida entregada - commit message: modelo v1.0.3 - 9500 - src: https://github.com/gasper-az/labo/tree/competencia/modelo-v1.0)
+						10000		===>	no la entregué	
+						10500		===>	no la entregué	
+						11000		===>	no la entregué				
+
+				
+		Variable Importance
+			
+			Var Importance
+
+				pesos_fe_suma_menos_tarjetas        mtarjeta_visa_consumo  ctarjeta_visa_transacciones              mactivos_margen                 ctrx_quarter             Visa_msaldopesos 
+								  140.362565                    51.904275                    42.637369                    29.715977                    28.311725                    27.952525 
+								  
+							Visa_msaldototal               active_quarter              mpasivos_margen              ctarjeta_master                mrentabilidad                  mcomisiones 
+								   27.746278                    26.036638                    21.376184                    16.616396                    14.720425                    13.535080 
+								   
+						   mcomisiones_otras                   cproductos    ccomisiones_mantenimiento                ctarjeta_visa         mrentabilidad_annual               mcuentas_saldo 
+								   13.534553                    12.206342                    11.625862                    10.282178                     8.372529                     6.037045 
+								   
+									tcuentas     cdescubierto_preacordado 
+									5.848574                     4.978791 
+			
+			Variables Importance que NO APARECEN en Gráfico del árbol
+				ctarjeta_visa_transacciones
+				Visa_msaldopesos
+				Visa_msaldototal
+				active_quarter
+				mcomisiones_otras
+				ccomisiones_mantenimiento
+				tcuentas
+				cdescubierto_preacordado
+				
+			Analizo Variables mediante canarios
+				Utilizo 30 canarios y mismos HO
+					No encuentro vars para descartar
+				
+				Utilizo 30 canarios y mismos HO, salvo el maxdepth, que ahora es 30
+				Encuentro estas vars:
+					
+					Nombre variable				Cant de veces debajo de canarios vs no debajo		Porcentaje captado en nodos debajo de canarios	Porcentaje captado en nodos NO debajo de canarios	QUE HAGO???
+				=======================================================================================================================================================================================================
+					cliente_antiguedad			1 total											|		34.121%										|	NA												|	LA SACO
+					cliente_edad				3 total | 1 vs 2								|		31.438%										| 	5.598%; 4.855%									|	LA SACO
+					Master_msaldototal			1 total											|		30.099%										|	NA												|	LA SACO
+					mactivos_margen				5 total	| 2 vs 3								|		1.633%, 1.066%								| 	14.767%, 0.695%, 1.253%							|	LA SACO
+					mrentabilidad				5 total | 4 vs 1								|		1.639%, 2.402%, 1.292%, 1.128%				|	1.197%											|	LA SACO
+					mpagomiscuentas				1 total											|		5.253%										|	NA												|	LA SACO
+					Visa_fechaalta				1 total											|		4.350%										|	NA												|	LA SACO
+					mrentabilidad_annual		4 total | 1 vs 3								|		6.494%										|	8.494%, 4.128%, 0.693%							|	LA SACO
+					visa_fe_suma_all			1 total											|		3.462%										|	NA												|	LA SACO
+				
+		Creo nuevas variables de feature engineering para prox experimento			
+			Cociente de variables importantes (X/Y)
+				Tomo las 10 más importantes
+				Saco las que NO APARECEN en gráfico del árbol
+				Saco las que aparecen debajo de canarios	(mactivos_margen; mrentabilidad; mrentabilidad_annual)
+				Me quedan
+					pesos_fe_suma_menos_tarjetas
+					mtarjeta_visa_consumo
+					ctrx_quarter
+					mpasivos_margen
+					ctarjeta_master
+				Las combino, quedando
+					dataset[, cociente_fe_01 := pesos_fe_suma_menos_tarjetas/mtarjeta_visa_consumo]
+					dataset[, cociente_fe_02 := pesos_fe_suma_menos_tarjetas/ctrx_quarter]
+					dataset[, cociente_fe_03 := pesos_fe_suma_menos_tarjetas/mpasivos_margen]
+					dataset[, cociente_fe_04 := pesos_fe_suma_menos_tarjetas/ctarjeta_master]
+					dataset[, cociente_fe_05 := mtarjeta_visa_consumo/ctrx_quarter]
+					dataset[, cociente_fe_06 := mtarjeta_visa_consumo/mpasivos_margen]
+					dataset[, cociente_fe_07 := mtarjeta_visa_consumo/ctarjeta_master]
+					dataset[, cociente_fe_08 := ctrx_quarter/mpasivos_margen]
+					dataset[, cociente_fe_09 := ctrx_quarter/ctarjeta_master]
+					dataset[, cociente_fe_10 := mpasivos_margen/ctarjeta_master]
+					
+			Predicados
+				dataset[, predicado_fe_01 := pesos_fe_suma_menos_tarjetas >= 92919 & !is.na(pesos_fe_suma_menos_tarjetas) & ctrx_quarter >= 49 & mpayroll >= 7043.5 & ccaja_ahorro < 4 & mpayroll < 631260 & cproductos >= 6]
+				dataset[, predicado_fe_02 := pesos_fe_suma_menos_tarjetas >= 92919 & !is.na(pesos_fe_suma_menos_tarjetas) & ctrx_quarter < 49 & ctarjeta_visa >= 1 & cpayroll_trx >= 1 & mcuentas_saldo < 9630.9]
+				dataset[, predicado_fe_03 := pesos_fe_suma_menos_tarjetas >= 92919 & !is.na(pesos_fe_suma_menos_tarjetas) & ctrx_quarter < 49 & ctarjeta_visa < 1 & mprestamos_personales >= 99725]
+				dataset[, predicado_fe_04 := pesos_fe_suma_menos_tarjetas >= 92919 & !is.na(pesos_fe_suma_menos_tarjetas) & ctrx_quarter < 49 & ctarjeta_visa < 1 & mprestamos_personales < 99725]
+				dataset[, predicado_fe_05 := pesos_fe_suma_menos_tarjetas >= 24778 & (pesos_fe_suma_menos_tarjetas < 92919 | !is.na(pesos_fe_suma_menos_tarjetas)) & mtarjeta_visa_consumo >= 1873.1 & mpasivos_margen >= 112.5 & mcaja_ahorro >= 29.855 & Visa_mpagominimo >= 627.56 & !is.na(Visa_mpagominimo) & mcuentas_saldo >= 11801]
+				dataset[, predicado_fe_06 := pesos_fe_suma_menos_tarjetas >= 24778 & (pesos_fe_suma_menos_tarjetas < 92919 | !is.na(pesos_fe_suma_menos_tarjetas)) & mtarjeta_visa_consumo >= 1873.1 & mpasivos_margen >= 112.5 & mcaja_ahorro >= 29.855 & Visa_mpagominimo >= 627.56 & !is.na(Visa_mpagominimo) & mcuentas_saldo < 11801]
+				
+	v1.0.4	(continuación de v1.0.3)
+		Identifico variables con Data Drifting	(mismas que v1.0.3)
+			Master_mlimitecompra
+			mcomisiones_mantenimiento
+			mextraccion_autoservicio
+			mforex_sell
+			Visa_mlimitecompra
+			Visa_mpagado
+		Feature Engineering
+			Creo clase binaria
+			Creo las siguientes columnas, utilizando una combinación del tipo AX + BY, sin contar variables de Data Drifting
+				master_fe_suma_all
+				visa_fe_suma_all
+				tarjetas_fe_suma_all
+				pesos_fe_suma_menos_tarjetas
+				pesos_fe_suma_all
+		Defino fórmula
+			Saco de la fórmula del modelo las siguientes columnas
+				clase_ternaria (por Feature Engineering)
+				variables con data drifting
+		Aplico Bayessian Optimization
+			Obtengo
+				orden x ganancia descendente: posición 19
+				cp			-0.242138418
+				minsplit	1613	(1612.086927)
+				minbucket	279		(278.0327751)
+				maxdepth	8
+				
+		Corro modelo con salida de Bayessian Optimization
+			Genero 8 cortes y obtengo estas ganancias en el PUBLIC LEADERBOARD
+				7500		===>	no la entregué
+				8000		===>	no la entregué	
+				8500		===>	no la entregué
+				9000		===>	21872.88576 (Primer salida entregada - commit message: modelo v1.0.4 - 9000 - src: https://github.com/gasper-az/labo/tree/competencia/modelo-v1.0)
+				9500		===>	21606.22455	(segund salida entregada - commit message: modelo v1.0.4 - 9500 - src: https://github.com/gasper-az/labo/tree/competencia/modelo-v1.0)
+				10000		===>	no la entregué
+				10500		===>	no la entregué	
+				11000		===>	no la entregué
+				
+		Variable Importance
+			
+			Var Importance
+			
+				pesos_fe_suma_menos_tarjetas                     cociente_fe_02           cdescubierto_preacordado                       ctrx_quarter                     active_quarter 
+										164.654697                          71.135560                          42.888643                          36.970055                          34.037230 
+										
+							 mtarjeta_visa_consumo        ctarjeta_visa_transacciones                   Visa_msaldopesos                   Visa_msaldototal                    mpasivos_margen 
+										 25.302091                          19.205761                          12.398783                          12.233026                          11.049515 
+										 
+									   mcomisiones                  mcomisiones_otras          ccomisiones_mantenimiento                  ccomisiones_otras                     mcuentas_saldo 
+										 10.335591                          10.335500                           8.549708                           7.666905                           6.831540 
+										 
+				mttarjeta_visa_debitos_automaticos                     cociente_fe_05                  mcuenta_corriente                     cociente_fe_06  ctarjeta_visa_debitos_automaticos 
+										  6.716339                           6.663627                           6.148162                           5.720346                           5.651576 
+										  
+			Variables Importance que NO APARECEN en Gráfico del árbol
+				cociente_fe_02
+				ctarjeta_visa_transacciones
+				Visa_msaldopesos
+				Visa_msaldototal
+				mcomisiones_otras
+				ccomisiones_mantenimiento
+				ccomisiones_otras
+				cociente_fe_05
+				ctarjeta_visa_debitos_automaticos
+	
+	v1.0.5 (from scratch)	
+		Identifico variables con Data Drifting	(mismas que v1.0.3)
+			Master_mlimitecompra
+			mcomisiones_mantenimiento
+			mextraccion_autoservicio
+			mforex_sell
+			Visa_mlimitecompra
+			Visa_mpagado
+		
+		Corro Script de Canarios
+			Con estos HP
+				cp			-1
+				minsplit	2
+				minbucket	1
+				maxdepth	10
+			Sin FE
+			Sin sacar variables con DD
+			Obtengo las siguientes
+				cliente_edad
+				numero_de_cliente
+				Master_mfinanciacion_limite
+				mpasivos_margen
+				ccajas_extracciones
+				Visa_msaldototal
+				mcuenta_corriente
+				ctarjeta_master_debitos_automaticos
+				ccallcenter_transacciones
+				ctarjeta_master_transacciones
+				mttarjeta_visa_debitos_automaticos
+				mactivos_margen
+				Master_fechaalta
+				Master_Fvencimiento
+				mcaja_ahorro_dolares
+				mrentabilidad
+				cliente_antiguedad
+				mcaja_ahorro
+				Visa_status
+				Visa_Fvencimiento
+				Visa_fechaalta
+				mrentabilidad_annual
+				mcomisiones_mantenimiento
+		
+		Variable Importance
+			Var Importance
+
+				 ctrx_quarter            mcuentas_saldo         mcuenta_corriente               mcomisiones           mpasivos_margen         numero_de_cliente 
+					127.97505                  65.83453                  62.92266                  58.65761                  55.04057                  49.90167 
+					
+				mrentabilidad mcomisiones_mantenimiento         ccomisiones_otras         mcomisiones_otras        cliente_antiguedad           mactivos_margen 
+					 42.84077                  42.32910                  41.41161                  40.84388                  40.78878                  39.92892 
+					 
+		 mrentabilidad_annual  cdescubierto_preacordado            active_quarter     mprestamos_personales     cprestamos_personales              mcaja_ahorro 
+					 39.26507                  37.34806                  36.94882                  34.50951                  31.86696                  29.81335 
+					 
+				  Visa_status          Master_fechaalta 
+					 29.72517                  26.31288 	
+		
+		
+			Variables Importance que NO APARECEN en Gráfico del árbol
+				ccomisiones_otras
+				mcomisiones_otras
+				mactivos_margen
+				active_quarter
+				mcaja_ahorro
+				
+			Elijo variables para Feature Engineering del tipo X/Y
+				Tomo las 10 más importantes, resto aquellas afectadas x DD, que performan peor que canarios, y que NO están en gráfico del árbol
+				Quedan estas:
+					ctrx_quarter
+					mcuentas_saldo
+					mcomisiones
+					
+		Feature Engineering
+			Creo clase binaria
+			Creo las siguientes columnas, utilizando una combinación del tipo AX + BY	(NO voy a considerar las variables afectadas x DD, ni las peores que canarios)
+				master_fe_suma_all
+				visa_fe_suma_all
+				tarjetas_fe_suma_all
+				pesos_fe_suma_menos_tarjetas
+				pesos_fe_suma_all
+			Creo las siguientes columnas, utilizando las variables elejidas para FE del tipo X/Y. Queda:
+				dataset[, cociente_fe_01 := ctrx_quarter/mcuentas_saldo]
+				dataset[, cociente_fe_02 := ctrx_quarter/mcomisiones]
+				dataset[, cociente_fe_03 := mcuentas_saldo/mcomisiones]
+				
+		Defino fórmula
+			Saco de la fórmula del modelo las siguientes columnas
+				clase_ternaria (por Feature Engineering)
+				variables con data drifting
+				variables que performan peor que canarios
+		Aplico Bayessian Optimization
+			Obtengo
+				orden x ganancia descendente: posición 19
+				cp			-0.56159657
+				minsplit	1485	(1484.755033)
+				minbucket	129		(128.4153967)
+				maxdepth	7
+				
+		Corro modelo con salida de Bayessian Optimization
+			Genero 8 cortes y obtengo estas ganancias en el PUBLIC LEADERBOARD
+				7500		===>	no la entregué
+				8000		===>	no la entregué	
+				8500		===>	no la entregué
+				9000		===>	23506.18567 (Primer salida entregada - commit message: modelo v1.0.5 - 9000 - src: https://github.com/gasper-az/labo/tree/competencia/modelo-v1.0)
+			[x]	9500		===>	24832.82519	(segund salida entregada - commit message: modelo v1.0.5 - 9500 - src: https://github.com/gasper-az/labo/tree/competencia/modelo-v1.0)	[x] ME GUSTA PARA ENTREGAR (modelo_rpart_binario_04.r)
+				10000		===>	24472.83255 (Tercer salida entregada - commit message: modelo v1.0.5 - 10000 - src: https://github.com/gasper-az/labo/tree/competencia/modelo-v1.0)
+				10500		===>	no la entregué	
+				11000		===>	no la entregué
+				
+		Variable Importance
+			Var Importance
+
+				pesos_fe_suma_menos_tarjetas                      ctrx_quarter                    active_quarter          cdescubierto_preacordado             mtarjeta_visa_consumo 
+									   188.838351                         49.640989                         44.014676                         40.397604                         20.287555 
+									   
+									  mcomisiones                 mcomisiones_otras         ccomisiones_mantenimiento       ctarjeta_visa_transacciones                    cociente_fe_02 
+										18.591072                         18.478003                         16.425653                         12.077856                         11.752300 
+										
+								ccomisiones_otras                    mcuentas_saldo                   ctarjeta_master                  Visa_msaldopesos                  Visa_mpagominimo 
+										10.717710                         10.431138                          8.354703                          7.915698                          5.802028 
+										
+									Master_status ctarjeta_visa_debitos_automaticos                          mpayroll                      cpayroll_trx                        cproductos 
+										 5.409633                          4.279556                          3.616230                          3.383131                          2.443695 
+										 
+				Variables Importance que NO APARECEN en Gráfico del árbol
+					active_quarter
+					mcomisiones_otras
+					ccomisiones_mantenimiento
+					ctarjeta_visa_transacciones
+					ccomisiones_otras
+					mcuentas_saldo
+					ctarjeta_visa_debitos_automaticos
+					cproductos				
+				
+		Corro Script de Canarios
+			Con estos HP	(Valores originales de HP de BO, salvo el maxdepth)
+				cp			-0.56159657
+				minsplit	1485
+				minbucket	129
+				maxdepth	10
+			Con FE
+			Con sacar variables con DD
+			Obtengo las siguientes
+				cociente_fe_01				(100%, se va)
+				Visa_mpagospesos			(100%, se va)
+				cociente_fe_02				(1 de 3, se va igualmente, ya que la única capta un mayor porcentaje)
+				Visa_cconsumos				(100% se va)
+				Master_cconsumos			(100% se va)
+				mcomisiones_otras			(100% se va)
+				ctrx_quarter				(1 de 4, PROBEMOS)
+				mtransferencias_emitidas	(100%, se va)
+				Visa_mpagominimo			(1 de 2, se va, ya que la única capta un mayor porcentaje)
+	
+	v1.0.6 (Copia del 5 pero con ligeros cambios)	
+		Identifico variables con Data Drifting	(mismas que v1.0.3)
+			Master_mlimitecompra
+			mcomisiones_mantenimiento
+			mextraccion_autoservicio
+			mforex_sell
+			Visa_mlimitecompra
+			Visa_mpagado
+		
+		Corro Script de Canarios
+			Con estos HP
+				cp			-1
+				minsplit	2
+				minbucket	1
+				maxdepth	10
+			Sin FE
+			Sin sacar variables con DD
+			Obtengo las siguientes
+				cliente_edad
+				numero_de_cliente
+				Master_mfinanciacion_limite
+				mpasivos_margen
+				ccajas_extracciones
+				Visa_msaldototal
+				mcuenta_corriente
+				ctarjeta_master_debitos_automaticos
+				ccallcenter_transacciones
+				ctarjeta_master_transacciones
+				mttarjeta_visa_debitos_automaticos
+				mactivos_margen
+				Master_fechaalta
+				Master_Fvencimiento
+				mcaja_ahorro_dolares
+				mrentabilidad
+				cliente_antiguedad
+				mcaja_ahorro
+				Visa_status
+				Visa_Fvencimiento
+				Visa_fechaalta
+				mrentabilidad_annual
+				mcomisiones_mantenimiento
+		
+		Variable Importance
+			Var Importance
+
+				 ctrx_quarter            mcuentas_saldo         mcuenta_corriente               mcomisiones           mpasivos_margen         numero_de_cliente 
+					127.97505                  65.83453                  62.92266                  58.65761                  55.04057                  49.90167 
+					
+				mrentabilidad mcomisiones_mantenimiento         ccomisiones_otras         mcomisiones_otras        cliente_antiguedad           mactivos_margen 
+					 42.84077                  42.32910                  41.41161                  40.84388                  40.78878                  39.92892 
+					 
+		 mrentabilidad_annual  cdescubierto_preacordado            active_quarter     mprestamos_personales     cprestamos_personales              mcaja_ahorro 
+					 39.26507                  37.34806                  36.94882                  34.50951                  31.86696                  29.81335 
+					 
+				  Visa_status          Master_fechaalta 
+					 29.72517                  26.31288 	
+		
+		
+			Variables Importance que NO APARECEN en Gráfico del árbol
+				ccomisiones_otras
+				mcomisiones_otras
+				mactivos_margen
+				active_quarter
+				mcaja_ahorro
+				
+			Elijo variables para Feature Engineering del tipo X/Y
+				Tomo las 10 más importantes, resto aquellas afectadas x DD, que performan peor que canarios, y que NO están en gráfico del árbol
+				Quedan estas:
+					ctrx_quarter
+					mcuentas_saldo
+					mcomisiones
+					
+		Feature Engineering
+			Creo clase binaria
+			Creo las siguientes columnas, utilizando una combinación del tipo AX + BY	(NO voy a considerar las variables afectadas x DD, ni las peores que canarios)
+				master_fe_suma_all
+				visa_fe_suma_all
+				tarjetas_fe_suma_all
+				pesos_fe_suma_menos_tarjetas
+				pesos_fe_suma_all
+			Creo las siguientes columnas, utilizando las variables elejidas para FE del tipo X/Y. Queda:
+				dataset[, cociente_fe_01 := ctrx_quarter/mcuentas_saldo]
+				dataset[, cociente_fe_02 := ctrx_quarter/mcomisiones]
+				dataset[, cociente_fe_03 := mcuentas_saldo/mcomisiones]
+				
+		Defino fórmula
+			Saco de la fórmula del modelo las siguientes columnas
+				clase_ternaria (por Feature Engineering)
+				variables con data drifting
+				Esto al final no lo hago, quiero ver que pasa ~variables que performan peor que canarios~
+		Aplico Bayessian Optimization
+			Obtengo
+				orden x ganancia descendente: posición 31
+				cp			-0.890675877
+				minsplit	3783	(3782.308556)
+				minbucket	134		(133.0592154)
+				maxdepth	9				
+				
+		Corro modelo con salida de Bayessian Optimization
+			Genero 8 cortes y obtengo estas ganancias en el PUBLIC LEADERBOARD
+				7500		===>	no la entregué
+				8000		===>	no la entregué	
+				8500		===>	no la entregué
+			[x]	9000		===>	24246.17053 (Primer salida entregada - commit message: modelo v1.0.6 - 9000 - src: https://github.com/gasper-az/labo/tree/competencia/modelo-v1.0) ME GUSTA PARA ENTREGAR (modelo_rpart_binario_05.r) ===> TODO: revisar con 9.5k y 10k, y un par más
+				9500		===>	23746.18076	(segund salida entregada - commit message: modelo v1.0.6 - 9500 - src: https://github.com/gasper-az/labo/tree/competencia/modelo-v1.0)
+				10000		===>	23552.85138 (Tercer salida entregada - commit message: modelo v1.0.6 - 10000 - src: https://github.com/gasper-az/labo/tree/competencia/modelo-v1.0)
+				10500		===>	no la entregué	
+				11000		===>	no la entregué
+				
+		Variable Importance
+			Var Importance
+			
+				pesos_fe_suma_menos_tarjetas                 ctrx_quarter               active_quarter     cdescubierto_preacordado               cociente_fe_02        mtarjeta_visa_consumo 
+								  182.790956                    47.204043                    43.413509                    39.822667                    10.821840                     6.153363 
+								  
+							   Master_status              ctarjeta_master                mrentabilidad            mcomisiones_otras                  mcomisiones  ctarjeta_visa_transacciones 
+									5.409633                     5.371537                     5.298451                     5.222267                     5.221248                     4.680144 
+									
+				   ccomisiones_mantenimiento             Visa_msaldopesos             Visa_msaldototal             Visa_mpagominimo              mactivos_margen               mcuentas_saldo 
+									4.542703                     4.167448                     4.155125                     3.199159                     2.971691                     2.325770 
+									
+						   mcuenta_corriente                     tcuentas 
+									2.317692                     2.088993 
+			
+			Variables Importance que NO APARECEN en Gráfico del árbol
+				active_quarter
+				ctarjeta_master
+				ctarjeta_visa_transacciones
+				Visa_msaldototal
+				mcuentas_saldo
+				mcuenta_corriente
+				tcuentas
+				
+	v1.0.7 (Copia del 5 pero con ligeros cambios)	
+		Identifico variables con Data Drifting	(mismas que v1.0.3)
+			Master_mlimitecompra
+			mcomisiones_mantenimiento
+			mextraccion_autoservicio
+			mforex_sell
+			Visa_mlimitecompra
+			Visa_mpagado
+		
+		Corro Script de Canarios
+			Con estos HP
+				cp			-1
+				minsplit	2
+				minbucket	1
+				maxdepth	10
+			Sin FE
+			Sin sacar variables con DD
+			Obtengo las siguientes
+				cliente_edad
+				numero_de_cliente
+				Master_mfinanciacion_limite
+				mpasivos_margen
+				ccajas_extracciones
+				Visa_msaldototal
+				mcuenta_corriente
+				ctarjeta_master_debitos_automaticos
+				ccallcenter_transacciones
+				ctarjeta_master_transacciones
+				mttarjeta_visa_debitos_automaticos
+				mactivos_margen
+				Master_fechaalta
+				Master_Fvencimiento
+				mcaja_ahorro_dolares
+				mrentabilidad
+				cliente_antiguedad
+				mcaja_ahorro
+				Visa_status
+				Visa_Fvencimiento
+				Visa_fechaalta
+				mrentabilidad_annual
+				mcomisiones_mantenimiento
+		
+		Variable Importance
+			Var Importance
+
+				 ctrx_quarter            mcuentas_saldo         mcuenta_corriente               mcomisiones           mpasivos_margen         numero_de_cliente 
+					127.97505                  65.83453                  62.92266                  58.65761                  55.04057                  49.90167 
+					
+				mrentabilidad mcomisiones_mantenimiento         ccomisiones_otras         mcomisiones_otras        cliente_antiguedad           mactivos_margen 
+					 42.84077                  42.32910                  41.41161                  40.84388                  40.78878                  39.92892 
+					 
+		 mrentabilidad_annual  cdescubierto_preacordado            active_quarter     mprestamos_personales     cprestamos_personales              mcaja_ahorro 
+					 39.26507                  37.34806                  36.94882                  34.50951                  31.86696                  29.81335 
+					 
+				  Visa_status          Master_fechaalta 
+					 29.72517                  26.31288 	
+		
+		
+			Variables Importance que NO APARECEN en Gráfico del árbol
+				ccomisiones_otras
+				mcomisiones_otras
+				mactivos_margen
+				active_quarter
+				mcaja_ahorro
+				
+			Elijo variables para Feature Engineering del tipo X/Y
+				Tomo las 10 más importantes, resto aquellas afectadas x DD, que performan peor que canarios, y que NO están en gráfico del árbol
+				Quedan estas:
+					ctrx_quarter
+					mcuentas_saldo
+					mcomisiones
+					
+		Feature Engineering
+			Creo clase binaria
+			Creo las siguientes columnas, utilizando una combinación del tipo AX + BY	(NO voy a considerar las variables afectadas x DD, ni las peores que canarios)
+				pesos_fe_suma_menos_tarjetas
+			Creo las siguientes columnas, utilizando las variables elejidas para FE del tipo X/Y. Queda:
+				dataset[, cociente_fe_02 := ctrx_quarter/mcomisiones]
+		Defino fórmula
+			Saco de la fórmula del modelo las siguientes columnas
+				clase_ternaria (por Feature Engineering)
+				variables con data drifting
+		Aplico Bayessian Optimization
+			Obtengo
+				orden x ganancia descendente: posición 1
+				cp			-0.376709228
+				minsplit	789	(788.1215613)
+				minbucket	323		(322.581505)
+				maxdepth	8
+		
+		Corro modelo con salida de Bayessian Optimization
+			Genero 8 cortes y obtengo estas ganancias en el PUBLIC LEADERBOARD
+				7500		===>	no la entregué
+				8000		===>	no la entregué	
+				8500		===>	no la entregué
+				9000		===>	23039.52855 (Primer salida entregada - commit message: modelo v1.0.7 - 9000 - src: https://github.com/gasper-az/labo/tree/competencia/modelo-v1.0)
+				9500		===>	23112.86038	(segund salida entregada - commit message: modelo v1.0.7 - 9500 - src: https://github.com/gasper-az/labo/tree/competencia/modelo-v1.0)
+				10000		===>	22952.86366 (Tercer salida entregada - commit message: modelo v1.0.7 - 10000 - src: https://github.com/gasper-az/labo/tree/competencia/modelo-v1.0)
+				10500		===>	no la entregué	
+				11000		===>	no la entregué
+			
+		No me gustan los resultados - Aplico Bayessian Optimization con otros HP
+			Obtengo
+				orden x ganancia descendente: posición 13
+				cp			-0.37562099
+				minsplit	1240	(1239.158615)
+				minbucket	298		(297.9588681)
+				maxdepth	8
+		
+		Corro modelo con salida de Bayessian Optimization
+			Genero 8 cortes y obtengo estas ganancias en el PUBLIC LEADERBOARD
+				7500		===>	no la entregué
+				8000		===>	no la entregué	
+				8500		===>	no la entregué
+				9000		===>	23392.85465 (Primer salida entregada - commit message: modelo v1.0.7 - 9000 - src: https://github.com/gasper-az/labo/tree/competencia/modelo-v1.0)
+				9500		===>	23359.52200	(segund salida entregada - commit message: modelo v1.0.7 - 9500 - src: https://github.com/gasper-az/labo/tree/competencia/modelo-v1.0)
+				10000		===>	no la entregué
+				10500		===>	no la entregué	
+				11000		===>	no la entregué
+
+
+
+
+
+
+	v1.0.8
+	
+		Aplico Bayessian Optimization
+			Obtengo
+				orden x ganancia descendente: posición 38
+				cp			-0.090736456
+				minsplit	910	(909.8237638)
+				minbucket	447		(446.6562811)
+				maxdepth	8
+
+		Corro modelo con salida de Bayessian Optimization
+			Genero 8 cortes y obtengo estas ganancias en el PUBLIC LEADERBOARD
+				7500		===>	no la entregué
+				8000		===>	no la entregué	
+				8500		===>	no la entregué
+				9000		===>	23186.19222 (Primer salida entregada - commit message: modelo v1.0.8 - 9000 - src: https://github.com/gasper-az/labo/tree/competencia/modelo-v1.0)
+				9500		===>	22646.20326	(segund salida entregada - commit message: modelo v1.0.8 - 9500 - src: https://github.com/gasper-az/labo/tree/competencia/modelo-v1.0)
+				10000		===>	no la entregué
+				10500		===>	no la entregué	
+				11000		===>	no la entregué
+				
+				
+	v1.0.9
+	
+		Corro modelo con salida de Bayessian Optimization
+			Genero 8 cortes y obtengo estas ganancias en el PUBLIC LEADERBOARD
+				7500		===>	no la entregué
+				8000		===>	no la entregué	
+				8500		===>	no la entregué
+				9000		===>	24672.82846 (Primer salida entregada - commit message: modelo v1.0.9 - 9000 - src: https://github.com/gasper-az/labo/tree/competencia/modelo-v1.0)
+				9500		===>	24979.48885	(segund salida entregada - commit message: modelo v1.0.9 - 9500 - src: https://github.com/gasper-az/labo/tree/competencia/modelo-v1.0)
+				10000		===>	25026.15457	(Tercer salida entregada - commit message: modelo v1.0.9 - 10000 - src: https://github.com/gasper-az/labo/tree/competencia/modelo-v1.0)
+				10500		===>	no la entregué	
+				11000		===>	no la entregué
