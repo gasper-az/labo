@@ -198,10 +198,10 @@ modelo  <- rpart(
   formula  = formula.modelo,
   data     = dtrain,
   xval     = 0,
-  cp       = -0.890675877,
-  minsplit = 3783,
-  minbucket= 134,
-  maxdepth = 9
+  cp       = -0.37562099,
+  minsplit = 1240,
+  minbucket= 298,
+  maxdepth = 8
 )
 
 #-------------------------------------------------------------------------------#

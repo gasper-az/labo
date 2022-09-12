@@ -1047,8 +1047,38 @@ Experimentos
 				variables con data drifting
 		Aplico Bayessian Optimization
 			Obtengo
-				orden x ganancia descendente: posición 31
-				cp			-0.890675877
-				minsplit	3783	(3782.308556)
-				minbucket	134		(133.0592154)
-				maxdepth	9	
+				orden x ganancia descendente: posición 1
+				cp			-0.376709228
+				minsplit	789	(788.1215613)
+				minbucket	323		(322.581505)
+				maxdepth	8
+		
+		Corro modelo con salida de Bayessian Optimization
+			Genero 8 cortes y obtengo estas ganancias en el PUBLIC LEADERBOARD
+				7500		===>	no la entregué
+				8000		===>	no la entregué	
+				8500		===>	no la entregué
+				9000		===>	23039.52855 (Primer salida entregada - commit message: modelo v1.0.7 - 9000 - src: https://github.com/gasper-az/labo/tree/competencia/modelo-v1.0)
+				9500		===>	23112.86038	(segund salida entregada - commit message: modelo v1.0.7 - 9500 - src: https://github.com/gasper-az/labo/tree/competencia/modelo-v1.0)
+				10000		===>	22952.86366 (Tercer salida entregada - commit message: modelo v1.0.7 - 10000 - src: https://github.com/gasper-az/labo/tree/competencia/modelo-v1.0)
+				10500		===>	no la entregué	
+				11000		===>	no la entregué
+			
+		No me gustan los resultados - Aplico Bayessian Optimization con otros HP
+			Obtengo
+				orden x ganancia descendente: posición 13
+				cp			-0.37562099
+				minsplit	1240	(1239.158615)
+				minbucket	298		(297.9588681)
+				maxdepth	8
+		
+		Corro modelo con salida de Bayessian Optimization
+			Genero 8 cortes y obtengo estas ganancias en el PUBLIC LEADERBOARD
+				7500		===>	no la entregué
+				8000		===>	no la entregué	
+				8500		===>	no la entregué
+				9000		===>	23392.85465 (Primer salida entregada - commit message: modelo v1.0.7 - 9000 - src: https://github.com/gasper-az/labo/tree/competencia/modelo-v1.0)
+				9500		===>	23359.52200	(segund salida entregada - commit message: modelo v1.0.7 - 9500 - src: https://github.com/gasper-az/labo/tree/competencia/modelo-v1.0)
+				10000		===>	no la entregué
+				10500		===>	no la entregué	
+				11000		===>	no la entregué
