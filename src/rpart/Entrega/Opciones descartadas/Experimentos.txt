@@ -680,11 +680,11 @@ Experimentos
 	v1.0.5 (from scratch)	
 		Identifico variables con Data Drifting	(mismas que v1.0.3)
 			Master_mlimitecompra
-			mcomisiones_mantenimiento
+		[x]	mcomisiones_mantenimiento
 			mextraccion_autoservicio
 			mforex_sell
 			Visa_mlimitecompra
-			Visa_mpagado
+		[x]	Visa_mpagado
 		
 		Corro Script de Canarios
 			Con estos HP
