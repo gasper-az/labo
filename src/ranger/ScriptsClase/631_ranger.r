@@ -34,7 +34,7 @@ param  <- list( "num.trees"=       300,  #cantidad de arboles
                 "max.depth"=        12   # 0 significa profundidad infinita
               )
 
-set.seed(102191) #Establezco la semilla aleatoria
+set.seed(763369) #Establezco la semilla aleatoria
 
 setorder( dtrain, clase_ternaria )  #primero quedan los BAJA+1, BAJA+2, CONTINUA
 
