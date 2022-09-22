@@ -9,7 +9,7 @@ require("rpart")
 require("rpart.plot")
 
 #Aqui se debe poner la carpeta de la computadora local
-setwd("~/buckets/b1/")  #Establezco el Working Directory
+setwd("C:\\uba\\dmeyf")  #Establezco el Working Directory
 
 #cargo los datos donde entreno
 dataset  <- fread("./datasets/competencia2_2022.csv.gz")
