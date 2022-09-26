@@ -34,3 +34,38 @@ Tarea LigthGBM
 				Salida de ligthgbm final
 					impo.txt
 					prediccion.txt
+	Punto 5
+		Hiper Parámetros
+				max_bin				--->	31
+				learning_rate		--->	0.005021101
+				num_iterations		--->	1070
+				num_leaves			--->	215
+				min_data_in_leaf	--->	2195
+				feature_fraction	--->	0.38778013
+				semilla				--->	763369				
+		Ganancia (según BO)
+			27620000
+		Entregas
+			5000	-	"Tarea LigthGBM - punto 5 - 5000"	-	17.90021
+			5500	-	"Tarea LigthGBM - punto 5 - 5500"	-	18.87223
+			6000	-	"Tarea LigthGBM - punto 5 - 6000"	-	19.07223
+			6500	-	"Tarea LigthGBM - punto 5 - 6500"	-	19.23223
+			7000	-	"Tarea LigthGBM - punto 5 - 7000"	-	19.03223
+			7500	-	"Tarea LigthGBM - punto 5 - 7500"	-	18.76422	===> continuar subiendo de aquí en adelante
+			8000	-	"Tarea LigthGBM - punto 5 - 8000"	-	18.86823
+			8500	-	"Tarea LigthGBM - punto 5 - 8500"	-	19.20023
+			9000	-	"Tarea LigthGBM - punto 5 - 9000"	-	19.02023
+			9500	-	"Tarea LigthGBM - punto 5 - 9500"	-	19.15223
+			10000	-	"Tarea LigthGBM - punto 5 - 10000"	-	18.71622
+			10500	-	"Tarea LigthGBM - punto 5 - 10500"	-	18.00821
+			11000	-	"Tarea LigthGBM - punto 5 - 11000"	-	17.67221
+			11500	-	"Tarea LigthGBM - punto 5 - 11500"	-	17.63221
+			12000	-	"Tarea LigthGBM - punto 5 - 12000"	-	17.25221
+		Archivos importantes
+			HT7232
+				Salida de ligthgbm BO
+					ver importantes y HT7232.txt (está ordenado)
+			KA7241
+				Salida de ligthgbm final
+					impo.txt
+					prediccion.txt
