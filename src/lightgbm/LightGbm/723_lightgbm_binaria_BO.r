@@ -56,7 +56,7 @@ PARAM$hyperparametertuning$xval_folds  <- 5
 PARAM$hyperparametertuning$POS_ganancia  <- 78000
 PARAM$hyperparametertuning$NEG_ganancia  <- -2000
 
-PARAM$hyperparametertuning$semilla_azar  <- 763381  #Aqui poner la propia semilla, PUEDE ser distinta a la de trainingstrategy
+PARAM$hyperparametertuning$semilla_azar  <- 102191  #Aqui poner la propia semilla, PUEDE ser distinta a la de trainingstrategy
 
 #------------------------------------------------------------------------------
 #graba a un archivo los componentes de lista

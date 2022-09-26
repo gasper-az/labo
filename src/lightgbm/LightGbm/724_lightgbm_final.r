@@ -22,12 +22,15 @@ PARAM$input$dataset       <- "./datasets/competencia2_2022.csv.gz"
 PARAM$input$training      <- c( 202103 )
 PARAM$input$future        <- c( 202105 )
 
+# fecha	objective	metric	first_metric_only	boost_from_average	feature_pre_filter	verbosity	max_depth	min_gain_to_split	lambda_l1	lambda_l2	max_bin	num_iterations	force_row_wise	seed	learning_rate	feature_fraction	min_data_in_leaf	num_leaves	envios	ganancia	iteracion
+# 20220925 020157	binary	custom	TRUE	TRUE	FALSE	-100	-1	0	0	0	31	1444	TRUE	763381	0.005201496	0.750240992	1968	1024	8282	26960000	24
+
 PARAM$finalmodel$max_bin           <-     31
-PARAM$finalmodel$learning_rate     <-      0.0280015981   #0.0142501265
-PARAM$finalmodel$num_iterations    <-    328  #615
-PARAM$finalmodel$num_leaves        <-   1015  #784
-PARAM$finalmodel$min_data_in_leaf  <-   5542  #5628
-PARAM$finalmodel$feature_fraction  <-      0.7832319551  #0.8382482539
+PARAM$finalmodel$learning_rate     <-      0.005201496   #0.0142501265
+PARAM$finalmodel$num_iterations    <-    1444  #615
+PARAM$finalmodel$num_leaves        <-   1024  #784
+PARAM$finalmodel$min_data_in_leaf  <-   1968  #5628
+PARAM$finalmodel$feature_fraction  <-      0.750240992  #0.8382482539
 PARAM$finalmodel$semilla           <- 763369
 
 #------------------------------------------------------------------------------
