@@ -69,3 +69,14 @@ Tarea LigthGBM
 				Salida de ligthgbm final
 					impo.txt
 					prediccion.txt
+					
+					
+					
+
+
+Detalles a futuro
+	Para data drifting
+		(frank (VAR) -1) / (N-1)
+			Si hay que imputar, capaz que convenga primero hacer ranking, y luego hacer imputanción (x media quizas?)
+	Para Concept drifting
+		????
