@@ -55,92 +55,92 @@ dataset[ , clase01 := ifelse( clase_ternaria %in%  c("BAJA+2","BAJA+1"), 1L, 0L)
 #-------------------- FEATURE ENGINEERING --------------------#
 #-------------------------------------------------------------#
 
-# # Feature Engineering del tipo AX + BY, aplicado a columnas asociadas a la
-# # tarjeta del cliente (Master)
-# dataset[, master_fe_suma_all := 
-#           # Master_mfinanciacion_limite +
-#           Master_msaldototal +
-#           Master_msaldopesos + Master_msaldodolares +
-#           Master_mconsumospesos + Master_mconsumosdolares +
-#           Master_mlimitecompra +
-#           Master_madelantopesos +
-#           Master_madelantodolares + 
-#           Master_mpagado +
-#           Master_mpagospesos +
-#           Master_mpagosdolares + Master_mconsumototal + Master_mpagominimo
-# ]
-# 
-# # Feature Engineering del tipo AX + BY, aplicado a columnas asociadas a la
-# # tarjeta del cliente (Visa)
-# dataset[, visa_fe_suma_all := Visa_mfinanciacion_limite +
-#           # Visa_msaldototal +
-#           Visa_msaldopesos +
-#           Visa_msaldodolares + Visa_mconsumospesos +
-#           Visa_mconsumosdolares +
-#           Visa_mlimitecompra +
-#           Visa_madelantopesos +
-#           Visa_madelantodolares +
-#           Visa_mpagado +
-#           Visa_mpagospesos +
-#           Visa_mpagosdolares + Visa_mconsumototal
-#         + Visa_mpagominimo
-# ]
-# 
-# # Feature Engineering del tipo AX + BY, aplicado a columnas asociadas a las
-# # tarjetas del cliente (Master + Visa)
-# dataset[, tarjetas_fe_suma_all := master_fe_suma_all + visa_fe_suma_all]
-# 
-# 
-# # Feature Engineering del tipo AX + BY, aplicado a todas las columnas en pesos
-# # salvo las tarjetas
-# dataset[, pesos_fe_suma_menos_tarjetas := 
-#           # mrentabilidad +
-#           # mrentabilidad_annual +
-#           mcomisiones +
-#           # mactivos_margen +
-#           # mpasivos_margen +
-#           mcuenta_corriente_adicional + 
-#           # mcuenta_corriente +
-#           # mcaja_ahorro +
-#           mcaja_ahorro_adicional +
-#           # mcaja_ahorro_dolares + 
-#           mcuentas_saldo +
-#           mautoservicio + mtarjeta_visa_consumo +
-#           mtarjeta_master_consumo +
-#           mprestamos_personales + mprestamos_prendarios +
-#           mprestamos_hipotecarios + mplazo_fijo_dolares + mplazo_fijo_pesos +
-#           minversion1_pesos +
-#           minversion1_dolares + minversion2 + 
-#           mpayroll +
-#           mpayroll2 + 
-#           mcuenta_debitos_automaticos +
-#           mttarjeta_master_debitos_automaticos + mpagodeservicios +
-#           mpagomiscuentas +
-#           mcajeros_propios_descuentos +
-#           mtarjeta_visa_descuentos + mtarjeta_master_descuentos +
-#           # mcomisiones_mantenimiento +
-#           mcomisiones_otras +
-#           mforex_buy +
-#           mforex_sell +
-#           mtransferencias_recibidas +
-#           mtransferencias_emitidas +
-#           mextraccion_autoservicio +
-#           mcheques_depositados + mcheques_emitidos +
-#           mcheques_depositados_rechazados + mcheques_emitidos_rechazados +
-#           matm + matm_other
-# ]
-# 
-# # Feature Engineering del tipo AX + BY, aplicado a todas las columnas en pesos
-# dataset[, pesos_fe_suma_all :=
-#           pesos_fe_suma_menos_tarjetas +
-#           tarjetas_fe_suma_all
-# ]
-# 
-# # Feature Engineering del tipo A/B, aplicado a variables más importantes para el
-# # modelo, pero que SI estén en el gráfico, y performen mejor que canarios
-# dataset[, cociente_fe_01 := ctrx_quarter/mcuentas_saldo]
-# dataset[, cociente_fe_02 := ctrx_quarter/mcomisiones]
-# dataset[, cociente_fe_03 := mcuentas_saldo/mcomisiones]
+# Feature Engineering del tipo AX + BY, aplicado a columnas asociadas a la
+# tarjeta del cliente (Master)
+dataset[, master_fe_suma_all :=
+          # Master_mfinanciacion_limite +
+          Master_msaldototal +
+          Master_msaldopesos + Master_msaldodolares +
+          Master_mconsumospesos + Master_mconsumosdolares +
+          Master_mlimitecompra +
+          Master_madelantopesos +
+          Master_madelantodolares +
+          Master_mpagado +
+          Master_mpagospesos +
+          Master_mpagosdolares + Master_mconsumototal + Master_mpagominimo
+]
+
+# Feature Engineering del tipo AX + BY, aplicado a columnas asociadas a la
+# tarjeta del cliente (Visa)
+dataset[, visa_fe_suma_all := Visa_mfinanciacion_limite +
+          # Visa_msaldototal +
+          Visa_msaldopesos +
+          Visa_msaldodolares + Visa_mconsumospesos +
+          Visa_mconsumosdolares +
+          Visa_mlimitecompra +
+          Visa_madelantopesos +
+          Visa_madelantodolares +
+          Visa_mpagado +
+          Visa_mpagospesos +
+          Visa_mpagosdolares + Visa_mconsumototal
+        + Visa_mpagominimo
+]
+
+# Feature Engineering del tipo AX + BY, aplicado a columnas asociadas a las
+# tarjetas del cliente (Master + Visa)
+dataset[, tarjetas_fe_suma_all := master_fe_suma_all + visa_fe_suma_all]
+
+
+# Feature Engineering del tipo AX + BY, aplicado a todas las columnas en pesos
+# salvo las tarjetas
+dataset[, pesos_fe_suma_menos_tarjetas :=
+          # mrentabilidad +
+          # mrentabilidad_annual +
+          mcomisiones +
+          # mactivos_margen +
+          # mpasivos_margen +
+          mcuenta_corriente_adicional +
+          # mcuenta_corriente +
+          # mcaja_ahorro +
+          mcaja_ahorro_adicional +
+          # mcaja_ahorro_dolares +
+          mcuentas_saldo +
+          mautoservicio + mtarjeta_visa_consumo +
+          mtarjeta_master_consumo +
+          mprestamos_personales + mprestamos_prendarios +
+          mprestamos_hipotecarios + mplazo_fijo_dolares + mplazo_fijo_pesos +
+          minversion1_pesos +
+          minversion1_dolares + minversion2 +
+          mpayroll +
+          mpayroll2 +
+          mcuenta_debitos_automaticos +
+          mttarjeta_master_debitos_automaticos + mpagodeservicios +
+          mpagomiscuentas +
+          mcajeros_propios_descuentos +
+          mtarjeta_visa_descuentos + mtarjeta_master_descuentos +
+          # mcomisiones_mantenimiento +
+          mcomisiones_otras +
+          mforex_buy +
+          mforex_sell +
+          mtransferencias_recibidas +
+          mtransferencias_emitidas +
+          mextraccion_autoservicio +
+          mcheques_depositados + mcheques_emitidos +
+          mcheques_depositados_rechazados + mcheques_emitidos_rechazados +
+          matm + matm_other
+]
+
+# Feature Engineering del tipo AX + BY, aplicado a todas las columnas en pesos
+dataset[, pesos_fe_suma_all :=
+          pesos_fe_suma_menos_tarjetas +
+          tarjetas_fe_suma_all
+]
+
+# Feature Engineering del tipo A/B, aplicado a variables más importantes para el
+# modelo, pero que SI estén en el gráfico, y performen mejor que canarios
+dataset[, cociente_fe_01 := ctrx_quarter/mcuentas_saldo]
+dataset[, cociente_fe_02 := ctrx_quarter/mcomisiones]
+dataset[, cociente_fe_03 := mcuentas_saldo/mcomisiones]
 
 #-------------------------------------------------------------#
 #------------------ FIN FEATURE ENGINEERING ------------------#
