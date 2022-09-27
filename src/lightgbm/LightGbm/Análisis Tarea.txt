@@ -51,16 +51,16 @@ Tarea LigthGBM
 			6000	-	"Tarea LigthGBM - punto 5 - 6000"	-	19.07223
 			6500	-	"Tarea LigthGBM - punto 5 - 6500"	-	19.23223
 			7000	-	"Tarea LigthGBM - punto 5 - 7000"	-	19.03223
-			7500	-	"Tarea LigthGBM - punto 5 - 7500"	-	18.76422	===> continuar subiendo de aquí en adelante
-			8000	-	"Tarea LigthGBM - punto 5 - 8000"	-	18.86823
-			8500	-	"Tarea LigthGBM - punto 5 - 8500"	-	19.20023
-			9000	-	"Tarea LigthGBM - punto 5 - 9000"	-	19.02023
-			9500	-	"Tarea LigthGBM - punto 5 - 9500"	-	19.15223
-			10000	-	"Tarea LigthGBM - punto 5 - 10000"	-	18.71622
-			10500	-	"Tarea LigthGBM - punto 5 - 10500"	-	18.00821
-			11000	-	"Tarea LigthGBM - punto 5 - 11000"	-	17.67221
-			11500	-	"Tarea LigthGBM - punto 5 - 11500"	-	17.63221
-			12000	-	"Tarea LigthGBM - punto 5 - 12000"	-	17.25221
+			7500	-	"Tarea LigthGBM - punto 5 - 7500"	-	19.46823
+			8000	-	"Tarea LigthGBM - punto 5 - 8000"	-	19.62023
+			8500	-	"Tarea LigthGBM - punto 5 - 8500"	-	19.40023
+			9000	-	"Tarea LigthGBM - punto 5 - 9000"	-	19.03223
+			9500	-	"Tarea LigthGBM - punto 5 - 9500"	-	19.27623
+			10000	-	"Tarea LigthGBM - punto 5 - 10000"	-	19.12423
+			10500	-	"Tarea LigthGBM - punto 5 - 10500"	-	19.28023
+			11000	-	"Tarea LigthGBM - punto 5 - 11000"	-	18.54022
+			11500	-	"Tarea LigthGBM - punto 5 - 11500"	-	17.70021
+			12000	-	"Tarea LigthGBM - punto 5 - 12000"	-	17.19621
 		Archivos importantes
 			HT7232
 				Salida de ligthgbm BO
@@ -80,3 +80,22 @@ Detalles a futuro
 			Si hay que imputar, capaz que convenga primero hacer ranking, y luego hacer imputanción (x media quizas?)
 	Para Concept drifting
 		????
+		
+Que entregar
+	uno NO debe quedarse con el mayor valor del Public
+	uno debe quedarse, en la meseta del Public, con el punto de corte donde el Public tiene un pico hacia abajo !
+	de ninguna forma esa abolladura del public es el máximo, yo te diría que es hay que quedarse con el mínimo de la meseta del Public
+
+	a razón detras de esto es muy simple :
+	Los datos del futuro son la SUMA del el Public y el Private
+	La curva de ganancia sobre los datos del futuro es mucho mas suave que la del Public ( y en particular cuando el Public es el 30% )
+	Con lo cual, en la meseta, si el Public baja, el Private SUBE
+
+P3: Data Drifting
+	Si aplicas rank(percentiles) para solucionar DD, tenés que sacar la original
+		Ojo con los negativos
+			Hacer dos rankings, uno para pos y otro para neg
+				X q sino, con un ranking estandar, perdés el cero
+		Checkear porcentaje de nulos entre meses
+		Imputación
+			Primero Rank, luego imputar
