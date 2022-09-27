@@ -37,7 +37,7 @@ hs <- makeParamSet(
          makeIntegerParam("min_data_in_leaf", lower=    20L   , upper=  8000L), # modificado
          makeIntegerParam("num_leaves",       lower=   16L   , upper=  1024L),  # modificado
          makeIntegerParam("envios",           lower= 5000L   , upper= 15000L),
-         makeIntegerParam("max_bin",          lower= 2L      , upper= 31L),     # modificado
+         # makeIntegerParam("max_bin",          lower= 2L      , upper= 31L),     # modificado
          makeNumericParam("bagging_fraction", lower= 0.01    , upper= 0.9),     # modificado. Debe estar entre 0 y 1
          makeIntegerParam("bagging_freq",     lower= 1       , upper= 999),     # modificado. Buscamos entre 1 (mínimo y necesario) y 999 (max iteracions, ver más abajo)
          makeNumericParam("lambda_l1",        lower= 0.01   , upper= 100),      # modificado: more info: https://towardsdatascience.com/kagglers-guide-to-lightgbm-hyperparameter-tuning-with-optuna-in-2021-ed048d9838b5
@@ -135,7 +135,7 @@ EstimarGanancia_lightgbm  <- function( x )
                           # min_gain_to_split= 0.0, #por ahora, lo dejo fijo
                           # lambda_l1= 0.0,         #por ahora, lo dejo fijo
                           # lambda_l2= 0.0,         #por ahora, lo dejo fijo
-                          # max_bin= 31,            #por ahora, lo dejo fijo
+                          max_bin= 31,            #por ahora, lo dejo fijo
                           num_iterations= 9999,   #un numero muy grande, lo limita early_stopping_rounds
                           force_row_wise= TRUE,   #para que los alumnos no se atemoricen con tantos warning
                           seed= PARAM$hyperparametertuning$semilla_azar
