@@ -38,8 +38,8 @@ hs <- makeParamSet(
          makeIntegerParam("num_leaves",       lower=   16L   , upper=  1024L),  # modificado
          makeIntegerParam("envios",           lower= 5000L   , upper= 15000L),
          makeIntegerParam("max_bin",          lower= 2L      , upper= 31L),     # modificado
-         makeIntegerParam("bagging_fraction", lower= 0.001   , upper= 0.999),   # modificado. Debe estar entre 0 y 1
-         makeIntegerParam("bagging_freq",     lower= 1   , upper= 999),         # modificado. Buscamos entre 1 (mínimo y necesario) y 999 (max iteracions, ver más abajo)
+         makeIntegerParam("bagging_fraction", lower= 0.1     , upper= 0.9),     # modificado. Debe estar entre 0 y 1
+         makeIntegerParam("bagging_freq",     lower= 1       , upper= 999),     # modificado. Buscamos entre 1 (mínimo y necesario) y 999 (max iteracions, ver más abajo)
          makeIntegerParam("lambda_l1",        lower= 0.01   , upper= 100),      # modificado: more info: https://towardsdatascience.com/kagglers-guide-to-lightgbm-hyperparameter-tuning-with-optuna-in-2021-ed048d9838b5
          makeIntegerParam("lambda_l2",        lower= 0.01   , upper= 100),      # modificado: more info: https://towardsdatascience.com/kagglers-guide-to-lightgbm-hyperparameter-tuning-with-optuna-in-2021-ed048d9838b5
          makeIntegerParam("min_gain_to_split",lower= 0.01   , upper= 15),       # modificado: more info: https://towardsdatascience.com/kagglers-guide-to-lightgbm-hyperparameter-tuning-with-optuna-in-2021-ed048d9838b5
