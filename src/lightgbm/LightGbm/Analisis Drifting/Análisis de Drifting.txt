@@ -1,0 +1,271 @@
+202101 vs 202103
+
+	Diferencia en BAJA + 1; BAJA + 2; CONTINUA	(DD)
+		mcomisiones
+		mpasivos_margen
+		mcuenta_corriente_adicional
+		mcaja_ahorro
+		mcaja_ahorro_dolares	(duda)
+		mcuentas_saldo,
+		ctarjeta_master_transacciones
+		mtarjeta_master_consumo
+		mpayroll,
+		mcuenta_debitos_automaticos
+		ctarjeta_visa_debitos_automaticos
+		cpagomiscuentas,
+		mcajeros_propios_descuentos
+		mtarjeta_master_descuentos
+		ccomisiones_mantenimiento
+		mcomisiones_mantenimiento
+		ccheques_emitidos_rechazados
+		Master_Fvencimiento
+		Master_Finiciomora
+		Master_msaldopesos
+		Master_mconsumospesos
+		Master_mconsumosdolares
+		Master_madelantodolares
+		Master_fultimo_cierre
+		Master_mpagado
+		Master_mpagosdolares
+		Master_mpagominimo
+		Visa_mfinanciacion_limite
+		Visa_Finiciomora
+		Visa_msaldodolares
+		Visa_mconsumospesos
+		Visa_mconsumosdolares
+		Visa_madelantopesos
+		Visa_madelantodolares
+		Visa_fultimo_cierre
+		Visa_mpagado
+		Visa_mpagosdolares
+
+	Diferencia en BAJA + 1; BAJA + 2 (CD)
+		numero_de_cliente
+		mrentabilidad
+		mcomisiones
+		ccuenta_corriente
+		mcuenta_corriente_adicional
+		mcuentas_saldo,
+		cprestamos_hipotecarios
+		cplazo_fijo
+		mplazo_fijo_dolares
+		minversion1_dolares
+		cinversion2
+		mpayroll,
+		mpayroll2,
+		mcuenta_debitos_automaticos
+		mcajeros_propios_descuentos
+		mtarjeta_master_descuentos
+		ccomisiones_mantenimiento
+		mcomisiones_mantenimiento
+		mforex_buy
+		ccheques_depositados_rechazados
+		mcheques_depositados_rechazados
+		ccheques_emitidos_rechazados
+		Master_Fvencimiento
+		Master_Finiciomora
+		Master_msaldopesos
+		Master_mconsumosdolares
+		Master_fultimo_cierre
+		Master_mpagado
+		Master_mpagosdolares
+		Master_cadelantosefectivo
+		Master_mpagominimo
+		Visa_Finiciomora
+		Visa_madelantopesos
+		Visa_fultimo_cierre
+		Visa_mpagado
+		Visa_mpagosdolares
+		Visa_cadelantosefectivo
+
+	Diferencia en BAJA + 2 (CD)
+		numero_de_cliente
+		mrentabilidad
+		mcomisiones
+		cproductos,
+		ccuenta_corriente
+		mcuenta_corriente_adicional
+		mtarjeta_master_consumo
+		cprestamos_personales
+		cprestamos_hipotecarios
+		cplazo_fijo
+		mplazo_fijo_pesos
+		cinversion2
+		mpayroll,
+		mpayroll2,
+		cpayroll2_trx
+		mcuenta_debitos_automaticos
+		mpagomiscuentas,
+		mcajeros_propios_descuentos
+		mtarjeta_master_descuentos
+		ccomisiones_mantenimiento
+		mcomisiones_mantenimiento
+		ccheques_depositados_rechazados
+		mcheques_depositados_rechazados
+		ccheques_emitidos_rechazados
+		Master_Fvencimiento
+		Master_Finiciomora
+		Master_msaldopesos
+		Master_mconsumosdolares
+		Master_madelantopesos,
+		Master_fultimo_cierre
+		Master_mpagado
+		Master_mpagosdolares
+		Master_cadelantosefectivo
+		Master_mpagominimo
+		Visa_Fvencimiento
+		Visa_Finiciomora
+		Visa_madelantopesos
+		Visa_fultimo_cierre
+		Visa_mpagado
+		Visa_mpagosdolares
+		Visa_cadelantosefectivo
+		
+	Diferencia en BAJA + 1 (CD)
+		numero_de_cliente
+		mrentabilidad
+		mcomisiones
+		cproductos,
+		mcuenta_corriente_adicional
+		cprestamos_personales
+		cplazo_fijo
+		mplazo_fijo_dolares
+		minversion1_dolares
+		mpayroll,
+		ccuenta_debitos_automaticos
+		mpagomiscuentas,
+		mcajeros_propios_descuentos
+		mtarjeta_master_descuentos
+		ccomisiones_mantenimiento
+		mcomisiones_mantenimiento
+		mforex_buy
+		ccheques_emitidos_rechazados
+		Master_Fvencimiento
+		Master_Finiciomora
+		Master_msaldopesos
+		Master_madelantopesos,
+		Master_fultimo_cierre
+		Master_mpagado
+		Master_mpagosdolares
+		Master_cadelantosefectivo
+		Master_mpagominimo
+		Visa_Fvencimiento
+		Visa_Finiciomora
+		Visa_mconsumosdolares
+		Visa_madelantopesos
+		Visa_fultimo_cierre
+		Visa_mpagado
+		Visa_mpagosdolares
+		Visa_cadelantosefectivo
+		
+	Diferencia en CONTINUA (CD)
+		mcomisiones
+		mpasivos_margen
+		mcuenta_corriente_adicional
+		mcaja_ahorro
+		mcuentas_saldo,
+		ctarjeta_master_transacciones
+		mpayroll,
+		mcuenta_debitos_automaticos
+		mcajeros_propios_descuentos
+		mtarjeta_master_descuentos
+		ccomisiones_mantenimiento
+		mcomisiones_mantenimiento
+		mforex_buy
+		ccheques_emitidos_rechazados
+		Master_Fvencimiento
+		Master_Finiciomora
+		Master_msaldopesos
+		Master_mconsumosdolares
+		Master_madelantopesos,
+		Master_madelantodolares
+		Master_fultimo_cierre
+		Master_mpagado
+		Master_mpagosdolares
+		Master_mpagominimo
+		Visa_mfinanciacion_limite
+		Visa_Finiciomora
+		Visa_msaldodolares
+		Visa_mconsumospesos
+		Visa_mconsumosdolares
+		Visa_madelantopesos
+		Visa_madelantodolares
+		Visa_fultimo_cierre
+		Visa_mpagado
+		Visa_mpagosdolares
+		
+		
+202103 vs 202105
+
+	Diferencia en BAJA + 1; BAJA + 2; CONTINUA	(DD)
+		mcomisiones,
+		mpasivos_margen,
+		mcuenta_corriente,
+		mcaja_ahorro
+		mcaja_ahorro_dolares
+		mcuentas_saldo
+		mtarjeta_visa_consumo
+		ccuenta_debitos_automaticos
+		mcuenta_debitos_automaticos
+		ccomisiones_otras,
+		mcomisiones_otras
+		chomebanking_transacciones
+		ccajas_otras
+		Master_mfinanciacion_limite
+		Master_Finiciomora
+		Master_fultimo_cierre
+		Visa_Finiciomora
+		Visa_msaldopesos
+		Visa_mconsumospesos
+		Visa_madelantodolares
+		Visa_fultimo_cierre
+		Visa_mpagado
+		Visa_mpagosdolares
+		Visa_mconsumototal
+		
+		
+	Al final no las proceso
+		Visa_mpagospesos,	(quizas)
+		ctarjeta_visa_debitos_automaticos,	(quizas)
+		mttarjeta_visa_debitos_automaticos,	(quizas)
+		Master_msaldototal,	(quizas)
+		cplazo_fijo,	(quizas)
+		mpayroll,	(quizas)
+		mcuenta_corriente_adicional,	(quizas)
+		ctarjeta_debito_transacciones,	(quizas)
+		ctarjeta_master_transacciones,	(quizas)
+		mtarjeta_master_consumo,	(quizas)
+		mprestamos_prendarios,	(quizas)
+		cprestamos_hipotecarios,	(quizas)
+		cpagomiscuentas,	(quizas)
+		Master_Fvencimiento,	(quizas)		
+		Master_mpagado,	(quizas)
+		Master_mpagospesos,	(quizas)
+		Visa_msaldototal,	(quizas)
+		Visa_mpagominimo,	(quizas)
+	
+	Diferencia en BAJA + 1; BAJA + 2 (CD)
+	
+	Diferencia en BAJA + 2 (CD)
+	
+	Diferencia en BAJA + 1 (CD)
+	
+	Diferencia en CONTINUA (CD)
+	
+Lo que otros mencionan
+	"ctrx_quarter",
+	"mprestamos_personales",
+	"mcuentas_saldo",
+	"mactivos_margen",
+	"mcaja_ahorro",
+	"mcuenta_corriente",
+	"ccomisiones_otras",
+	"active_quarter",
+	"cprestamos_personales",
+	"mcomisiones_mantenimiento",
+	"mrentabilidad",
+	"Visa_status",
+	"mpasivos_margen",
+	"cdescubierto_preacordado",
+	"internet",
+	"ccomisiones_mantenimiento"

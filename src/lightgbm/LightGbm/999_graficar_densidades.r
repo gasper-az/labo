@@ -54,9 +54,9 @@ setwd("C:\\uba\\dmeyf")
 #cargo el dataset donde voy a entrenar
 dataset  <- fread("./datasets/competencia2_2022.csv.gz")
 
-mes.ini <- 202101
-mes.fin <- 202103
-considerar.campo <- TRUE
+mes.ini <- 202103
+mes.fin <- 202105
+considerar.campo <- FALSE
 
 dataset  <- dataset[  foto_mes %in% c( mes.ini, mes.fin ) ]
 
@@ -110,17 +110,20 @@ dir.create( "./exp/",  showWarnings = FALSE )
 dir.create( "./exp/DR6135/", showWarnings = FALSE )
 setwd("./exp/DR6135/")
 
-pdf("densidades_01_03_lgbm.pdf")
+pdf("densidades_03_05_lgbm.pdf")
 
 for( campo in  campos_buenos )
 {
   cat( campo, "  " )
   
   graficar_campo( campo, "clase_ternaria", c( "BAJA+1", "BAJA+2", "CONTINUA" ), mes.ini, mes.fin, considerar.campo )
-  graficar_campo( campo, "clase_ternaria", c( "BAJA+1", "BAJA+2" ), mes.ini, mes.fin, considerar.campo )
-  graficar_campo( campo, "clase_ternaria", c( "BAJA+2" ), mes.ini, mes.fin, considerar.campo )
-  graficar_campo( campo, "clase_ternaria", c( "BAJA+1" ), mes.ini, mes.fin, considerar.campo )
-  graficar_campo( campo, "clase_ternaria", c( "CONTINUA" ), mes.ini, mes.fin, considerar.campo )
+  
+  if (considerar.campo) {
+    graficar_campo( campo, "clase_ternaria", c( "BAJA+1", "BAJA+2" ), mes.ini, mes.fin, considerar.campo )
+    graficar_campo( campo, "clase_ternaria", c( "BAJA+2" ), mes.ini, mes.fin, considerar.campo )
+    graficar_campo( campo, "clase_ternaria", c( "BAJA+1" ), mes.ini, mes.fin, considerar.campo )
+    graficar_campo( campo, "clase_ternaria", c( "CONTINUA" ), mes.ini, mes.fin, considerar.campo )  
+  }
 }
 
 dev.off()
