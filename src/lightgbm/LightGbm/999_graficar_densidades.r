@@ -43,7 +43,7 @@ graficar_campo  <- function( campo, campo_clase, valores_clase, ini, fin, consid
   lines(densidad_B, col="red", lty=2)
   
   legend(  "topright",  
-           legend=c("202001", "202003"),
+           legend=c("202103", "202105"),
            col=c("blue", "red"), lty=c(1,2))
 
 }
@@ -56,7 +56,7 @@ dataset  <- fread("./datasets/competencia2_2022.csv.gz")
 
 mes.ini <- 202103
 mes.fin <- 202105
-considerar.campo <- FALSE
+considerar.campo <- FALSE # Puedo/Tegno los datos de cada clase en mes.fin?
 
 dataset  <- dataset[  foto_mes %in% c( mes.ini, mes.fin ) ]
 
@@ -72,6 +72,7 @@ PARAM <- list()
 PARAM$input$dataset       <- "./datasets/competencia2_2022.csv.gz"
 PARAM$input$training      <- c( mes.ini )
 
+# Hiperparámetros que obtuve como salida de una BO para el punto 4 de la tarea de LightGBM
 PARAM$finalmodel$max_bin           <- 31
 PARAM$finalmodel$learning_rate     <- 0.005201496
 PARAM$finalmodel$num_iterations    <- 1444
@@ -103,7 +104,7 @@ modelo  <- lgb.train( data= dtrain,
 
 campos_modelo  <- names( modelo$variable.importance )
 campos_buenos  <- c( campos_modelo,  setdiff( colnames(dataset), campos_modelo ) )
-campos_buenos  <- setdiff(  campos_buenos,  c( "foto_mes","clase_ternaria","clase_binaria" ) )
+campos_buenos  <- setdiff(  campos_buenos,  c( "foto_mes","clase_ternaria","clase_binaria", "train", "clase01" ) )
 
 
 dir.create( "./exp/",  showWarnings = FALSE ) 

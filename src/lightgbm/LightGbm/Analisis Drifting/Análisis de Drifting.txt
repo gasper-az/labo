@@ -269,3 +269,97 @@ Lo que otros mencionan
 	"cdescubierto_preacordado",
 	"internet",
 	"ccomisiones_mantenimiento"
+	
+	
+==========================================================================
+Variables con DD y posible CD
+
+En 202103 vs 202105 (aplica a BAJA + 1; BAJA + 2; CONTINUA)
+	mcomisiones,
+	mpasivos_margen,
+	mcuenta_corriente,
+	mcaja_ahorro
+	mcaja_ahorro_dolares
+	mcuentas_saldo
+	mtarjeta_visa_consumo
+	ccuenta_debitos_automaticos
+	mcuenta_debitos_automaticos
+	ccomisiones_otras,
+	mcomisiones_otras
+	chomebanking_transacciones
+	ccajas_otras
+	Master_mfinanciacion_limite
+	Master_Finiciomora
+	Master_fultimo_cierre
+	Visa_Finiciomora
+	Visa_msaldopesos
+	Visa_mconsumospesos
+	Visa_madelantodolares
+	Visa_fultimo_cierre
+	Visa_mpagado
+	Visa_mpagosdolares
+	Visa_mconsumototal
+	
+Como se comportan en 202101 vs 202103
+	mcomisiones
+		Drifting en [(BAJA + 1; BAJA + 2;); (BAJA + 1); (BAJA + 2)]
+		Posible concept drifting
+	mpasivos_margen
+		Data Drifting
+	mcuenta_corriente
+		Drifting en [(BAJA + 1); (BAJA + 2)] pero NO en (BAJA + 1; BAJA + 2;); 
+		Posible concept drifting
+	mcaja_ahorro
+		Drifting [(CONTINUA); (BAJA+2)]
+		Posible concept drifting
+	mcaja_ahorro_dolares
+		Data Drifting
+	mcuentas_saldo
+		Drifting en [(BAJA + 1); (CONTINUA)]
+		Posible concept drifting
+	mtarjeta_visa_consumo
+		Data Drifting
+	ccuenta_debitos_automaticos
+		Drifting en [(BAJA + 1); (BAJA + 2)]
+		Posible concept drifting
+	mcuenta_debitos_automaticos
+		Drifting en [(BAJA + 2); (CONTINUA)]
+		Posible concept drifting
+	ccomisiones_otras
+		Data Drifting
+	mcomisiones_otras
+		Data Drifting
+	chomebanking_transacciones
+		Data Drifting
+	ccajas_otras
+		Drifting en [(CONTINUA); (BAJA + 1); (BAJA + 2)]
+		Posible concept drifting
+	Master_mfinanciacion_limite
+		Data Drifting
+	Master_Finiciomora
+		Drifting en [(CONTINUA); (BAJA + 1); (BAJA + 2); (BAJA + 1; BAJA + 2;)]
+		Posible concept drifting
+	Master_fultimo_cierre
+		Drifting en [(CONTINUA); (BAJA + 1); (BAJA + 2); (BAJA + 1; BAJA + 2;)]
+		Posible concept drifting
+	Visa_Finiciomora
+		Drifting en [(CONTINUA); (BAJA + 1); (BAJA + 2); (BAJA + 1; BAJA + 2;)]
+		Posible concept drifting
+	Visa_msaldopesos
+		Data Drifting
+	Visa_mconsumospesos
+		Data Drifting
+	Visa_madelantodolares
+		Drifting en [(CONTINUA)]
+		Posible concept drifting
+	Visa_fultimo_cierre
+		Drifting en [(CONTINUA); (BAJA + 1); (BAJA + 2); (BAJA + 1; BAJA + 2;)]
+		Posible concept drifting
+	Visa_mpagado
+		Drifting en [(CONTINUA); (BAJA + 1); (BAJA + 2); (BAJA + 1; BAJA + 2;)]
+		Posible concept drifting
+	Visa_mpagosdolares
+		Drifting en [(CONTINUA); (BAJA + 1); (BAJA + 2); (BAJA + 1; BAJA + 2;)]
+		Posible concept drifting
+	Visa_mconsumototal
+		Data Drifting
