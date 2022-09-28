@@ -7,7 +7,8 @@ Tarea LigthGBM
 				num_leaves			--->	1024
 				min_data_in_leaf	--->	1968
 				feature_fraction	--->	0.750240992
-				semilla				--->	763369
+				semilla				--->	763369	(and 763381)
+				envios				--->	8282
 		Ganancia (según BO)
 			26960000
 		Entregas
@@ -42,7 +43,8 @@ Tarea LigthGBM
 				num_leaves			--->	215
 				min_data_in_leaf	--->	2195
 				feature_fraction	--->	0.38778013
-				semilla				--->	763369				
+				semilla				--->	763369	(and 763381)
+				envios				--->	8633
 		Ganancia (según BO)
 			27620000
 		Entregas
@@ -69,7 +71,48 @@ Tarea LigthGBM
 				Salida de ligthgbm final
 					impo.txt
 					prediccion.txt
-					
+	Punto 6
+		Hiper Parámetros
+				max_bin				--->	31
+				learning_rate		--->	0.0895563938114509
+				num_iterations		--->	1070
+				num_leaves			--->	436
+				min_data_in_leaf	--->	1153
+				feature_fraction	--->	0.445734265464158
+				semilla				--->	763369	(and 763381)
+				envios				--->	8476
+				bagging_fraction	--->	0.66574846403701
+				bagging_freq		--->	29
+				lambda_l1			--->	0.0101007695458883
+				lambda_l2			--->	16.2698980527548
+				min_gain_to_split	--->	0.0783698263738725
+				max_depth 			--->	3
+		Ganancia (según BO)
+			26970000
+		Entregas
+			5000	-	"Tarea LigthGBM - punto 6 - 5000"	-	16.01219
+			5500	-	"Tarea LigthGBM - punto 6 - 5500"	-	16.31619
+			6000	-	"Tarea LigthGBM - punto 6 - 6000"	-	16.27219
+			6500	-	"Tarea LigthGBM - punto 6 - 6500"	-	16.87220
+			7000	-	"Tarea LigthGBM - punto 6 - 7000"	-	16.05619
+			7500	-	"Tarea LigthGBM - punto 6 - 7500"	-	16.31219
+			8000	-	"Tarea LigthGBM - punto 6 - 8000"	-	16.27619
+			8500	-	"Tarea LigthGBM - punto 6 - 8500"	-	16.20419
+			9000	-	"Tarea LigthGBM - punto 6 - 9000"	-	16.20419
+			9500	-	"Tarea LigthGBM - punto 6 - 9500"	-	16.02419	==> seguir con los posteriores
+			10000	-	"Tarea LigthGBM - punto 6 - 10000"	-	15.62819
+			10500	-	"Tarea LigthGBM - punto 6 - 10500"	-	15.77219
+			11000	-	"Tarea LigthGBM - punto 6 - 11000"	-	15.27218
+			11500	-	"Tarea LigthGBM - punto 6 - 11500"	-	15.53218
+			12000	-	"Tarea LigthGBM - punto 6 - 12000"	-	15.07618
+		Archivos importantes
+			HT7233
+				Salida de ligthgbm BO
+					ver importantes y HT7232.txt (está ordenado)
+			KA7243
+				Salida de ligthgbm final
+					impo.txt
+					prediccion.txt				
 					
 					
 
