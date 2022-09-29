@@ -77,7 +77,7 @@ dataset[, pesos_fe_suma_menos_tarjetas :=
 La única excepción se hará con la variable *cociente_fe_01*, ya que la misma fue detectada como importante:
 
 ```{ r }
-dataset[, cociente_fe_01 := ctrx_quarter/mcuentas_saldo]
+dataset[, cociente_fe_01 := ctrx_quarter/ranked_mcuentas_saldo]
 ```
 
 Además, en el [Experimento 04][experimento-04] llegamos a obtener a las siguientes variables como importantes:

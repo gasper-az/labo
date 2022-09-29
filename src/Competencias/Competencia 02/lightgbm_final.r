@@ -133,7 +133,7 @@ dataset[, pesos_fe_suma_menos_tarjetas :=
           matm + matm_other
 ]
 
-dataset[, cociente_fe_01 := ctrx_quarter/mcuentas_saldo]
+dataset[, cociente_fe_01 := ctrx_quarter/ranked_mcuentas_saldo]
 dataset[, cociente_fe_02 := pesos_fe_suma_menos_tarjetas/mrentabilidad_annual]
 dataset[, cociente_fe_03 := pesos_fe_suma_menos_tarjetas/ranked_mcaja_ahorro]
 dataset[, cociente_fe_04 := pesos_fe_suma_menos_tarjetas/Master_Fvencimiento]
