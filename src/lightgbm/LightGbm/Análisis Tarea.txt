@@ -99,7 +99,7 @@ Tarea LigthGBM
 			8000	-	"Tarea LigthGBM - punto 6 - 8000"	-	16.27619
 			8500	-	"Tarea LigthGBM - punto 6 - 8500"	-	16.20419
 			9000	-	"Tarea LigthGBM - punto 6 - 9000"	-	16.20419
-			9500	-	"Tarea LigthGBM - punto 6 - 9500"	-	16.02419	==> seguir con los posteriores
+			9500	-	"Tarea LigthGBM - punto 6 - 9500"	-	16.02419
 			10000	-	"Tarea LigthGBM - punto 6 - 10000"	-	15.62819
 			10500	-	"Tarea LigthGBM - punto 6 - 10500"	-	15.77219
 			11000	-	"Tarea LigthGBM - punto 6 - 11000"	-	15.27218
@@ -114,7 +114,33 @@ Tarea LigthGBM
 					impo.txt
 					prediccion.txt				
 					
-					
+	Otro ejercicio
+		Primero, aplico FE, el mismo de siempre
+		Segundo, aplico ranking a variables con data drifting (y posible concept drifting)
+				"mcomisiones"
+				,"mpasivos_margen"
+				,"mcuenta_corriente"
+				,"mcaja_ahorro"
+				,"mcaja_ahorro_dolares"
+				,"mcuentas_saldo"
+				,"mtarjeta_visa_consumo"
+				,"ccuenta_debitos_automaticos"
+				,"mcuenta_debitos_automaticos"
+				,"ccomisiones_otras"
+				,"mcomisiones_otras"
+				,"chomebanking_transacciones"
+				,"ccajas_otras"
+				,"Master_mfinanciacion_limite"
+				,"Master_Finiciomora"
+				,"Master_fultimo_cierre"
+				,"Visa_Finiciomora"
+				,"Visa_msaldopesos"
+				,"Visa_mconsumospesos"
+				,"Visa_madelantodolares"
+				,"Visa_fultimo_cierre"
+				,"Visa_mpagado"
+				,"Visa_mpagosdolares"
+				,"Visa_mconsumototal"
 
 
 Detalles a futuro

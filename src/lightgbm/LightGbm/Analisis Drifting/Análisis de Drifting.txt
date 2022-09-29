@@ -1,3 +1,122 @@
+==================================== Resultado final para 202103 vs 202105 ====================================
+Todas
+	"mcomisiones"
+	,"mpasivos_margen"
+	,"mcuenta_corriente"
+	,"mcaja_ahorro"
+	,"mcaja_ahorro_dolares"
+	,"mcuentas_saldo"
+	,"mtarjeta_visa_consumo"
+	,"ccuenta_debitos_automaticos"
+	,"mcuenta_debitos_automaticos"
+	,"ccomisiones_otras"
+	,"mcomisiones_otras"
+	,"chomebanking_transacciones"
+	,"ccajas_otras"
+	,"Master_mfinanciacion_limite"
+	,"Master_Finiciomora"
+	,"Master_fultimo_cierre"
+	,"Visa_Finiciomora"
+	,"Visa_msaldopesos"
+	,"Visa_mconsumospesos"
+	,"Visa_madelantodolares"
+	,"Visa_fultimo_cierre"
+	,"Visa_mpagado"
+	,"Visa_mpagosdolares"
+	,"Visa_mconsumototal"
+
+DD
+	"mtarjeta_visa_consumo"
+	,"ccomisiones_otras"
+	,"chomebanking_transacciones"
+	,"Master_mfinanciacion_limite"
+	,"Visa_Finiciomora"
+	,"mpasivos_margen"
+	,"mcaja_ahorro_dolares"
+	,"mcomisiones_otras"
+	,"Visa_msaldopesos"
+	,"Visa_mconsumospesos"
+	,"Visa_mconsumototal"
+
+CD	
+	"mcuenta_debitos_automaticos"
+	,"ccuenta_debitos_automaticos"
+	,"ccajas_otras"
+	,"Master_Finiciomora"
+	,"Visa_madelantodolares"
+	,"Visa_mpagado"
+	,"Visa_mpagosdolares"
+	,"mcomisiones"
+	,"mcuenta_corriente"
+	,"mcaja_ahorro"
+	,"mcuentas_saldo"
+	,"Master_fultimo_cierre"
+	,"Visa_fultimo_cierre"
+	
+DD y positivos
+	"mtarjeta_visa_consumo"
+	,"ccomisiones_otras"
+	,"chomebanking_transacciones"
+	,"Master_mfinanciacion_limite"
+	,"Visa_Finiciomora"
+	
+DD y negativos
+	"mpasivos_margen"
+	,"mcaja_ahorro_dolares"
+	,"mcomisiones_otras"
+	,"Visa_msaldopesos"
+	,"Visa_mconsumospesos"
+	,"Visa_mconsumototal"
+	
+CD y positivos
+	"mcuenta_debitos_automaticos"
+	,"ccuenta_debitos_automaticos"
+	,"ccajas_otras"
+	,"Master_Finiciomora"
+	,"Visa_madelantodolares"
+	,"Visa_mpagado"
+	,"Visa_mpagosdolares"
+	
+CD y negativos
+	"mcomisiones"
+	,"mcuenta_corriente"
+	,"mcaja_ahorro"
+	,"mcuentas_saldo"
+	,"Master_fultimo_cierre"
+	,"Visa_fultimo_cierre"
+	
+Con valores positivos (y cero)
+	,"mtarjeta_visa_consumo"
+	,"ccuenta_debitos_automaticos"
+	,"mcuenta_debitos_automaticos"
+	,"chomebanking_transacciones"
+	,"ccomisiones_otras"
+	,"ccajas_otras"
+	,"Master_mfinanciacion_limite"
+	,"Master_Finiciomora"
+	,"Visa_Finiciomora"
+	,"Visa_madelantodolares"
+	,"Visa_mpagado"
+	,"Visa_mpagosdolares"
+
+Con valores negativos
+	"mcomisiones"
+	,"mpasivos_margen"
+	,"mcuenta_corriente"
+	,"mcaja_ahorro"
+	,"mcaja_ahorro_dolares"
+	,"mcuentas_saldo"
+	,"mcomisiones_otras"
+	,"Master_fultimo_cierre"
+	,"Visa_msaldopesos"
+	,"Visa_mconsumospesos"
+	,"Visa_fultimo_cierre"
+	,"Visa_mconsumototal"
+
+
+==================================== Análisis ====================================
+
+
 202101 vs 202103
 
 	Diferencia en BAJA + 1; BAJA + 2; CONTINUA	(DD)
@@ -275,30 +394,30 @@ Lo que otros mencionan
 Variables con DD y posible CD
 
 En 202103 vs 202105 (aplica a BAJA + 1; BAJA + 2; CONTINUA)
-	mcomisiones,
-	mpasivos_margen,
-	mcuenta_corriente,
-	mcaja_ahorro
-	mcaja_ahorro_dolares
-	mcuentas_saldo
-	mtarjeta_visa_consumo
-	ccuenta_debitos_automaticos
-	mcuenta_debitos_automaticos
-	ccomisiones_otras,
-	mcomisiones_otras
-	chomebanking_transacciones
-	ccajas_otras
-	Master_mfinanciacion_limite
-	Master_Finiciomora
-	Master_fultimo_cierre
-	Visa_Finiciomora
-	Visa_msaldopesos
-	Visa_mconsumospesos
-	Visa_madelantodolares
-	Visa_fultimo_cierre
-	Visa_mpagado
-	Visa_mpagosdolares
-	Visa_mconsumototal
+	"mcomisiones"
+	,"mpasivos_margen"
+	,"mcuenta_corriente"
+	,"mcaja_ahorro"
+	,"mcaja_ahorro_dolares"
+	,"mcuentas_saldo"
+	,"mtarjeta_visa_consumo"
+	,"ccuenta_debitos_automaticos"
+	,"mcuenta_debitos_automaticos"
+	,"ccomisiones_otras"
+	,"mcomisiones_otras"
+	,"chomebanking_transacciones"
+	,"ccajas_otras"
+	,"Master_mfinanciacion_limite"
+	,"Master_Finiciomora"
+	,"Master_fultimo_cierre"
+	,"Visa_Finiciomora"
+	,"Visa_msaldopesos"
+	,"Visa_mconsumospesos"
+	,"Visa_madelantodolares"
+	,"Visa_fultimo_cierre"
+	,"Visa_mpagado"
+	,"Visa_mpagosdolares"
+	,"Visa_mconsumototal"
 	
 Como se comportan en 202101 vs 202103
 	mcomisiones
@@ -363,3 +482,200 @@ Como se comportan en 202101 vs 202103
 		Posible concept drifting
 	Visa_mconsumototal
 		Data Drifting
+		
+
+Analizo variables una por una
+
+
+======================================== 
+ mcomisiones 
+	Positivos:	 760303 
+	Negativos:	 31733 
+	Ceros:	 21177 
+	NAs total:	 0 
+	NAs Marzo:	 0 
+	NAs: Mayo	 0 
+======================================== 
+ mpasivos_margen 
+	Positivos:	 776733 
+	Negativos:	 25948 
+	Ceros:	 10532 
+	NAs total:	 0 
+	NAs Marzo:	 0 
+	NAs: Mayo	 0 
+======================================== 
+ mcuenta_corriente 
+	Positivos:	 61846 
+	Negativos:	 346592 
+	Ceros:	 404775 
+	NAs total:	 0 
+	NAs Marzo:	 0 
+	NAs: Mayo	 0 
+======================================== 
+ mcaja_ahorro 
+	Positivos:	 756614 
+	Negativos:	 35 
+	Ceros:	 56564 
+	NAs total:	 0 
+	NAs Marzo:	 0 
+	NAs: Mayo	 0 
+======================================== 
+ mcaja_ahorro_dolares 
+	Positivos:	 454031 
+	Negativos:	 217 
+	Ceros:	 358965 
+	NAs total:	 0 
+	NAs Marzo:	 0 
+	NAs: Mayo	 0 
+======================================== 
+ mcuentas_saldo 
+	Positivos:	 647592 
+	Negativos:	 160361 
+	Ceros:	 5260 
+	NAs total:	 0 
+	NAs Marzo:	 0 
+	NAs: Mayo	 0 
+======================================== 
+ mtarjeta_visa_consumo 
+	Positivos:	 691455 
+	Negativos:	 0 
+	Ceros:	 121758 
+	NAs total:	 0 
+	NAs Marzo:	 0 
+	NAs: Mayo	 0 
+======================================== 
+ ccuenta_debitos_automaticos 
+	Positivos:	 387396 
+	Negativos:	 0 
+	Ceros:	 425817 
+	NAs total:	 0 
+	NAs Marzo:	 0 
+	NAs: Mayo	 0 
+======================================== 
+ mcuenta_debitos_automaticos 
+	Positivos:	 387396 
+	Negativos:	 0 
+	Ceros:	 425817 
+	NAs total:	 0 
+	NAs Marzo:	 0 
+	NAs: Mayo	 0 
+======================================== 
+ ccomisiones_otras 
+	Positivos:	 792334 
+	Negativos:	 0 
+	Ceros:	 20879 
+	NAs total:	 0 
+	NAs Marzo:	 0 
+	NAs: Mayo	 0 
+======================================== 
+ mcomisiones_otras 
+	Positivos:	 760604 
+	Negativos:	 31659 
+	Ceros:	 20950 
+	NAs total:	 0 
+	NAs Marzo:	 0 
+	NAs: Mayo	 0 
+======================================== 
+ chomebanking_transacciones 
+	Positivos:	 680469 
+	Negativos:	 0 
+	Ceros:	 132744 
+	NAs total:	 0 
+	NAs Marzo:	 0 
+	NAs: Mayo	 0 
+======================================== 
+ ccajas_otras 
+	Positivos:	 17050 
+	Negativos:	 0 
+	Ceros:	 796163 
+	NAs total:	 0 
+	NAs Marzo:	 0 
+	NAs: Mayo	 0 
+======================================== 
+ Master_mfinanciacion_limite 
+	Positivos:	 728676 
+	Negativos:	 0 
+	Ceros:	 157 
+	NAs total:	 84380 
+	NAs Marzo:	 16847 
+	NAs: Mayo	 16750 
+======================================== 
+ Master_Finiciomora 
+	Positivos:	 4115 
+	Negativos:	 30 
+	Ceros:	 0 
+	NAs total:	 809068 
+	NAs Marzo:	 161773 
+	NAs: Mayo	 162950 
+======================================== 
+ Master_fultimo_cierre 
+	Positivos:	 617500 
+	Negativos:	 111012 
+	Ceros:	 0 
+	NAs total:	 84701 
+	NAs Marzo:	 16886 
+	NAs: Mayo	 16892 
+======================================== 
+ Visa_Finiciomora 
+	Positivos:	 5696 
+	Negativos:	 0 
+	Ceros:	 6597 
+	NAs total:	 800920 
+	NAs Marzo:	 161421 
+	NAs: Mayo	 159424 
+======================================== 
+ Visa_msaldopesos 
+	Positivos:	 692141 
+	Negativos:	 11437 
+	Ceros:	 70061 
+	NAs total:	 39574 
+	NAs Marzo:	 7894 
+	NAs: Mayo	 8039 
+======================================== 
+ Visa_mconsumospesos 
+	Positivos:	 626768 
+	Negativos:	 7328 
+	Ceros:	 69599 
+	NAs total:	 109518 
+	NAs Marzo:	 21925 
+	NAs: Mayo	 21638 
+======================================== 
+ Visa_madelantodolares 
+	Positivos:	 83 
+	Negativos:	 0 
+	Ceros:	 703612 
+	NAs total:	 109518 
+	NAs Marzo:	 21925 
+	NAs: Mayo	 21638 
+======================================== 
+ Visa_fultimo_cierre 
+	Positivos:	 662121 
+	Negativos:	 111298 
+	Ceros:	 0 
+	NAs total:	 39794 
+	NAs Marzo:	 7915 
+	NAs: Mayo	 8142 
+======================================== 
+ Visa_mpagado 
+	Positivos:	 126742 
+	Negativos:	 0 
+	Ceros:	 646897 
+	NAs total:	 39574 
+	NAs Marzo:	 7894 
+	NAs: Mayo	 8039 
+======================================== 
+ Visa_mpagosdolares 
+	Positivos:	 74019 
+	Negativos:	 0 
+	Ceros:	 629676 
+	NAs total:	 109518 
+	NAs Marzo:	 21925 
+	NAs: Mayo	 21638 
+======================================== 
+ Visa_mconsumototal 
+	Positivos:	 626768 
+	Negativos:	 7328 
+	Ceros:	 69599 
+	NAs total:	 109518 
+	NAs Marzo:	 21925 
+	NAs: Mayo	 21638 
