@@ -16,7 +16,7 @@ require("lightgbm")
 #defino los parametros de la corrida, en una lista, la variable global  PARAM
 #  muy pronto esto se leera desde un archivo formato .yaml
 PARAM <- list()
-PARAM$experimento  <- "KA7243"
+PARAM$experimento  <- "KA7244"
 
 PARAM$input$dataset       <- "./datasets/competencia2_2022.csv.gz"
 PARAM$input$training      <- c( 202103 )
@@ -150,6 +150,47 @@ dataset[, cociente_fe_03 := mcuentas_saldo/mcomisiones]
 
 #-------------------------------------------------------------#
 #------------------ FIN FEATURE ENGINEERING ------------------#
+#-------------------------------------------------------------#
+
+#-------------------------------------------------------------#
+#------------- RANKING DE VARIABLES CON DRIFTING -------------#
+#-------------------------------------------------------------#
+
+variables.con.drifting <- c(
+  "mcomisiones"
+  ,"mpasivos_margen"
+  ,"mcuenta_corriente"
+  ,"mcaja_ahorro"
+  ,"mcaja_ahorro_dolares"
+  ,"mcuentas_saldo"
+  ,"mtarjeta_visa_consumo"
+  ,"ccuenta_debitos_automaticos"
+  ,"mcuenta_debitos_automaticos"
+  ,"ccomisiones_otras"
+  ,"mcomisiones_otras"
+  ,"chomebanking_transacciones"
+  ,"ccajas_otras"
+  ,"Master_mfinanciacion_limite"
+  ,"Master_Finiciomora"
+  ,"Master_fultimo_cierre"
+  ,"Visa_Finiciomora"
+  ,"Visa_msaldopesos"
+  ,"Visa_mconsumospesos"
+  ,"Visa_madelantodolares"
+  ,"Visa_fultimo_cierre"
+  ,"Visa_mpagado"
+  ,"Visa_mpagosdolares"
+  ,"Visa_mconsumototal"
+)
+
+rank.prefix <- "ranked_"
+for (var in variables.con.drifting) {
+  dataset[, paste0(rank.prefix, var) := frankv(dataset, cols = var, na.last = TRUE, ties.method = "dense")]
+  dataset[, (var) := NULL]
+}
+
+#-------------------------------------------------------------#
+#----------- FIN RANKING DE VARIABLES CON DRIFTING -----------#
 #-------------------------------------------------------------#
 
 #--------------------------------------

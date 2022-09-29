@@ -28,29 +28,27 @@ options(error = function() {
   stop("exiting after script error") 
 })
 
-
-
 #Aqui se cargan los hiperparametros
 hs <- makeParamSet( 
          makeNumericParam("learning_rate",    lower=    0.005, upper=    0.3),
          makeNumericParam("feature_fraction", lower=    0.2  , upper=    1.0),
-         makeIntegerParam("min_data_in_leaf", lower=    20L   , upper=  8000L), # modificado
+         makeIntegerParam("min_data_in_leaf", lower=    20L  , upper=  8000L),  # modificado
          makeIntegerParam("num_leaves",       lower=   16L   , upper=  1024L),  # modificado
          makeIntegerParam("envios",           lower= 5000L   , upper= 15000L),
-         # makeIntegerParam("max_bin",          lower= 2L      , upper= 31L),     # modificado
-         makeNumericParam("bagging_fraction", lower= 0.01    , upper= 0.9),     # modificado. Debe estar entre 0 y 1
+         # makeIntegerParam("max_bin",          lower= 2L      , upper= 31L),   # modificado
+         makeNumericParam("bagging_fraction", lower= 0.0001  , upper= 0.9999),  # modificado. Debe estar entre 0 y 1
          makeIntegerParam("bagging_freq",     lower= 1       , upper= 999),     # modificado. Buscamos entre 1 (mínimo y necesario) y 999 (max iteracions, ver más abajo)
-         makeNumericParam("lambda_l1",        lower= 0.01   , upper= 100),      # modificado: more info: https://towardsdatascience.com/kagglers-guide-to-lightgbm-hyperparameter-tuning-with-optuna-in-2021-ed048d9838b5
-         makeNumericParam("lambda_l2",        lower= 0.01   , upper= 100),      # modificado: more info: https://towardsdatascience.com/kagglers-guide-to-lightgbm-hyperparameter-tuning-with-optuna-in-2021-ed048d9838b5
-         makeNumericParam("min_gain_to_split",lower= 0.01   , upper= 15),       # modificado: more info: https://towardsdatascience.com/kagglers-guide-to-lightgbm-hyperparameter-tuning-with-optuna-in-2021-ed048d9838b5
-         makeIntegerParam("max_depth ",       lower= 1      , upper= 15)        # modificado: busco entre 1 y 15. Después veré que otros valores pueden ser de interés
+         makeNumericParam("lambda_l1",        lower= 0.0001  , upper= 100),     # modificado: more info: https://towardsdatascience.com/kagglers-guide-to-lightgbm-hyperparameter-tuning-with-optuna-in-2021-ed048d9838b5
+         makeNumericParam("lambda_l2",        lower= 0.0001  , upper= 100),     # modificado: more info: https://towardsdatascience.com/kagglers-guide-to-lightgbm-hyperparameter-tuning-with-optuna-in-2021-ed048d9838b5
+         makeNumericParam("min_gain_to_split",lower= 0.0001  , upper= 15),      # modificado: more info: https://towardsdatascience.com/kagglers-guide-to-lightgbm-hyperparameter-tuning-with-optuna-in-2021-ed048d9838b5
+         makeIntegerParam("max_depth ",       lower= 1       , upper= 30)       # modificado: busco entre 1 y 30. Después veré que otros valores pueden ser de interés
         )
 
 #defino los parametros de la corrida, en una lista, la variable global  PARAM
 #  muy pronto esto se leera desde un archivo formato .yaml
 PARAM  <- list()
 
-PARAM$experimento  <- "HT7233"
+PARAM$experimento  <- "HT7234"
 
 PARAM$input$dataset       <- "./datasets/competencia2_2022.csv.gz"
 PARAM$input$training      <- c( 202103 )
@@ -294,6 +292,47 @@ dataset[, cociente_fe_03 := mcuentas_saldo/mcomisiones]
 
 #-------------------------------------------------------------#
 #------------------ FIN FEATURE ENGINEERING ------------------#
+#-------------------------------------------------------------#
+
+#-------------------------------------------------------------#
+#------------- RANKING DE VARIABLES CON DRIFTING -------------#
+#-------------------------------------------------------------#
+
+variables.con.drifting <- c(
+  "mcomisiones"
+  ,"mpasivos_margen"
+  ,"mcuenta_corriente"
+  ,"mcaja_ahorro"
+  ,"mcaja_ahorro_dolares"
+  ,"mcuentas_saldo"
+  ,"mtarjeta_visa_consumo"
+  ,"ccuenta_debitos_automaticos"
+  ,"mcuenta_debitos_automaticos"
+  ,"ccomisiones_otras"
+  ,"mcomisiones_otras"
+  ,"chomebanking_transacciones"
+  ,"ccajas_otras"
+  ,"Master_mfinanciacion_limite"
+  ,"Master_Finiciomora"
+  ,"Master_fultimo_cierre"
+  ,"Visa_Finiciomora"
+  ,"Visa_msaldopesos"
+  ,"Visa_mconsumospesos"
+  ,"Visa_madelantodolares"
+  ,"Visa_fultimo_cierre"
+  ,"Visa_mpagado"
+  ,"Visa_mpagosdolares"
+  ,"Visa_mconsumototal"
+)
+
+rank.prefix <- "ranked_"
+for (var in variables.con.drifting) {
+  dataset[, paste0(rank.prefix, var) := frankv(dataset, cols = var, na.last = TRUE, ties.method = "dense")]
+  dataset[, (var) := NULL]
+}
+
+#-------------------------------------------------------------#
+#----------- FIN RANKING DE VARIABLES CON DRIFTING -----------#
 #-------------------------------------------------------------#
 
 #creo la carpeta donde va el experimento
