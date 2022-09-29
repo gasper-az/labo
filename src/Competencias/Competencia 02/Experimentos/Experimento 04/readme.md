@@ -208,6 +208,9 @@ Si ahora también consideramos a aquellos que aparezcan entre las *10* primeras 
 | cociente_fe_01                | n/a   | 9no | 5to   |
 | ranked_mcuentas_saldo         | 7mo   | n/a | 10mo  |
 
+TODO:
+Ahora bien, comparémoslo con el impo_78.txt
+
 <!-- Links a scripts -->
 [script-ligthgbm-bo]: ../../lightgbm_binaria_BO.r
 [script-ligthgbm-ejecucion]: ../../lightgbm_final.r
