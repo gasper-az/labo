@@ -1,0 +1,170 @@
+Tarea LigthGBM
+	Punto 4
+		Hiper Parámetros
+				max_bin				--->	31
+				learning_rate		--->	0.005201496
+				num_iterations		--->	1444
+				num_leaves			--->	1024
+				min_data_in_leaf	--->	1968
+				feature_fraction	--->	0.750240992
+				semilla				--->	763369	(and 763381)
+				envios				--->	8282
+		Ganancia (según BO)
+			26960000
+		Entregas
+			5000	-	"Tarea LigthGBM - punto 4 - 5000"	-	17.93621
+			5500	-	"Tarea LigthGBM - punto 4 - 5500"	-	18.10022
+			6000	-	"Tarea LigthGBM - punto 4 - 6000"	-	18.45622
+			6500	-	"Tarea LigthGBM - punto 4 - 6500"	-	18.42422
+			7000	-	"Tarea LigthGBM - punto 4 - 7000"	-	18.61622
+			7500	-	"Tarea LigthGBM - punto 4 - 7500"	-	18.76422
+			8000	-	"Tarea LigthGBM - punto 4 - 8000"	-	18.86823
+			8500	-	"Tarea LigthGBM - punto 4 - 8500"	-	19.20023
+			9000	-	"Tarea LigthGBM - punto 4 - 9000"	-	19.02023
+			9500	-	"Tarea LigthGBM - punto 4 - 9500"	-	19.15223
+			10000	-	"Tarea LigthGBM - punto 4 - 10000"	-	18.71622
+			10500	-	"Tarea LigthGBM - punto 4 - 10500"	-	18.00821
+			11000	-	"Tarea LigthGBM - punto 4 - 11000"	-	17.67221
+			11500	-	"Tarea LigthGBM - punto 4 - 11500"	-	17.63221
+			12000	-	"Tarea LigthGBM - punto 4 - 12000"	-	17.25221
+		Archivos importantes
+			HT7231	-	01
+				Salida de ligthgbm BO
+					ver importantes y HT7231.txt (está ordenado)
+			KA7240	-	01
+				Salida de ligthgbm final
+					impo.txt
+					prediccion.txt
+	Punto 5
+		Hiper Parámetros
+				max_bin				--->	31
+				learning_rate		--->	0.005021101
+				num_iterations		--->	1070
+				num_leaves			--->	215
+				min_data_in_leaf	--->	2195
+				feature_fraction	--->	0.38778013
+				semilla				--->	763369	(and 763381)
+				envios				--->	8633
+		Ganancia (según BO)
+			27620000
+		Entregas
+			5000	-	"Tarea LigthGBM - punto 5 - 5000"	-	17.90021
+			5500	-	"Tarea LigthGBM - punto 5 - 5500"	-	18.87223
+			6000	-	"Tarea LigthGBM - punto 5 - 6000"	-	19.07223
+			6500	-	"Tarea LigthGBM - punto 5 - 6500"	-	19.23223
+			7000	-	"Tarea LigthGBM - punto 5 - 7000"	-	19.03223
+			7500	-	"Tarea LigthGBM - punto 5 - 7500"	-	19.46823
+			8000	-	"Tarea LigthGBM - punto 5 - 8000"	-	19.62023
+			8500	-	"Tarea LigthGBM - punto 5 - 8500"	-	19.40023
+			9000	-	"Tarea LigthGBM - punto 5 - 9000"	-	19.03223
+			9500	-	"Tarea LigthGBM - punto 5 - 9500"	-	19.27623
+			10000	-	"Tarea LigthGBM - punto 5 - 10000"	-	19.12423
+			10500	-	"Tarea LigthGBM - punto 5 - 10500"	-	19.28023
+			11000	-	"Tarea LigthGBM - punto 5 - 11000"	-	18.54022
+			11500	-	"Tarea LigthGBM - punto 5 - 11500"	-	17.70021
+			12000	-	"Tarea LigthGBM - punto 5 - 12000"	-	17.19621
+		Archivos importantes
+			HT7232
+				Salida de ligthgbm BO
+					ver importantes y HT7232.txt (está ordenado)
+			KA7241
+				Salida de ligthgbm final
+					impo.txt
+					prediccion.txt
+	Punto 6
+		Hiper Parámetros
+				max_bin				--->	31
+				learning_rate		--->	0.0895563938114509
+				num_iterations		--->	1070
+				num_leaves			--->	436
+				min_data_in_leaf	--->	1153
+				feature_fraction	--->	0.445734265464158
+				semilla				--->	763369	(and 763381)
+				envios				--->	8476
+				bagging_fraction	--->	0.66574846403701
+				bagging_freq		--->	29
+				lambda_l1			--->	0.0101007695458883
+				lambda_l2			--->	16.2698980527548
+				min_gain_to_split	--->	0.0783698263738725
+				max_depth 			--->	3
+		Ganancia (según BO)
+			26970000
+		Entregas
+			5000	-	"Tarea LigthGBM - punto 6 - 5000"	-	16.01219
+			5500	-	"Tarea LigthGBM - punto 6 - 5500"	-	16.31619
+			6000	-	"Tarea LigthGBM - punto 6 - 6000"	-	16.27219
+			6500	-	"Tarea LigthGBM - punto 6 - 6500"	-	16.87220
+			7000	-	"Tarea LigthGBM - punto 6 - 7000"	-	16.05619
+			7500	-	"Tarea LigthGBM - punto 6 - 7500"	-	16.31219
+			8000	-	"Tarea LigthGBM - punto 6 - 8000"	-	16.27619
+			8500	-	"Tarea LigthGBM - punto 6 - 8500"	-	16.20419
+			9000	-	"Tarea LigthGBM - punto 6 - 9000"	-	16.20419
+			9500	-	"Tarea LigthGBM - punto 6 - 9500"	-	16.02419
+			10000	-	"Tarea LigthGBM - punto 6 - 10000"	-	15.62819
+			10500	-	"Tarea LigthGBM - punto 6 - 10500"	-	15.77219
+			11000	-	"Tarea LigthGBM - punto 6 - 11000"	-	15.27218
+			11500	-	"Tarea LigthGBM - punto 6 - 11500"	-	15.53218
+			12000	-	"Tarea LigthGBM - punto 6 - 12000"	-	15.07618
+		Archivos importantes
+			HT7233
+				Salida de ligthgbm BO
+					ver importantes y HT7232.txt (está ordenado)
+			KA7243
+				Salida de ligthgbm final
+					impo.txt
+					prediccion.txt				
+					
+	Otro ejercicio
+		Primero, aplico FE, el mismo de siempre
+		Segundo, aplico ranking a variables con data drifting (y posible concept drifting)
+				"mcomisiones"
+				,"mpasivos_margen"
+				,"mcuenta_corriente"
+				,"mcaja_ahorro"
+				,"mcaja_ahorro_dolares"
+				,"mcuentas_saldo"
+				,"mtarjeta_visa_consumo"
+				,"ccuenta_debitos_automaticos"
+				,"mcuenta_debitos_automaticos"
+				,"ccomisiones_otras"
+				,"mcomisiones_otras"
+				,"chomebanking_transacciones"
+				,"ccajas_otras"
+				,"Master_mfinanciacion_limite"
+				,"Master_Finiciomora"
+				,"Master_fultimo_cierre"
+				,"Visa_Finiciomora"
+				,"Visa_msaldopesos"
+				,"Visa_mconsumospesos"
+				,"Visa_madelantodolares"
+				,"Visa_fultimo_cierre"
+				,"Visa_mpagado"
+				,"Visa_mpagosdolares"
+				,"Visa_mconsumototal"
+
+
+Detalles a futuro
+	Para data drifting
+		(frank (VAR) -1) / (N-1)
+			Si hay que imputar, capaz que convenga primero hacer ranking, y luego hacer imputanción (x media quizas?)
+	Para Concept drifting
+		????
+		
+Que entregar
+	uno NO debe quedarse con el mayor valor del Public
+	uno debe quedarse, en la meseta del Public, con el punto de corte donde el Public tiene un pico hacia abajo !
+	de ninguna forma esa abolladura del public es el máximo, yo te diría que es hay que quedarse con el mínimo de la meseta del Public
+
+	a razón detras de esto es muy simple :
+	Los datos del futuro son la SUMA del el Public y el Private
+	La curva de ganancia sobre los datos del futuro es mucho mas suave que la del Public ( y en particular cuando el Public es el 30% )
+	Con lo cual, en la meseta, si el Public baja, el Private SUBE
+
+P3: Data Drifting
+	Si aplicas rank(percentiles) para solucionar DD, tenés que sacar la original
+		Ojo con los negativos
+			Hacer dos rankings, uno para pos y otro para neg
+				X q sino, con un ranking estandar, perdés el cero
+		Checkear porcentaje de nulos entre meses
+		Imputación
+			Primero Rank, luego imputar

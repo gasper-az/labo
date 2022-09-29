@@ -1,0 +1,681 @@
+==================================== Resultado final para 202103 vs 202105 ====================================
+Todas
+	"mcomisiones"
+	,"mpasivos_margen"
+	,"mcuenta_corriente"
+	,"mcaja_ahorro"
+	,"mcaja_ahorro_dolares"
+	,"mcuentas_saldo"
+	,"mtarjeta_visa_consumo"
+	,"ccuenta_debitos_automaticos"
+	,"mcuenta_debitos_automaticos"
+	,"ccomisiones_otras"
+	,"mcomisiones_otras"
+	,"chomebanking_transacciones"
+	,"ccajas_otras"
+	,"Master_mfinanciacion_limite"
+	,"Master_Finiciomora"
+	,"Master_fultimo_cierre"
+	,"Visa_Finiciomora"
+	,"Visa_msaldopesos"
+	,"Visa_mconsumospesos"
+	,"Visa_madelantodolares"
+	,"Visa_fultimo_cierre"
+	,"Visa_mpagado"
+	,"Visa_mpagosdolares"
+	,"Visa_mconsumototal"
+
+DD
+	"mtarjeta_visa_consumo"
+	,"ccomisiones_otras"
+	,"chomebanking_transacciones"
+	,"Master_mfinanciacion_limite"
+	,"Visa_Finiciomora"
+	,"mpasivos_margen"
+	,"mcaja_ahorro_dolares"
+	,"mcomisiones_otras"
+	,"Visa_msaldopesos"
+	,"Visa_mconsumospesos"
+	,"Visa_mconsumototal"
+
+CD	
+	"mcuenta_debitos_automaticos"
+	,"ccuenta_debitos_automaticos"
+	,"ccajas_otras"
+	,"Master_Finiciomora"
+	,"Visa_madelantodolares"
+	,"Visa_mpagado"
+	,"Visa_mpagosdolares"
+	,"mcomisiones"
+	,"mcuenta_corriente"
+	,"mcaja_ahorro"
+	,"mcuentas_saldo"
+	,"Master_fultimo_cierre"
+	,"Visa_fultimo_cierre"
+	
+DD y positivos
+	"mtarjeta_visa_consumo"
+	,"ccomisiones_otras"
+	,"chomebanking_transacciones"
+	,"Master_mfinanciacion_limite"
+	,"Visa_Finiciomora"
+	
+DD y negativos
+	"mpasivos_margen"
+	,"mcaja_ahorro_dolares"
+	,"mcomisiones_otras"
+	,"Visa_msaldopesos"
+	,"Visa_mconsumospesos"
+	,"Visa_mconsumototal"
+	
+CD y positivos
+	"mcuenta_debitos_automaticos"
+	,"ccuenta_debitos_automaticos"
+	,"ccajas_otras"
+	,"Master_Finiciomora"
+	,"Visa_madelantodolares"
+	,"Visa_mpagado"
+	,"Visa_mpagosdolares"
+	
+CD y negativos
+	"mcomisiones"
+	,"mcuenta_corriente"
+	,"mcaja_ahorro"
+	,"mcuentas_saldo"
+	,"Master_fultimo_cierre"
+	,"Visa_fultimo_cierre"
+	
+Con valores positivos (y cero)
+	,"mtarjeta_visa_consumo"
+	,"ccuenta_debitos_automaticos"
+	,"mcuenta_debitos_automaticos"
+	,"chomebanking_transacciones"
+	,"ccomisiones_otras"
+	,"ccajas_otras"
+	,"Master_mfinanciacion_limite"
+	,"Master_Finiciomora"
+	,"Visa_Finiciomora"
+	,"Visa_madelantodolares"
+	,"Visa_mpagado"
+	,"Visa_mpagosdolares"
+
+Con valores negativos
+	"mcomisiones"
+	,"mpasivos_margen"
+	,"mcuenta_corriente"
+	,"mcaja_ahorro"
+	,"mcaja_ahorro_dolares"
+	,"mcuentas_saldo"
+	,"mcomisiones_otras"
+	,"Master_fultimo_cierre"
+	,"Visa_msaldopesos"
+	,"Visa_mconsumospesos"
+	,"Visa_fultimo_cierre"
+	,"Visa_mconsumototal"
+
+
+==================================== Análisis ====================================
+
+
+202101 vs 202103
+
+	Diferencia en BAJA + 1; BAJA + 2; CONTINUA	(DD)
+		mcomisiones
+		mpasivos_margen
+		mcuenta_corriente_adicional
+		mcaja_ahorro
+		mcaja_ahorro_dolares	(duda)
+		mcuentas_saldo,
+		ctarjeta_master_transacciones
+		mtarjeta_master_consumo
+		mpayroll,
+		mcuenta_debitos_automaticos
+		ctarjeta_visa_debitos_automaticos
+		cpagomiscuentas,
+		mcajeros_propios_descuentos
+		mtarjeta_master_descuentos
+		ccomisiones_mantenimiento
+		mcomisiones_mantenimiento
+		ccheques_emitidos_rechazados
+		Master_Fvencimiento
+		Master_Finiciomora
+		Master_msaldopesos
+		Master_mconsumospesos
+		Master_mconsumosdolares
+		Master_madelantodolares
+		Master_fultimo_cierre
+		Master_mpagado
+		Master_mpagosdolares
+		Master_mpagominimo
+		Visa_mfinanciacion_limite
+		Visa_Finiciomora
+		Visa_msaldodolares
+		Visa_mconsumospesos
+		Visa_mconsumosdolares
+		Visa_madelantopesos
+		Visa_madelantodolares
+		Visa_fultimo_cierre
+		Visa_mpagado
+		Visa_mpagosdolares
+
+	Diferencia en BAJA + 1; BAJA + 2 (CD)
+		numero_de_cliente
+		mrentabilidad
+		mcomisiones
+		ccuenta_corriente
+		mcuenta_corriente_adicional
+		mcuentas_saldo,
+		cprestamos_hipotecarios
+		cplazo_fijo
+		mplazo_fijo_dolares
+		minversion1_dolares
+		cinversion2
+		mpayroll,
+		mpayroll2,
+		mcuenta_debitos_automaticos
+		mcajeros_propios_descuentos
+		mtarjeta_master_descuentos
+		ccomisiones_mantenimiento
+		mcomisiones_mantenimiento
+		mforex_buy
+		ccheques_depositados_rechazados
+		mcheques_depositados_rechazados
+		ccheques_emitidos_rechazados
+		Master_Fvencimiento
+		Master_Finiciomora
+		Master_msaldopesos
+		Master_mconsumosdolares
+		Master_fultimo_cierre
+		Master_mpagado
+		Master_mpagosdolares
+		Master_cadelantosefectivo
+		Master_mpagominimo
+		Visa_Finiciomora
+		Visa_madelantopesos
+		Visa_fultimo_cierre
+		Visa_mpagado
+		Visa_mpagosdolares
+		Visa_cadelantosefectivo
+
+	Diferencia en BAJA + 2 (CD)
+		numero_de_cliente
+		mrentabilidad
+		mcomisiones
+		cproductos,
+		ccuenta_corriente
+		mcuenta_corriente_adicional
+		mtarjeta_master_consumo
+		cprestamos_personales
+		cprestamos_hipotecarios
+		cplazo_fijo
+		mplazo_fijo_pesos
+		cinversion2
+		mpayroll,
+		mpayroll2,
+		cpayroll2_trx
+		mcuenta_debitos_automaticos
+		mpagomiscuentas,
+		mcajeros_propios_descuentos
+		mtarjeta_master_descuentos
+		ccomisiones_mantenimiento
+		mcomisiones_mantenimiento
+		ccheques_depositados_rechazados
+		mcheques_depositados_rechazados
+		ccheques_emitidos_rechazados
+		Master_Fvencimiento
+		Master_Finiciomora
+		Master_msaldopesos
+		Master_mconsumosdolares
+		Master_madelantopesos,
+		Master_fultimo_cierre
+		Master_mpagado
+		Master_mpagosdolares
+		Master_cadelantosefectivo
+		Master_mpagominimo
+		Visa_Fvencimiento
+		Visa_Finiciomora
+		Visa_madelantopesos
+		Visa_fultimo_cierre
+		Visa_mpagado
+		Visa_mpagosdolares
+		Visa_cadelantosefectivo
+		
+	Diferencia en BAJA + 1 (CD)
+		numero_de_cliente
+		mrentabilidad
+		mcomisiones
+		cproductos,
+		mcuenta_corriente_adicional
+		cprestamos_personales
+		cplazo_fijo
+		mplazo_fijo_dolares
+		minversion1_dolares
+		mpayroll,
+		ccuenta_debitos_automaticos
+		mpagomiscuentas,
+		mcajeros_propios_descuentos
+		mtarjeta_master_descuentos
+		ccomisiones_mantenimiento
+		mcomisiones_mantenimiento
+		mforex_buy
+		ccheques_emitidos_rechazados
+		Master_Fvencimiento
+		Master_Finiciomora
+		Master_msaldopesos
+		Master_madelantopesos,
+		Master_fultimo_cierre
+		Master_mpagado
+		Master_mpagosdolares
+		Master_cadelantosefectivo
+		Master_mpagominimo
+		Visa_Fvencimiento
+		Visa_Finiciomora
+		Visa_mconsumosdolares
+		Visa_madelantopesos
+		Visa_fultimo_cierre
+		Visa_mpagado
+		Visa_mpagosdolares
+		Visa_cadelantosefectivo
+		
+	Diferencia en CONTINUA (CD)
+		mcomisiones
+		mpasivos_margen
+		mcuenta_corriente_adicional
+		mcaja_ahorro
+		mcuentas_saldo,
+		ctarjeta_master_transacciones
+		mpayroll,
+		mcuenta_debitos_automaticos
+		mcajeros_propios_descuentos
+		mtarjeta_master_descuentos
+		ccomisiones_mantenimiento
+		mcomisiones_mantenimiento
+		mforex_buy
+		ccheques_emitidos_rechazados
+		Master_Fvencimiento
+		Master_Finiciomora
+		Master_msaldopesos
+		Master_mconsumosdolares
+		Master_madelantopesos,
+		Master_madelantodolares
+		Master_fultimo_cierre
+		Master_mpagado
+		Master_mpagosdolares
+		Master_mpagominimo
+		Visa_mfinanciacion_limite
+		Visa_Finiciomora
+		Visa_msaldodolares
+		Visa_mconsumospesos
+		Visa_mconsumosdolares
+		Visa_madelantopesos
+		Visa_madelantodolares
+		Visa_fultimo_cierre
+		Visa_mpagado
+		Visa_mpagosdolares
+		
+		
+202103 vs 202105
+
+	Diferencia en BAJA + 1; BAJA + 2; CONTINUA	(DD)
+		mcomisiones,
+		mpasivos_margen,
+		mcuenta_corriente,
+		mcaja_ahorro
+		mcaja_ahorro_dolares
+		mcuentas_saldo
+		mtarjeta_visa_consumo
+		ccuenta_debitos_automaticos
+		mcuenta_debitos_automaticos
+		ccomisiones_otras,
+		mcomisiones_otras
+		chomebanking_transacciones
+		ccajas_otras
+		Master_mfinanciacion_limite
+		Master_Finiciomora
+		Master_fultimo_cierre
+		Visa_Finiciomora
+		Visa_msaldopesos
+		Visa_mconsumospesos
+		Visa_madelantodolares
+		Visa_fultimo_cierre
+		Visa_mpagado
+		Visa_mpagosdolares
+		Visa_mconsumototal
+		
+		
+	Al final no las proceso
+		Visa_mpagospesos,	(quizas)
+		ctarjeta_visa_debitos_automaticos,	(quizas)
+		mttarjeta_visa_debitos_automaticos,	(quizas)
+		Master_msaldototal,	(quizas)
+		cplazo_fijo,	(quizas)
+		mpayroll,	(quizas)
+		mcuenta_corriente_adicional,	(quizas)
+		ctarjeta_debito_transacciones,	(quizas)
+		ctarjeta_master_transacciones,	(quizas)
+		mtarjeta_master_consumo,	(quizas)
+		mprestamos_prendarios,	(quizas)
+		cprestamos_hipotecarios,	(quizas)
+		cpagomiscuentas,	(quizas)
+		Master_Fvencimiento,	(quizas)		
+		Master_mpagado,	(quizas)
+		Master_mpagospesos,	(quizas)
+		Visa_msaldototal,	(quizas)
+		Visa_mpagominimo,	(quizas)
+	
+	Diferencia en BAJA + 1; BAJA + 2 (CD)
+	
+	Diferencia en BAJA + 2 (CD)
+	
+	Diferencia en BAJA + 1 (CD)
+	
+	Diferencia en CONTINUA (CD)
+	
+Lo que otros mencionan
+	"ctrx_quarter",
+	"mprestamos_personales",
+	"mcuentas_saldo",
+	"mactivos_margen",
+	"mcaja_ahorro",
+	"mcuenta_corriente",
+	"ccomisiones_otras",
+	"active_quarter",
+	"cprestamos_personales",
+	"mcomisiones_mantenimiento",
+	"mrentabilidad",
+	"Visa_status",
+	"mpasivos_margen",
+	"cdescubierto_preacordado",
+	"internet",
+	"ccomisiones_mantenimiento"
+	
+	
+==========================================================================
+Variables con DD y posible CD
+
+En 202103 vs 202105 (aplica a BAJA + 1; BAJA + 2; CONTINUA)
+	"mcomisiones"
+	,"mpasivos_margen"
+	,"mcuenta_corriente"
+	,"mcaja_ahorro"
+	,"mcaja_ahorro_dolares"
+	,"mcuentas_saldo"
+	,"mtarjeta_visa_consumo"
+	,"ccuenta_debitos_automaticos"
+	,"mcuenta_debitos_automaticos"
+	,"ccomisiones_otras"
+	,"mcomisiones_otras"
+	,"chomebanking_transacciones"
+	,"ccajas_otras"
+	,"Master_mfinanciacion_limite"
+	,"Master_Finiciomora"
+	,"Master_fultimo_cierre"
+	,"Visa_Finiciomora"
+	,"Visa_msaldopesos"
+	,"Visa_mconsumospesos"
+	,"Visa_madelantodolares"
+	,"Visa_fultimo_cierre"
+	,"Visa_mpagado"
+	,"Visa_mpagosdolares"
+	,"Visa_mconsumototal"
+	
+Como se comportan en 202101 vs 202103
+	mcomisiones
+		Drifting en [(BAJA + 1; BAJA + 2;); (BAJA + 1); (BAJA + 2)]
+		Posible concept drifting
+	mpasivos_margen
+		Data Drifting
+	mcuenta_corriente
+		Drifting en [(BAJA + 1); (BAJA + 2)] pero NO en (BAJA + 1; BAJA + 2;); 
+		Posible concept drifting
+	mcaja_ahorro
+		Drifting [(CONTINUA); (BAJA+2)]
+		Posible concept drifting
+	mcaja_ahorro_dolares
+		Data Drifting
+	mcuentas_saldo
+		Drifting en [(BAJA + 1); (CONTINUA)]
+		Posible concept drifting
+	mtarjeta_visa_consumo
+		Data Drifting
+	ccuenta_debitos_automaticos
+		Drifting en [(BAJA + 1); (BAJA + 2)]
+		Posible concept drifting
+	mcuenta_debitos_automaticos
+		Drifting en [(BAJA + 2); (CONTINUA)]
+		Posible concept drifting
+	ccomisiones_otras
+		Data Drifting
+	mcomisiones_otras
+		Data Drifting
+	chomebanking_transacciones
+		Data Drifting
+	ccajas_otras
+		Drifting en [(CONTINUA); (BAJA + 1); (BAJA + 2)]
+		Posible concept drifting
+	Master_mfinanciacion_limite
+		Data Drifting
+	Master_Finiciomora
+		Drifting en [(CONTINUA); (BAJA + 1); (BAJA + 2); (BAJA + 1; BAJA + 2;)]
+		Posible concept drifting
+	Master_fultimo_cierre
+		Drifting en [(CONTINUA); (BAJA + 1); (BAJA + 2); (BAJA + 1; BAJA + 2;)]
+		Posible concept drifting
+	Visa_Finiciomora
+		Drifting en [(CONTINUA); (BAJA + 1); (BAJA + 2); (BAJA + 1; BAJA + 2;)]
+		Posible concept drifting
+	Visa_msaldopesos
+		Data Drifting
+	Visa_mconsumospesos
+		Data Drifting
+	Visa_madelantodolares
+		Drifting en [(CONTINUA)]
+		Posible concept drifting
+	Visa_fultimo_cierre
+		Drifting en [(CONTINUA); (BAJA + 1); (BAJA + 2); (BAJA + 1; BAJA + 2;)]
+		Posible concept drifting
+	Visa_mpagado
+		Drifting en [(CONTINUA); (BAJA + 1); (BAJA + 2); (BAJA + 1; BAJA + 2;)]
+		Posible concept drifting
+	Visa_mpagosdolares
+		Drifting en [(CONTINUA); (BAJA + 1); (BAJA + 2); (BAJA + 1; BAJA + 2;)]
+		Posible concept drifting
+	Visa_mconsumototal
+		Data Drifting
+		
+
+Analizo variables una por una
+
+
+======================================== 
+ mcomisiones 
+	Positivos:	 760303 
+	Negativos:	 31733 
+	Ceros:	 21177 
+	NAs total:	 0 
+	NAs Marzo:	 0 
+	NAs: Mayo	 0 
+======================================== 
+ mpasivos_margen 
+	Positivos:	 776733 
+	Negativos:	 25948 
+	Ceros:	 10532 
+	NAs total:	 0 
+	NAs Marzo:	 0 
+	NAs: Mayo	 0 
+======================================== 
+ mcuenta_corriente 
+	Positivos:	 61846 
+	Negativos:	 346592 
+	Ceros:	 404775 
+	NAs total:	 0 
+	NAs Marzo:	 0 
+	NAs: Mayo	 0 
+======================================== 
+ mcaja_ahorro 
+	Positivos:	 756614 
+	Negativos:	 35 
+	Ceros:	 56564 
+	NAs total:	 0 
+	NAs Marzo:	 0 
+	NAs: Mayo	 0 
+======================================== 
+ mcaja_ahorro_dolares 
+	Positivos:	 454031 
+	Negativos:	 217 
+	Ceros:	 358965 
+	NAs total:	 0 
+	NAs Marzo:	 0 
+	NAs: Mayo	 0 
+======================================== 
+ mcuentas_saldo 
+	Positivos:	 647592 
+	Negativos:	 160361 
+	Ceros:	 5260 
+	NAs total:	 0 
+	NAs Marzo:	 0 
+	NAs: Mayo	 0 
+======================================== 
+ mtarjeta_visa_consumo 
+	Positivos:	 691455 
+	Negativos:	 0 
+	Ceros:	 121758 
+	NAs total:	 0 
+	NAs Marzo:	 0 
+	NAs: Mayo	 0 
+======================================== 
+ ccuenta_debitos_automaticos 
+	Positivos:	 387396 
+	Negativos:	 0 
+	Ceros:	 425817 
+	NAs total:	 0 
+	NAs Marzo:	 0 
+	NAs: Mayo	 0 
+======================================== 
+ mcuenta_debitos_automaticos 
+	Positivos:	 387396 
+	Negativos:	 0 
+	Ceros:	 425817 
+	NAs total:	 0 
+	NAs Marzo:	 0 
+	NAs: Mayo	 0 
+======================================== 
+ ccomisiones_otras 
+	Positivos:	 792334 
+	Negativos:	 0 
+	Ceros:	 20879 
+	NAs total:	 0 
+	NAs Marzo:	 0 
+	NAs: Mayo	 0 
+======================================== 
+ mcomisiones_otras 
+	Positivos:	 760604 
+	Negativos:	 31659 
+	Ceros:	 20950 
+	NAs total:	 0 
+	NAs Marzo:	 0 
+	NAs: Mayo	 0 
+======================================== 
+ chomebanking_transacciones 
+	Positivos:	 680469 
+	Negativos:	 0 
+	Ceros:	 132744 
+	NAs total:	 0 
+	NAs Marzo:	 0 
+	NAs: Mayo	 0 
+======================================== 
+ ccajas_otras 
+	Positivos:	 17050 
+	Negativos:	 0 
+	Ceros:	 796163 
+	NAs total:	 0 
+	NAs Marzo:	 0 
+	NAs: Mayo	 0 
+======================================== 
+ Master_mfinanciacion_limite 
+	Positivos:	 728676 
+	Negativos:	 0 
+	Ceros:	 157 
+	NAs total:	 84380 
+	NAs Marzo:	 16847 
+	NAs: Mayo	 16750 
+======================================== 
+ Master_Finiciomora 
+	Positivos:	 4115 
+	Negativos:	 30 
+	Ceros:	 0 
+	NAs total:	 809068 
+	NAs Marzo:	 161773 
+	NAs: Mayo	 162950 
+======================================== 
+ Master_fultimo_cierre 
+	Positivos:	 617500 
+	Negativos:	 111012 
+	Ceros:	 0 
+	NAs total:	 84701 
+	NAs Marzo:	 16886 
+	NAs: Mayo	 16892 
+======================================== 
+ Visa_Finiciomora 
+	Positivos:	 5696 
+	Negativos:	 0 
+	Ceros:	 6597 
+	NAs total:	 800920 
+	NAs Marzo:	 161421 
+	NAs: Mayo	 159424 
+======================================== 
+ Visa_msaldopesos 
+	Positivos:	 692141 
+	Negativos:	 11437 
+	Ceros:	 70061 
+	NAs total:	 39574 
+	NAs Marzo:	 7894 
+	NAs: Mayo	 8039 
+======================================== 
+ Visa_mconsumospesos 
+	Positivos:	 626768 
+	Negativos:	 7328 
+	Ceros:	 69599 
+	NAs total:	 109518 
+	NAs Marzo:	 21925 
+	NAs: Mayo	 21638 
+======================================== 
+ Visa_madelantodolares 
+	Positivos:	 83 
+	Negativos:	 0 
+	Ceros:	 703612 
+	NAs total:	 109518 
+	NAs Marzo:	 21925 
+	NAs: Mayo	 21638 
+======================================== 
+ Visa_fultimo_cierre 
+	Positivos:	 662121 
+	Negativos:	 111298 
+	Ceros:	 0 
+	NAs total:	 39794 
+	NAs Marzo:	 7915 
+	NAs: Mayo	 8142 
+======================================== 
+ Visa_mpagado 
+	Positivos:	 126742 
+	Negativos:	 0 
+	Ceros:	 646897 
+	NAs total:	 39574 
+	NAs Marzo:	 7894 
+	NAs: Mayo	 8039 
+======================================== 
+ Visa_mpagosdolares 
+	Positivos:	 74019 
+	Negativos:	 0 
+	Ceros:	 629676 
+	NAs total:	 109518 
+	NAs Marzo:	 21925 
+	NAs: Mayo	 21638 
+======================================== 
+ Visa_mconsumototal 
+	Positivos:	 626768 
+	Negativos:	 7328 
+	Ceros:	 69599 
+	NAs total:	 109518 
+	NAs Marzo:	 21925 
+	NAs: Mayo	 21638 
