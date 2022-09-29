@@ -182,6 +182,27 @@ Tarea LigthGBM
 				Salida de ligthgbm final
 					impo.txt
 					prediccion.txt
+	Experimento 5
+		Entregas
+			5000	-	"LigthGBM - Experimento 5 - 5000"	-	hay que entregar
+			5500	-	"LigthGBM - Experimento 5 - 5500"	-	hay que entregar
+			6000	-	"LigthGBM - Experimento 5 - 6000"	-	hay que entregar
+			6500	-	"LigthGBM - Experimento 5 - 6500"	-	17.30821
+			7000	-	"LigthGBM - Experimento 5 - 7000"	-	17.58021
+			7500	-	"LigthGBM - Experimento 5 - 7500"	-	17.74821
+			8000	-	"LigthGBM - Experimento 5 - 8000"	-	18.08022
+			8500	-	"LigthGBM - Experimento 5 - 8500"	-	17.90021
+			9000	-	"LigthGBM - Experimento 5 - 9000"	-	hay que entregar
+			9500	-	"LigthGBM - Experimento 5 - 9500"	-	hay que entregar
+			10000	-	"LigthGBM - Experimento 5 - 10000"	-	hay que entregar
+			10500	-	"LigthGBM - Experimento 5 - 10500"	-	hay que entregar
+			11000	-	"LigthGBM - Experimento 5 - 11000"	-	hay que entregar
+			11500	-	"LigthGBM - Experimento 5 - 11500"	-	hay que entregar
+			12000	-	"LigthGBM - Experimento 5 - 12000"	-	hay que entregar
+
+
+
+
 
 Detalles a futuro
 	Para data drifting
@@ -208,3 +229,119 @@ P3: Data Drifting
 		Checkear porcentaje de nulos entre meses
 		Imputación
 			Primero Rank, luego imputar
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+Todas
+	"mcomisiones"
+	,"mpasivos_margen"
+	,"mcuenta_corriente"
+	,"mcaja_ahorro"
+	,"mcaja_ahorro_dolares"
+	,"mcuentas_saldo"
+	,"mtarjeta_visa_consumo"
+	,"ccuenta_debitos_automaticos"
+	,"mcuenta_debitos_automaticos"
+	,"ccomisiones_otras"
+	,"mcomisiones_otras"
+	,"chomebanking_transacciones"
+	,"ccajas_otras"
+	,"Master_mfinanciacion_limite"
+	,"Master_Finiciomora"
+	,"Master_fultimo_cierre"
+	,"Visa_Finiciomora"
+	,"Visa_msaldopesos"
+	,"Visa_mconsumospesos"
+	,"Visa_madelantodolares"
+	,"Visa_fultimo_cierre"
+	,"Visa_mpagado"
+	,"Visa_mpagosdolares"
+	,"Visa_mconsumototal"
+
+
+DD y positivos
+	"mtarjeta_visa_consumo"
+	,"ccomisiones_otras"
+	,"chomebanking_transacciones"
+	,"Master_mfinanciacion_limite"
+	,"Visa_Finiciomora"
+	
+DD y negativos
+	"mpasivos_margen"
+	,"mcaja_ahorro_dolares"
+	,"mcomisiones_otras"
+	,"Visa_msaldopesos"
+	,"Visa_mconsumospesos"
+	,"Visa_mconsumototal"
+	
+CD y positivos
+	"mcuenta_debitos_automaticos"
+	,"ccuenta_debitos_automaticos"
+	,"ccajas_otras"
+	,"Master_Finiciomora"
+	,"Visa_madelantodolares"
+	,"Visa_mpagado"
+	,"Visa_mpagosdolares"
+	
+CD y negativos
+	"mcomisiones"
+	,"mcuenta_corriente"
+	,"mcaja_ahorro"
+	,"mcuentas_saldo"
+	,"Master_fultimo_cierre"
+	,"Visa_fultimo_cierre"
+	
+Con valores positivos (y cero)
+	,"mtarjeta_visa_consumo"
+	,"ccuenta_debitos_automaticos"
+	,"mcuenta_debitos_automaticos"
+	,"chomebanking_transacciones"
+	,"ccomisiones_otras"
+	,"ccajas_otras"
+	,"Master_mfinanciacion_limite"
+	,"Master_Finiciomora"
+	,"Visa_Finiciomora"
+	,"Visa_madelantodolares"
+	,"Visa_mpagado"
+	,"Visa_mpagosdolares"
+
+Con valores negativos
+	"mcomisiones"
+	,"mpasivos_margen"
+	,"mcuenta_corriente"
+	,"mcaja_ahorro"
+	,"mcaja_ahorro_dolares"
+	,"mcuentas_saldo"
+	,"mcomisiones_otras"
+	,"Master_fultimo_cierre"
+	,"Visa_msaldopesos"
+	,"Visa_mconsumospesos"
+	,"Visa_fultimo_cierre"
+	,"Visa_mconsumototal"

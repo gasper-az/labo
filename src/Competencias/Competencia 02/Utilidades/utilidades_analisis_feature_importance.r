@@ -6,7 +6,7 @@ require("data.table")
 require("lightgbm")
 
 # Defino directorio y archivos de importancia a analizar
-working.directory <- "C:\\uba\\repos\\labo\\src\\Competencias\\Competencia 02\\Experimentos\\Experimento 04\\KA7244"
+working.directory <- "C:\\uba\\repos\\labo\\src\\Competencias\\Competencia 02\\Experimentos\\Experimento 05\\KA7245"
 salida.importancia <- "impo.txt"
 setwd(working.directory)
 

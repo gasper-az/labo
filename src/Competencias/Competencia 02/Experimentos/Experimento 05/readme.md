@@ -162,25 +162,25 @@ En este [link][link-documentacion-lightgbm-parametros] se puede encontrar más i
 
 Estos son los mejores resultados que se obtuvieron al realizar una *optimización bayesiana* para tunear los hiperparámetros a utilizar en LightGBM.
 Para ello, utilizamos el script [lightgbm_binaria_BO.r][script-ligthgbm-bo], obteniendo como salida el archivo [HT7234.txt][salida-ligthgbm-bo].
-El restultado que tomamos es el que se obtuvo en la iteración *78*, el cual arroja una ganancia de **27510000**.
+El restultado que tomamos es el que se obtuvo en la iteración *134*, el cual arroja una ganancia de **27270000**.
 
 | Hiperparámetro | valor |
 | - |   -   |
 | *max_bin* | 31 |
-| *learning_rate* | 0.0276269972244999 |
-| *num_iterations* | 506 |
-| *num_leaves* | 387 |
-| *min_data_in_leaf* | 2196 |
-| *feature_fraction* | 0.551258816057135 |
+| *learning_rate* | 0.00952482742610648 |
+| *num_iterations* | 1298 |
+| *num_leaves* | 743 |
+| *min_data_in_leaf* | 450 |
+| *feature_fraction* | 0.605783962510153 |
 | *semilla* (*training strategy*) | 763369 |
 | *semilla (hyperparameter tunning)* | 763381 |
-| *envios* | 9487 |
-| *bagging_fraction* | 0.940588588893522 |
-| *bagging_freq* | 413 |
-| *lambda_l1* | 2.37704587212364 |
-| *lambda_l2* | 50.9789242993526 |
-| *min_gain_to_split* | 0.395834823316337 |
-| *max_depth* | 4 |
+| *envios* | 8685 |
+| *bagging_fraction* | 0.987784990036988 |
+| *bagging_freq* | 99 |
+| *lambda_l1* | 0.943100967973046 |
+| *lambda_l2* | 74.0466609734954 |
+| *min_gain_to_split* | 0.0698103369382356 |
+| *max_depth* | 10 |
 
 ## Ejecución y resultados de script de LightGBM
 
@@ -191,21 +191,21 @@ Luego, hacemos una entrega de cada archivo en la competancia de [Kaggle][link-ka
 
 | Cantidad de envíos | Score en public leaderboard |
 | - | - |
-| 5000 | 16.92820 |
-| 5500 | 17.76421 |
-| 6000 | 18.06422 |
-| 6500 | 18.41222 |
-| 7000 | 18.78022 |
-| 7500 | 18.14022 |
-| 8000 | 18.14822 |
-| 8500 | 17.76421 |
-| 9000 | 17.27621 |
-| 9500 | 17.52421 |
-| 10000 | 17.67621 |
-| 10500 | 17.22421 |
-| 11000 | 16.70420 |
-| 11500 | 16.72020 |
-| 12000 | 16.70820 |
+| 5000 | 0 |
+| 5500 | 0 |
+| 6000 | 0 |
+| 6500 | 17.30821 |
+| 7000 | 17.58021 |
+| 7500 | 17.74821 |
+| 8000 | 18.08022 |
+| 8500 | 17.90021 |
+| 9000 | 0 |
+| 9500 | 0 |
+| 10000 | 0 |
+| 10500 | 0 |
+| 11000 | 0 |
+| 11500 | 0 |
+| 12000 | 0 |
 
 ---
 
@@ -258,6 +258,7 @@ Para analizar cuales son las mejores, procedemos a realizar el cálculo del prod
 
 ---
 
+TODO
 Según el gráfico anterior, podemos decir que las siguientes variables son las más importantes para el modelo generado:
 
 | Variable | Posición en Gain | Posición en Cover | Posición en Frequency |
