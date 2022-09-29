@@ -26,18 +26,18 @@ PARAM$input$future        <- c( 202105 )
 # 20220927 022734	binary	custom	TRUE	TRUE	FALSE	-100	31	97	TRUE	763381	0.089556394	0.445734265	1153	436	8476	0.665748464	29	0.01010077	16.26989805	0.078369826	3	26970000	89
 
 PARAM$finalmodel$max_bin           <- 31
-PARAM$finalmodel$learning_rate     <- 0.0895563938114509   #0.0142501265
-PARAM$finalmodel$num_iterations    <- 1070  #615
-PARAM$finalmodel$num_leaves        <- 436  #784
-PARAM$finalmodel$min_data_in_leaf  <- 1153  #5628
-PARAM$finalmodel$feature_fraction  <- 0.445734265464158  #0.8382482539
+PARAM$finalmodel$learning_rate     <- 0.0276269972244999
+PARAM$finalmodel$num_iterations    <- 506
+PARAM$finalmodel$num_leaves        <- 387
+PARAM$finalmodel$min_data_in_leaf  <- 2196
+PARAM$finalmodel$feature_fraction  <- 0.551258816057135
 PARAM$finalmodel$semilla           <- 763369
-PARAM$finalmodel$bagging_fraction  <-	0.66574846403701
-PARAM$finalmodel$bagging_freq      <- 29
-PARAM$finalmodel$lambda_l1         <- 0.0101007695458883
-PARAM$finalmodel$lambda_l2         <- 16.2698980527548
-PARAM$finalmodel$min_gain_to_split <- 0.0783698263738725
-PARAM$finalmodel$max_depth         <- 3
+PARAM$finalmodel$bagging_fraction  <-	0.940588588893522
+PARAM$finalmodel$bagging_freq      <- 413
+PARAM$finalmodel$lambda_l1         <- 2.37704587212364
+PARAM$finalmodel$lambda_l2         <- 50.9789242993526
+PARAM$finalmodel$min_gain_to_split <- 0.395834823316337
+PARAM$finalmodel$max_depth         <- 4
 
 #------------------------------------------------------------------------------
 #------------------------------------------------------------------------------
