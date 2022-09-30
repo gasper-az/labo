@@ -230,9 +230,14 @@ variables.con.drifting <- c(
   ,"Visa_mconsumototal"
 )
 
+ranked.drifting <- c()
+
 rank.prefix <- "ranked_"
 for (var in variables.con.drifting) {
-  dataset[, paste0(rank.prefix, var) := frankv(dataset, cols = var, na.last = TRUE, ties.method = "dense")]
+  new.var.name <- paste0(rank.prefix, var)
+  ranked.drifting <- c(ranked.drifting, new.var.name)
+  
+  dataset[, new.var.name := (frankv(dataset, cols = var, na.last = TRUE, ties.method = "dense") - 1) / (.N - 1)]
   dataset[, (var) := NULL]
 }
 

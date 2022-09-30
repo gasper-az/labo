@@ -3,8 +3,8 @@
 ## Índice
 
 - [Detalles](#detalles)
-- [Feature Engineering](#feature-engineering)
 - [Data Drifting y Concept Drifting](#data-drifting-y-concept-drifting)
+- [Feature Engineering](#feature-engineering)
 - [Hiperparámetros](#hiperparámetros---lightgbm)
 - [Ejecución y resultados de script de LightGBM](#ejecución-y-resultados-de-script-de-lightgbm)
 - [Análisis - Feature importance](#análisis---feature-importance)
@@ -36,6 +36,73 @@ Luego realizamos una ejecución del script [lightgbm_binaria_BO.r][script-ligthg
 Luego, analizamos el resultado de dicha optimización de hiperparámetros para LightGBM (en nuestro caso, el archivo [HT7234.txt][salida-ligthgbm-bo]), en donde lo ordenamos por *ganancia* descendente. De ahí tomamos los valores de los hiperparámetros de nuestro interés, y los implementamos en el script [lightgbm_final.r][script-ligthgbm-ejecucion].
 Una vez que ejecutemos este script con los valores de los hiperparámetros obtenidos, generamos una serie de archivos para entregar, en los definimos en función de varios puntos de corte.
 Realizamos una entrega en [Kaggle][link-kaggle-competencia-02] por cada uno de estos archivos, y posteriormente analizamos el valor de la *ganancia* obtenido en el *public leaderboard*.
+
+## Data Drifting y Concept Drifting
+
+### Ranking básico
+
+Variables en las que detectamos Data Drifting:
+
+- mcomisiones
+- mpasivos_margen
+- mcuenta_corriente
+- mcaja_ahorro
+- mcaja_ahorro_dolares
+- mcuentas_saldo
+- mtarjeta_visa_consumo
+- ccuenta_debitos_automaticos
+- mcuenta_debitos_automaticos
+- ccomisiones_otras
+- mcomisiones_otras
+- chomebanking_transacciones
+- ccajas_otras
+- Master_mfinanciacion_limite
+- Master_Finiciomora
+- Master_fultimo_cierre
+- Visa_Finiciomora
+- Visa_msaldopesos
+- Visa_mconsumospesos
+- Visa_madelantodolares
+- Visa_fultimo_cierre
+- Visa_mpagado
+- Visa_mpagosdolares
+- Visa_mconsumototal
+
+Aplicamos un ranking mediante la función *frank* de la siguiente forma:
+
+```{r}
+(frankv(dataset, cols = var, na.last = TRUE, ties.method = "dense") - 1) / (.N - 1)
+```
+
+Encontramos que este método de ranking es útil para las siguientes variables:
+
+- mpasivos_margen
+- mcuenta_corriente
+- mcaja_ahorro_dolares
+- mtarjeta_visa_consumo
+- mcuenta_debitos_automaticos
+- chomebanking_transacciones
+- ccajas_otras
+- Visa_mconsumospesos
+- Visa_madelantodolares
+- Visa_mpagosdolares
+- Visa_mconsumototal
+
+Pero el mismo método de ranking NO es útil en estos casos:
+
+- mcomisiones
+- mcaja_ahorro
+- mcuentas_saldo
+- ccuenta_debitos_automaticos
+- ccomisiones_otras
+- mcomisiones_otras
+- Master_mfinanciacion_limite
+- Master_Finiciomora
+- Master_fultimo_cierre
+- Visa_Finiciomora
+- Visa_msaldopesos
+- Visa_fultimo_cierre
+- Visa_mpagado
 
 ## Feature Engineering
 
@@ -98,10 +165,6 @@ La única excepción se hará con la variable *cociente_fe_01*, ya que la misma 
 ```{ r }
 dataset[, cociente_fe_01 := ctrx_quarter/ranked_mcuentas_saldo]
 ```
-
-## Data Drifting y Concept Drifting
-
-TODO
 
 ## Hiperparámetros - LightGBM
 
