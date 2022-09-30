@@ -1,3 +1,5 @@
+# [CANCELADO]: debo enfocarme en Data y concept drifting
+
 # Data Mining en Economía y Finanzas - Competencia 02 - Experimento 01
 
 ## Índice
