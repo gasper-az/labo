@@ -30,18 +30,19 @@ options(error = function() {
 
 #Aqui se cargan los hiperparametros
 hs <- makeParamSet( 
-         makeNumericParam("learning_rate",    lower=    0.005, upper=    0.3),  # modificado
+         makeNumericParam("learning_rate",    lower=    0.001, upper=    0.3),  # modificado
          makeNumericParam("feature_fraction", lower=    0.001, upper=    1.0),  # modificado
-         makeIntegerParam("min_data_in_leaf", lower=    20L  , upper=  8000L),  # modificado
-         makeIntegerParam("num_leaves",       lower=   16L   , upper=  1024L),  # modificado
-         makeIntegerParam("envios",           lower= 5000L   , upper= 15000L),
-         # makeIntegerParam("max_bin",          lower= 2L      , upper= 31L),   # modificado
-         makeNumericParam("bagging_fraction", lower= 0.0001  , upper= 0.9999),  # modificado. Debe estar entre 0 y 1
-         makeIntegerParam("bagging_freq",     lower= 1       , upper= 999),     # modificado. Buscamos entre 1 (mínimo y necesario) y 999 (max iteracions, ver más abajo)
-         makeNumericParam("lambda_l1",        lower= 0.0001  , upper= 100),     # modificado: more info: https://towardsdatascience.com/kagglers-guide-to-lightgbm-hyperparameter-tuning-with-optuna-in-2021-ed048d9838b5
-         makeNumericParam("lambda_l2",        lower= 0.0001  , upper= 100),     # modificado: more info: https://towardsdatascience.com/kagglers-guide-to-lightgbm-hyperparameter-tuning-with-optuna-in-2021-ed048d9838b5
-         makeNumericParam("min_gain_to_split",lower= 0.0001  , upper= 15),      # modificado: more info: https://towardsdatascience.com/kagglers-guide-to-lightgbm-hyperparameter-tuning-with-optuna-in-2021-ed048d9838b5
-         makeIntegerParam("max_depth ",       lower= 6       , upper= 20)       # modificado: busco entre 1 y 30. Después veré que otros valores pueden ser de interés
+         makeIntegerParam("min_data_in_leaf", lower=    0L   , upper=  8000L),  # modificado
+         makeIntegerParam("num_leaves",       lower=    0L   , upper=  1024L),  # modificado
+         makeIntegerParam("envios",           lower= 5000L   , upper= 15000L)
+         
+         # # makeIntegerParam("max_bin",          lower= 2L      , upper= 31L),   # modificado
+         # makeNumericParam("bagging_fraction", lower= 0.0001  , upper= 0.9999),  # modificado. Debe estar entre 0 y 1
+         # makeIntegerParam("bagging_freq",     lower= 1       , upper= 999),     # modificado. Buscamos entre 1 (mínimo y necesario) y 999 (max iteracions, ver más abajo)
+         # makeNumericParam("lambda_l1",        lower= 0.0001  , upper= 100),     # modificado: more info: https://towardsdatascience.com/kagglers-guide-to-lightgbm-hyperparameter-tuning-with-optuna-in-2021-ed048d9838b5
+         # makeNumericParam("lambda_l2",        lower= 0.0001  , upper= 100),     # modificado: more info: https://towardsdatascience.com/kagglers-guide-to-lightgbm-hyperparameter-tuning-with-optuna-in-2021-ed048d9838b5
+         # makeNumericParam("min_gain_to_split",lower= 0.0001  , upper= 15),      # modificado: more info: https://towardsdatascience.com/kagglers-guide-to-lightgbm-hyperparameter-tuning-with-optuna-in-2021-ed048d9838b5
+         # makeIntegerParam("max_depth ",       lower= 6       , upper= 20)       # modificado: busco entre 1 y 30. Después veré que otros valores pueden ser de interés
         )
 
 #defino los parametros de la corrida, en una lista, la variable global  PARAM
@@ -129,10 +130,10 @@ EstimarGanancia_lightgbm  <- function( x )
                           boost_from_average= TRUE,
                           feature_pre_filter= FALSE,
                           verbosity= -100,
-                          # max_depth=  -1,         # -1 significa no limitar,  por ahora lo dejo fijo
-                          # min_gain_to_split= 0.0, #por ahora, lo dejo fijo
-                          # lambda_l1= 0.0,         #por ahora, lo dejo fijo
-                          # lambda_l2= 0.0,         #por ahora, lo dejo fijo
+                          max_depth=  -1,         # -1 significa no limitar,  por ahora lo dejo fijo
+                          min_gain_to_split= 0.0, #por ahora, lo dejo fijo
+                          lambda_l1= 0.0,         #por ahora, lo dejo fijo
+                          lambda_l2= 0.0,         #por ahora, lo dejo fijo
                           max_bin= 31,            #por ahora, lo dejo fijo
                           num_iterations= 9999,   #un numero muy grande, lo limita early_stopping_rounds
                           force_row_wise= TRUE,   #para que los alumnos no se atemoricen con tantos warning

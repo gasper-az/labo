@@ -17,21 +17,14 @@
 
 En este experimento hacemos uso del algoritmo de [*LightGBM*][link-documentacion-lightgbm], aplicado al dataset *original* de la *competencia 02* ([link de descarga][link-dataset-competencia-02]).
 TODO: FE y DD + CD
+TODO: explicar (y linkear) experimentos fallidos de HP BO de LightGBM (4 y 5)
 Luego realizamos una ejecución del script [lightgbm_binaria_BO.r][script-ligthgbm-bo] para hacer un tunning de los siguientes hiperparámetros:
 
-- max_bin
 - learning_rate
-- num_iterations
-- num_leaves
-- min_data_in_leaf
 - feature_fraction
+- min_data_in_leaf
+- num_leaves
 - envios
-- bagging_fraction
-- bagging_freq
-- lambda_l1
-- lambda_l2
-- min_gain_to_split
-- max_depth
 
 Luego, analizamos el resultado de dicha optimización de hiperparámetros para LightGBM (en nuestro caso, el archivo [HT7234.txt][salida-ligthgbm-bo]), en donde lo ordenamos por *ganancia* descendente. De ahí tomamos los valores de los hiperparámetros de nuestro interés, y los implementamos en el script [lightgbm_final.r][script-ligthgbm-ejecucion].
 Una vez que ejecutemos este script con los valores de los hiperparámetros obtenidos, generamos una serie de archivos para entregar, en los definimos en función de varios puntos de corte.
@@ -184,36 +177,16 @@ dataset[, cociente_fe_03 := r_mcuentas_saldo/r_mcomisiones]
 
 ## Hiperparámetros - LightGBM
 
-En este caso nos proponemos optimizar los hiperparámetros de LightGBM con la idea de reducir el *overfitting*, para lo cual nos basamos en [esta documentación][link-documentacion-lightgbm-overfitting],
-la cual propone enfocarnos en los siguientes hiperparámetros:
-
-- num_leaves
-- min_data_in_leaf
-- bagging_fraction
-- bagging_freq
-- feature_fraction
-- lambda_l1
-- lambda_l2
-- min_gain_to_split
-- max_depth
-
 Respecto al rango de búsqueda de los hiperparámetros, nos basamos en [esta documentación][link-documentacion-lightgbm-recomendacion-hp]:
 
 | Hiperparámetro | Rango Min | Rango Max |
 | - |   -   | - |
-| *learning_rate* | 0.005 | 0.3 |
-| *num_leaves* | 16 | 1024 |
-| *min_data_in_leaf* | 20 | 8000 |
-| *feature_fraction* | 0.2 | 1.0 |
+| *learning_rate* | 0.001 | 0.3 |
+| *feature_fraction* | 0.001 | 1.0 |
+| *min_data_in_leaf* | 0 | 8000 |
+| *num_leaves* | 0 | 1024 |
 | *envios* | 5000 | 15000 |
-| *bagging_fraction* | 0.0001 | 0.9999 |
-| *bagging_freq* | 1 | 999 |
-| *lambda_l1* | 0.0001 | 100 |
-| *lambda_l2* | 0.0001 | 100 |
-| *min_gain_to_split* | 0.0001 | 15 |
-| *max_depth* | 1 | 30 |
 
-Respecto al hiperparámetro de *max_depth*, en este intento decidimos buscar entre 1 y 30, pero en futuras pruebas acotaremos este rango de búsqueda en función de los resultados que obtengamos.
 En este [link][link-documentacion-lightgbm-parametros] se puede encontrar más información sobre los hiperparámetros que analizamos.
 
 Estos son los mejores resultados que se obtuvieron al realizar una *optimización bayesiana* para tunear los hiperparámetros a utilizar en LightGBM.
@@ -222,21 +195,11 @@ El restultado que tomamos es el que se obtuvo en la iteración *78*, el cual arr
 
 | Hiperparámetro | valor |
 | - |   -   |
-| *max_bin* | 31 |
-| *learning_rate* | 0.0276269972244999 |
-| *num_iterations* | 506 |
-| *num_leaves* | 387 |
-| *min_data_in_leaf* | 2196 |
-| *feature_fraction* | 0.551258816057135 |
-| *semilla* (*training strategy*) | 763369 |
-| *semilla (hyperparameter tunning)* | 763381 |
-| *envios* | 9487 |
-| *bagging_fraction* | 0.940588588893522 |
-| *bagging_freq* | 413 |
-| *lambda_l1* | 2.37704587212364 |
-| *lambda_l2* | 50.9789242993526 |
-| *min_gain_to_split* | 0.395834823316337 |
-| *max_depth* | 4 |
+| *learning_rate* | 0 |
+| *feature_fraction* | 0 |
+| *min_data_in_leaf* | 0 |
+| *num_leaves* | 0 |
+| *envios* | 0 |
 
 ## Ejecución y resultados de script de LightGBM
 
@@ -337,6 +300,8 @@ Si solamente nos quedamos con aquellos que aparezcan entre las *10* primeras pos
 | mrentabilidad_annual          | 2do | 2do | 2do |
 
 Si ahora también consideramos a aquellos que aparezcan entre las *10* primeras posiciones de al menos dos medidas, obtenemos las siguientes variables importantes:
+
+| Variable | Posición en Gain | Posición en Cover | Posición en Frequency |
 | - | - | - | - |
 | pesos_fe_suma_menos_tarjetas  | 1ro   | 4to | 7mo   |
 | mrentabilidad_annual          | 2do   | 2do | 2do   |
@@ -371,5 +336,4 @@ Ahora bien, comparémoslo con el impo_78.txt
 [link-kaggle-competencia-02]: https://www.kaggle.com/competitions/dm-eyf-2022-segunda
 [link-documentacion-lightgbm]: https://lightgbm.readthedocs.io/en/latest/index.html
 [link-documentacion-lightgbm-parametros]: https://lightgbm.readthedocs.io/en/latest/Parameters.html
-[link-documentacion-lightgbm-overfitting]: http://devdoc.net/bigdata/LightGBM-doc-2.2.2/Parameters-Tuning.html#deal-with-over-fitting
 [link-documentacion-lightgbm-recomendacion-hp]: https://towardsdatascience.com/kagglers-guide-to-lightgbm-hyperparameter-tuning-with-optuna-in-2021-ed048d9838b5
