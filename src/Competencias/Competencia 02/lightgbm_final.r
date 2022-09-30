@@ -61,36 +61,57 @@ dataset[ , clase01 := ifelse( clase_ternaria %in%  c("BAJA+2","BAJA+1"), 1L, 0L)
 #------------- RANKING DE VARIABLES CON DRIFTING -------------#
 #-------------------------------------------------------------#
 
-variables.con.drifting <- c(
-  "mcomisiones"
-  ,"mpasivos_margen"
+variables.drifting.ranking <- c(
+  "mpasivos_margen"
   ,"mcuenta_corriente"
-  ,"mcaja_ahorro"
   ,"mcaja_ahorro_dolares"
-  ,"mcuentas_saldo"
   ,"mtarjeta_visa_consumo"
-  ,"ccuenta_debitos_automaticos"
   ,"mcuenta_debitos_automaticos"
-  ,"ccomisiones_otras"
-  ,"mcomisiones_otras"
   ,"chomebanking_transacciones"
   ,"ccajas_otras"
+  ,"Visa_mconsumospesos"
+  ,"Visa_madelantodolares"
+  ,"Visa_mpagosdolares"
+  ,"Visa_mconsumototal"
+)
+
+variables.drifting.ranking.pos.neg.cero <- c(
+  "mcomisiones"
+  ,"mcaja_ahorro"
+  ,"mcuentas_saldo"
+  ,"ccuenta_debitos_automaticos"
+  ,"ccomisiones_otras"
+  ,"mcomisiones_otras"
   ,"Master_mfinanciacion_limite"
   ,"Master_Finiciomora"
   ,"Master_fultimo_cierre"
   ,"Visa_Finiciomora"
   ,"Visa_msaldopesos"
-  ,"Visa_mconsumospesos"
-  ,"Visa_madelantodolares"
   ,"Visa_fultimo_cierre"
   ,"Visa_mpagado"
-  ,"Visa_mpagosdolares"
-  ,"Visa_mconsumototal"
+  ,"Visa_msaldototal"
+  ,"mrentabilidad"
+  ,"mrentabilidad_annual"
+  ,"mactivos_margen"
 )
 
-rank.prefix <- "ranked_"
-for (var in variables.con.drifting) {
-  dataset[, paste0(rank.prefix, var) := (frankv(dataset, cols = var, na.last = TRUE, ties.method = "dense") - 1) / (.N - 1)]
+rank.prefix <- "r_"
+
+for (var in variables.drifting.ranking) {
+  new.var.name <- paste0(rank.prefix, var)
+  dataset[, (new.var.name) := (frankv(dataset, cols = var, na.last = TRUE, ties.method = "dense") - 1) / (.N - 1)]
+  dataset[, (var) := NULL]
+}
+
+for (var in variables.drifting.ranking.pos.neg.cero) {
+  new.var.name <- paste0(rank.prefix, var)
+  dataset[, (new.var.name) := ifelse(var >= 0,
+                                     (ifelse(var > 0,
+                                             (frankv(dataset, cols = var, na.last = TRUE, ties.method = "dense") - 1) / (.N - 1), ## mayores a cero
+                                             0)), # cero
+                                     -(frankv(dataset, cols = var, na.last = TRUE, ties.method = "dense") - 1) / (.N - 1) ## menores a cero
+  )
+  ]
   dataset[, (var) := NULL]
 }
 
@@ -103,7 +124,7 @@ for (var in variables.con.drifting) {
 #-------------------------------------------------------------#
 
 dataset[, master_fe_suma_all := 
-          # Master_mfinanciacion_limite +
+          r_Master_mfinanciacion_limite +
           Master_msaldototal + Master_msaldopesos + Master_msaldodolares +
           Master_mconsumospesos + Master_mconsumosdolares + Master_mlimitecompra +
           Master_madelantopesos + Master_madelantodolares + Master_mpagado +
@@ -112,34 +133,27 @@ dataset[, master_fe_suma_all :=
 ]
 
 dataset[, visa_fe_suma_all := Visa_mfinanciacion_limite +
-          # Visa_msaldototal +
-          Visa_msaldopesos + Visa_msaldodolares + Visa_mconsumospesos +
+          r_Visa_msaldototal +
+          r_Visa_msaldopesos + Visa_msaldodolares + r_Visa_mconsumospesos +
           Visa_mconsumosdolares + Visa_mlimitecompra + Visa_madelantopesos +
-          Visa_madelantodolares + Visa_mpagado + Visa_mpagospesos +
-          Visa_mpagosdolares + Visa_mconsumototal + Visa_mpagominimo
+          r_Visa_madelantodolares + r_Visa_mpagado + Visa_mpagospesos +
+          r_Visa_mpagosdolares + r_Visa_mconsumototal + Visa_mpagominimo
 ]
 
 dataset[, tarjetas_fe_suma_all := master_fe_suma_all + visa_fe_suma_all]
 
 dataset[, pesos_fe_suma_menos_tarjetas := 
-          # mrentabilidad +
-          # mrentabilidad_annual +
-          # mactivos_margen +
-          # mpasivos_margen +
-          # mcuenta_corriente +
-          # mcaja_ahorro +
-          # mcaja_ahorro_dolares + 
-          # mcomisiones_mantenimiento +
-          
-          mcomisiones + mcuenta_corriente_adicional + mcaja_ahorro_adicional +          
-          mcuentas_saldo + mautoservicio + mtarjeta_visa_consumo +
+          r_mrentabilidad + r_mrentabilidad_annual + r_mactivos_margen +
+          mcomisiones_mantenimiento + r_mpasivos_margen + r_mcuenta_corriente +
+          r_mcaja_ahorro + r_mcaja_ahorro_dolares + r_mcomisiones + mcuenta_corriente_adicional + mcaja_ahorro_adicional +          
+          r_mcuentas_saldo + mautoservicio + r_mtarjeta_visa_consumo +
           mtarjeta_master_consumo + mprestamos_personales + mprestamos_prendarios +
           mprestamos_hipotecarios + mplazo_fijo_dolares + mplazo_fijo_pesos +
           minversion1_pesos + minversion1_dolares + minversion2 + 
-          mpayroll + mpayroll2 + mcuenta_debitos_automaticos +
+          mpayroll + mpayroll2 + r_mcuenta_debitos_automaticos +
           mttarjeta_master_debitos_automaticos + mpagodeservicios + mpagomiscuentas +
           mcajeros_propios_descuentos + mtarjeta_visa_descuentos + mtarjeta_master_descuentos +
-          mcomisiones_otras + mforex_buy + mforex_sell +
+          r_mcomisiones_otras + mforex_buy + mforex_sell +
           mtransferencias_recibidas + mtransferencias_emitidas + mextraccion_autoservicio +
           mcheques_depositados + mcheques_emitidos + mcheques_depositados_rechazados +
           mcheques_emitidos_rechazados + matm + matm_other
@@ -150,9 +164,9 @@ dataset[, pesos_fe_suma_all :=
           tarjetas_fe_suma_all
 ]
 
-dataset[, cociente_fe_01 := ctrx_quarter/mcuentas_saldo]
-dataset[, cociente_fe_02 := ctrx_quarter/mcomisiones]
-dataset[, cociente_fe_03 := mcuentas_saldo/mcomisiones]
+dataset[, cociente_fe_01 := ctrx_quarter/r_mcuentas_saldo]
+dataset[, cociente_fe_02 := ctrx_quarter/r_mcomisiones]
+dataset[, cociente_fe_03 := r_mcuentas_saldo/r_mcomisiones]
 
 #-------------------------------------------------------------#
 #------------------ FIN FEATURE ENGINEERING ------------------#
