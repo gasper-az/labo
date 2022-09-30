@@ -26,18 +26,12 @@ PARAM$input$future        <- c( 202105 )
 # 20220927 022734	binary	custom	TRUE	TRUE	FALSE	-100	31	97	TRUE	763381	0.089556394	0.445734265	1153	436	8476	0.665748464	29	0.01010077	16.26989805	0.078369826	3	26970000	89
 
 PARAM$finalmodel$max_bin           <- 31
-PARAM$finalmodel$learning_rate     <- 0.00952482742610648
-PARAM$finalmodel$num_iterations    <- 1298
-PARAM$finalmodel$num_leaves        <- 743
-PARAM$finalmodel$min_data_in_leaf  <- 450
-PARAM$finalmodel$feature_fraction  <- 0.605783962510153
+PARAM$finalmodel$learning_rate     <- 0.0450579481474516
+PARAM$finalmodel$num_iterations    <- 144
+PARAM$finalmodel$num_leaves        <- 21
+PARAM$finalmodel$min_data_in_leaf  <- 5094
+PARAM$finalmodel$feature_fraction  <- 0.347009781655412
 PARAM$finalmodel$semilla           <- 763369
-PARAM$finalmodel$bagging_fraction  <-	0.987784990036988
-PARAM$finalmodel$bagging_freq      <- 99
-PARAM$finalmodel$lambda_l1         <- 0.943100967973046
-PARAM$finalmodel$lambda_l2         <- 74.0466609734954
-PARAM$finalmodel$min_gain_to_split <- 0.0698103369382356
-PARAM$finalmodel$max_depth         <- 10
 
 #------------------------------------------------------------------------------
 #------------------------------------------------------------------------------
@@ -229,7 +223,7 @@ dapply  <- dataset[ foto_mes== PARAM$input$future ]
 
 #aplico el modelo a los datos nuevos
 prediccion  <- predict( modelo, 
-                        data.matrix( dapply[, campos_buenos, with=FALSE ])                                 )
+                        data.matrix(dapply[, campos_buenos, with=FALSE ]))
 
 #genero la tabla de entrega
 tb_entrega  <-  dapply[ , list( numero_de_cliente, foto_mes ) ]

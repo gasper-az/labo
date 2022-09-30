@@ -199,7 +199,25 @@ Tarea LigthGBM
 			11000	-	"LigthGBM - Experimento 5 - 11000"	-	hay que entregar
 			11500	-	"LigthGBM - Experimento 5 - 11500"	-	hay que entregar
 			12000	-	"LigthGBM - Experimento 5 - 12000"	-	hay que entregar
-
+	Experimento 6
+		Entregas
+			5000	-	"LigthGBM - Experimento 6 - 5000"	-	hay que entregar
+			5500	-	"LigthGBM - Experimento 6 - 5500"	-	hay que entregar
+			6000	-	"LigthGBM - Experimento 6 - 6000"	-	hay que entregar
+			6500	-	"LigthGBM - Experimento 6 - 6500"	-	17.30821
+			7000	-	"LigthGBM - Experimento 6 - 7000"	-	17.58021
+			
+			7500	-	"LigthGBM - Experimento 6 - 7500"	-	
+			8000	-	"LigthGBM - Experimento 6 - 8000"	-	
+			8500	-	"LigthGBM - Experimento 6 - 8500"	-	
+			9000	-	"LigthGBM - Experimento 6 - 9000"	-	
+			9500	-	"LigthGBM - Experimento 6 - 9500"	-	
+			10000	-	"LigthGBM - Experimento 6 - 10000"	-	
+			
+			10500	-	"LigthGBM - Experimento 6 - 10500"	-	hay que entregar
+			11000	-	"LigthGBM - Experimento 6 - 11000"	-	hay que entregar
+			11500	-	"LigthGBM - Experimento 6 - 11500"	-	hay que entregar
+			12000	-	"LigthGBM - Experimento 6 - 12000"	-	hay que entregar
 
 
 

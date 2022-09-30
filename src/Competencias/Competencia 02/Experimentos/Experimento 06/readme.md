@@ -191,15 +191,15 @@ En este [link][link-documentacion-lightgbm-parametros] se puede encontrar más i
 
 Estos son los mejores resultados que se obtuvieron al realizar una *optimización bayesiana* para tunear los hiperparámetros a utilizar en LightGBM.
 Para ello, utilizamos el script [lightgbm_binaria_BO.r][script-ligthgbm-bo], obteniendo como salida el archivo [HT7234.txt][salida-ligthgbm-bo].
-El restultado que tomamos es el que se obtuvo en la iteración *78*, el cual arroja una ganancia de **27510000**.
+El restultado que tomamos es el que se obtuvo en la iteración *91*, el cual arroja una ganancia de **25380000**.
 
 | Hiperparámetro | valor |
 | - |   -   |
-| *learning_rate* | 0 |
-| *feature_fraction* | 0 |
-| *min_data_in_leaf* | 0 |
-| *num_leaves* | 0 |
-| *envios* | 0 |
+| *learning_rate* | 0.0450579481474516 |
+| *feature_fraction* | 0.347009781655412 |
+| *min_data_in_leaf* | 5094 |
+| *num_leaves* | 21 |
+| *envios* | 7434 |
 
 ## Ejecución y resultados de script de LightGBM
 
@@ -210,21 +210,21 @@ Luego, hacemos una entrega de cada archivo en la competancia de [Kaggle][link-ka
 
 | Cantidad de envíos | Score en public leaderboard |
 | - | - |
-| 5000 | 16.92820 |
-| 5500 | 17.76421 |
-| 6000 | 18.06422 |
-| 6500 | 18.41222 |
-| 7000 | 18.78022 |
-| 7500 | 18.14022 |
-| 8000 | 18.14822 |
-| 8500 | 17.76421 |
-| 9000 | 17.27621 |
-| 9500 | 17.52421 |
-| 10000 | 17.67621 |
-| 10500 | 17.22421 |
-| 11000 | 16.70420 |
-| 11500 | 16.72020 |
-| 12000 | 16.70820 |
+| 5000 | 14.36817 |
+| 5500 | 15.62419 |
+| 6000 | 16.77220 |
+| 6500 | 16.93620 |
+| 7000 | 17.16020 |
+| 7500 | 17.28421 |
+| 8000 | 17.05220 |
+| 8500 | 16.24819 |
+| 9000 | 16.39620 |
+| 9500 | 16.91220 |
+| 10000 | 16.63620 |
+| 10500 | 15.95619 |
+| 11000 | 15.39618 |
+| 11500 | 14.84418 |
+| 12000 | 14.30417 |
 
 ---
 
