@@ -92,6 +92,10 @@ variables.drifting.ranking.pos.neg.cero <- c(
   ,"Visa_msaldopesos"
   ,"Visa_fultimo_cierre"
   ,"Visa_mpagado"
+  ,"Visa_msaldototal"
+  ,"mrentabilidad"
+  ,"mrentabilidad_annual"
+  ,"mactivos_margen"
 )
 
 variables.con.drifting <- c(
@@ -101,11 +105,27 @@ variables.con.drifting <- c(
 
 ranked.drifting <- c()
 
-rank.prefix <- "ranked_"
+rank.prefix <- "r_"
+
 for (var in variables.con.drifting) {
   new.var.name <- paste0(rank.prefix, var)
   ranked.drifting <- c(ranked.drifting, new.var.name)
   dataset[, (new.var.name) := (frankv(dataset, cols = var, na.last = TRUE, ties.method = "dense") - 1) / (.N - 1)]
+}
+
+ranked.pos.neg <- c()
+rank.pos.neg.prefix <- "rpn_"
+
+for (var in variables.drifting.ranking.pos.neg.cero) {
+  new.var.name <- paste0(rank.pos.neg.prefix, var)
+  ranked.pos.neg <- c(ranked.pos.neg, new.var.name)
+  dataset[, (new.var.name) := ifelse(var >= 0,
+                                      (ifelse(var > 0,
+                                              (frankv(dataset, cols = var, na.last = TRUE, ties.method = "dense") - 1) / (.N - 1), ## mayores a cero
+                                              0)), # cero
+                                      -(frankv(dataset, cols = var, na.last = TRUE, ties.method = "dense") - 1) / (.N - 1) ## menores a cero
+                                     )
+            ]
 }
 
 #-------------------------------------------------------------#
@@ -125,6 +145,15 @@ for (var in variables.con.drifting) {
 #---------------------------------------------------------------#
 
 
-for(campo in  ranked.drifting) {
+# for(campo in  ranked.drifting) {
+#   graficar_campo( campo, mes.ini, mes.fin)
+# }
+
+#-----------------------------------------------------------------------#
+#-------------------- Gráfico de variables rankeadas Pos Neg -----------#
+#-----------------------------------------------------------------------#
+
+
+for(campo in  ranked.pos.neg) {
   graficar_campo( campo, mes.ini, mes.fin)
 }

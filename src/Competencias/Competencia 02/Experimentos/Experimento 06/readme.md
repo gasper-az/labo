@@ -56,6 +56,9 @@ Variables en las que detectamos Data Drifting:
 - mcomisiones_otras
 - chomebanking_transacciones
 - ccajas_otras
+- mactivos_margen
+- mrentabilidad
+- mrentabilidad_annual
 - Master_mfinanciacion_limite
 - Master_Finiciomora
 - Master_fultimo_cierre
@@ -67,11 +70,12 @@ Variables en las que detectamos Data Drifting:
 - Visa_mpagado
 - Visa_mpagosdolares
 - Visa_mconsumototal
+- Visa_msaldototal
 
 Aplicamos un ranking mediante la función *frank* de la siguiente forma:
 
 ```{r}
-(frankv(dataset, cols = var, na.last = TRUE, ties.method = "dense") - 1) / (.N - 1)
+dataset[, (new.var.name) := (frankv(dataset, cols = var, na.last = TRUE, ties.method = "dense") - 1) / (.N - 1)]
 ```
 
 Encontramos que este método de ranking es útil para las siguientes variables:
@@ -95,7 +99,10 @@ Pero el mismo método de ranking NO es útil en estos casos:
 - mcuentas_saldo
 - ccuenta_debitos_automaticos
 - ccomisiones_otras
+- mactivos_margen
 - mcomisiones_otras
+- mrentabilidad
+- mrentabilidad_annual
 - Master_mfinanciacion_limite
 - Master_Finiciomora
 - Master_fultimo_cierre
@@ -103,12 +110,34 @@ Pero el mismo método de ranking NO es útil en estos casos:
 - Visa_msaldopesos
 - Visa_fultimo_cierre
 - Visa_mpagado
+- Visa_msaldototal
+
+### Ranking por positivos, negativos, y ceros
+
+Ahora procedemos a realizar un ranking similar al anterior, pero aplicandolo de forma separada a valores positivos, negativos, y ceros de las variables mencionadas:
+
+```{r}
+dataset[, (new.var.name) := ifelse(var >= 0,
+                                      (ifelse(var > 0,
+                                              (frankv(dataset, cols = var, na.last = TRUE, ties.method = "dense") - 1) / (.N - 1), ## mayores a cero
+                                              0)), # cero
+                                      -(frankv(dataset, cols = var, na.last = TRUE, ties.method = "dense") - 1) / (.N - 1) ## menores a cero
+                                     )
+```
+
+### Conclusiones ranking
+
+Decidimos entonces aplicar a las variables que detectamos y categorizamos como afectadas por Data Drifting ambos métodos de ranking.
+Entonces, crearemos un set de variables nuevas, cuyo nombre será de la forma `r_nombre_original`. Finalmente, eliminaremos del dataset a las variables originales.
+
+Algo a tener en cuenta es que, como algunas de estas variables eran utilizadas en el *Feature Engineering* original (el que implementamos en la competencia anterior), debemos entonces actualizar las variables creadas.
+Para ello, reemplazaremos las variables afectadas por sus correspondientes rankeadas a la hora de hacer *Feature Engineering*.
 
 ## Feature Engineering
 
 ```{ r}
 dataset[, master_fe_suma_all := 
-          # Master_mfinanciacion_limite +
+          r_Master_mfinanciacion_limite +
           Master_msaldototal + Master_msaldopesos + Master_msaldodolares +
           Master_mconsumospesos + Master_mconsumosdolares + Master_mlimitecompra +
           Master_madelantopesos + Master_madelantodolares + Master_mpagado +
@@ -117,34 +146,27 @@ dataset[, master_fe_suma_all :=
 ]
 
 dataset[, visa_fe_suma_all := Visa_mfinanciacion_limite +
-          # Visa_msaldototal +
-          Visa_msaldopesos + Visa_msaldodolares + Visa_mconsumospesos +
+          r_Visa_msaldototal +
+          r_Visa_msaldopesos + Visa_msaldodolares + r_Visa_mconsumospesos +
           Visa_mconsumosdolares + Visa_mlimitecompra + Visa_madelantopesos +
-          Visa_madelantodolares + Visa_mpagado + Visa_mpagospesos +
-          Visa_mpagosdolares + Visa_mconsumototal + Visa_mpagominimo
+          r_Visa_madelantodolares + r_Visa_mpagado + Visa_mpagospesos +
+          r_Visa_mpagosdolares + r_Visa_mconsumototal + Visa_mpagominimo
         ]
 
 dataset[, tarjetas_fe_suma_all := master_fe_suma_all + visa_fe_suma_all]
 
 dataset[, pesos_fe_suma_menos_tarjetas := 
-          # mrentabilidad +
-          # mrentabilidad_annual +
-          # mactivos_margen +
-          # mpasivos_margen +
-          # mcuenta_corriente +
-          # mcaja_ahorro +
-          # mcaja_ahorro_dolares + 
-          # mcomisiones_mantenimiento +
-          
-          mcomisiones + mcuenta_corriente_adicional + mcaja_ahorro_adicional +          
-          mcuentas_saldo + mautoservicio + mtarjeta_visa_consumo +
+          r_mrentabilidad + r_mrentabilidad_annual + r_mactivos_margen +
+          mcomisiones_mantenimiento + r_mpasivos_margen + r_mcuenta_corriente +
+          r_mcaja_ahorro + r_mcaja_ahorro_dolares + r_mcomisiones + mcuenta_corriente_adicional + mcaja_ahorro_adicional +          
+          r_mcuentas_saldo + mautoservicio + r_mtarjeta_visa_consumo +
           mtarjeta_master_consumo + mprestamos_personales + mprestamos_prendarios +
           mprestamos_hipotecarios + mplazo_fijo_dolares + mplazo_fijo_pesos +
           minversion1_pesos + minversion1_dolares + minversion2 + 
-          mpayroll + mpayroll2 + mcuenta_debitos_automaticos +
+          mpayroll + mpayroll2 + r_mcuenta_debitos_automaticos +
           mttarjeta_master_debitos_automaticos + mpagodeservicios + mpagomiscuentas +
           mcajeros_propios_descuentos + mtarjeta_visa_descuentos + mtarjeta_master_descuentos +
-          mcomisiones_otras + mforex_buy + mforex_sell +
+          r_mcomisiones_otras + mforex_buy + mforex_sell +
           mtransferencias_recibidas + mtransferencias_emitidas + mextraccion_autoservicio +
           mcheques_depositados + mcheques_emitidos + mcheques_depositados_rechazados +
           mcheques_emitidos_rechazados + matm + matm_other
@@ -155,15 +177,9 @@ dataset[, pesos_fe_suma_all :=
           tarjetas_fe_suma_all
 ]
 
-dataset[, cociente_fe_01 := ctrx_quarter/mcuentas_saldo]
-dataset[, cociente_fe_02 := ctrx_quarter/mcomisiones]
-dataset[, cociente_fe_03 := mcuentas_saldo/mcomisiones]
-```
-
-La única excepción se hará con la variable *cociente_fe_01*, ya que la misma fue detectada como importante:
-
-```{ r }
-dataset[, cociente_fe_01 := ctrx_quarter/ranked_mcuentas_saldo]
+dataset[, cociente_fe_01 := ctrx_quarter/r_mcuentas_saldo]
+dataset[, cociente_fe_02 := ctrx_quarter/r_mcomisiones]
+dataset[, cociente_fe_03 := r_mcuentas_saldo/r_mcomisiones]
 ```
 
 ## Hiperparámetros - LightGBM
