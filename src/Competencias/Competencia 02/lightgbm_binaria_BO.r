@@ -48,7 +48,7 @@ hs <- makeParamSet(
 #  muy pronto esto se leera desde un archivo formato .yaml
 PARAM  <- list()
 
-PARAM$experimento  <- "HT7235"
+PARAM$experimento  <- "HT7236"
 
 PARAM$input$dataset       <- "./datasets/competencia2_2022.csv.gz"
 PARAM$input$training      <- c( 202103 )
@@ -244,7 +244,8 @@ for (var in variables.con.drifting) {
 #-------------------- FEATURE ENGINEERING --------------------#
 #-------------------------------------------------------------#
 
-dataset[, master_fe_suma_all :=
+dataset[, master_fe_suma_all := 
+          # Master_mfinanciacion_limite +
           Master_msaldototal + Master_msaldopesos + Master_msaldodolares +
           Master_mconsumospesos + Master_mconsumosdolares + Master_mlimitecompra +
           Master_madelantopesos + Master_madelantodolares + Master_mpagado +
@@ -252,48 +253,48 @@ dataset[, master_fe_suma_all :=
           Master_mpagominimo
 ]
 
-dataset[, visa_fe_suma_all :=
-          Visa_mfinanciacion_limite + Visa_msaldototal + Visa_msaldodolares + 
+dataset[, visa_fe_suma_all := Visa_mfinanciacion_limite +
+          # Visa_msaldototal +
+          Visa_msaldopesos + Visa_msaldodolares + Visa_mconsumospesos +
           Visa_mconsumosdolares + Visa_mlimitecompra + Visa_madelantopesos +
-          Visa_mpagospesos + Visa_mpagominimo
+          Visa_madelantodolares + Visa_mpagado + Visa_mpagospesos +
+          Visa_mpagosdolares + Visa_mconsumototal + Visa_mpagominimo
 ]
 
 dataset[, tarjetas_fe_suma_all := master_fe_suma_all + visa_fe_suma_all]
 
-dataset[, pesos_fe_suma_menos_tarjetas :=
-          mrentabilidad + mrentabilidad_annual + mactivos_margen +
-          mcuenta_corriente_adicional + mcaja_ahorro_adicional + mautoservicio + 
+dataset[, pesos_fe_suma_menos_tarjetas := 
+          # mrentabilidad +
+          # mrentabilidad_annual +
+          # mactivos_margen +
+          # mpasivos_margen +
+          # mcuenta_corriente +
+          # mcaja_ahorro +
+          # mcaja_ahorro_dolares + 
+          # mcomisiones_mantenimiento +
+          
+          mcomisiones + mcuenta_corriente_adicional + mcaja_ahorro_adicional +          
+          mcuentas_saldo + mautoservicio + mtarjeta_visa_consumo +
           mtarjeta_master_consumo + mprestamos_personales + mprestamos_prendarios +
           mprestamos_hipotecarios + mplazo_fijo_dolares + mplazo_fijo_pesos +
-          minversion1_pesos + minversion1_dolares + minversion2 +
-          mpayroll + mpayroll2 + mttarjeta_master_debitos_automaticos +
-          mpagodeservicios + mpagomiscuentas + mcajeros_propios_descuentos +
-          mtarjeta_visa_descuentos + mtarjeta_master_descuentos + mcomisiones_mantenimiento +
-          mforex_buy + mforex_sell + mtransferencias_recibidas +
-          mtransferencias_emitidas + mextraccion_autoservicio + mcheques_depositados +
-          mcheques_emitidos + mcheques_depositados_rechazados + mcheques_emitidos_rechazados +
-          matm + matm_other
+          minversion1_pesos + minversion1_dolares + minversion2 + 
+          mpayroll + mpayroll2 + mcuenta_debitos_automaticos +
+          mttarjeta_master_debitos_automaticos + mpagodeservicios + mpagomiscuentas +
+          mcajeros_propios_descuentos + mtarjeta_visa_descuentos + mtarjeta_master_descuentos +
+          mcomisiones_otras + mforex_buy + mforex_sell +
+          mtransferencias_recibidas + mtransferencias_emitidas + mextraccion_autoservicio +
+          mcheques_depositados + mcheques_emitidos + mcheques_depositados_rechazados +
+          mcheques_emitidos_rechazados + matm + matm_other
 ]
 
-dataset[, cociente_fe_01 := ctrx_quarter/ranked_mcuentas_saldo]
-dataset[, cociente_fe_02 := pesos_fe_suma_menos_tarjetas/mrentabilidad_annual]
-dataset[, cociente_fe_03 := pesos_fe_suma_menos_tarjetas/ranked_mcaja_ahorro]
-dataset[, cociente_fe_04 := pesos_fe_suma_menos_tarjetas/Master_Fvencimiento]
-dataset[, cociente_fe_05 := pesos_fe_suma_menos_tarjetas/cociente_fe_01]
-dataset[, cociente_fe_06 := pesos_fe_suma_menos_tarjetas/ranked_mcuentas_saldo]
-dataset[, cociente_fe_07 := mrentabilidad_annual/ranked_mcaja_ahorro]
-dataset[, cociente_fe_08 := mrentabilidad_annual/Master_Fvencimiento]
-dataset[, cociente_fe_09 := mrentabilidad_annual/cociente_fe_01]
-dataset[, cociente_fe_10 := mrentabilidad_annual/ranked_mcuentas_saldo]
-dataset[, cociente_fe_11 := ranked_mcaja_ahorro/Master_Fvencimiento]
-dataset[, cociente_fe_12 := ranked_mcaja_ahorro/cociente_fe_01]
-dataset[, cociente_fe_13 := ranked_mcaja_ahorro/ranked_mcuentas_saldo]
-dataset[, cociente_fe_14 := Master_Fvencimiento/cociente_fe_01]
-dataset[, cociente_fe_15 := Master_Fvencimiento/ranked_mcuentas_saldo]
-dataset[, cociente_fe_16 := cociente_fe_01/ranked_mcuentas_saldo]
-dataset[, suma_fe_01 := pesos_fe_suma_menos_tarjetas + mrentabilidad_annual]
-dataset[, vabs_fe_01 := abs(pesos_fe_suma_menos_tarjetas - mrentabilidad_annual)]
-dataset[, prod_fe_01 := pesos_fe_suma_menos_tarjetas * mrentabilidad_annual]
+dataset[, pesos_fe_suma_all :=
+          pesos_fe_suma_menos_tarjetas +
+          tarjetas_fe_suma_all
+]
+
+dataset[, cociente_fe_01 := ctrx_quarter/mcuentas_saldo]
+dataset[, cociente_fe_02 := ctrx_quarter/mcomisiones]
+dataset[, cociente_fe_03 := mcuentas_saldo/mcomisiones]
 
 #-------------------------------------------------------------#
 #------------------ FIN FEATURE ENGINEERING ------------------#
