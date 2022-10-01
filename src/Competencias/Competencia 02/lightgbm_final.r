@@ -16,14 +16,11 @@ require("lightgbm")
 #defino los parametros de la corrida, en una lista, la variable global  PARAM
 #  muy pronto esto se leera desde un archivo formato .yaml
 PARAM <- list()
-PARAM$experimento  <- "KA7246"
+PARAM$experimento  <- "KA7247"
 
 PARAM$input$dataset       <- "./datasets/competencia2_2022.csv.gz"
 PARAM$input$training      <- c( 202103 )
 PARAM$input$future        <- c( 202105 )
-
-# fecha	objective	metric	first_metric_only	boost_from_average	feature_pre_filter	verbosity	max_bin	num_iterations	force_row_wise	seed	learning_rate	feature_fraction	min_data_in_leaf	num_leaves	envios	bagging_fraction	bagging_freq	lambda_l1	lambda_l2	min_gain_to_split	max_depth 	ganancia	iteracion
-# 20220927 022734	binary	custom	TRUE	TRUE	FALSE	-100	31	97	TRUE	763381	0.089556394	0.445734265	1153	436	8476	0.665748464	29	0.01010077	16.26989805	0.078369826	3	26970000	89
 
 PARAM$finalmodel$max_bin           <- 31
 PARAM$finalmodel$learning_rate     <- 0.0450579481474516
@@ -33,10 +30,28 @@ PARAM$finalmodel$min_data_in_leaf  <- 5094
 PARAM$finalmodel$feature_fraction  <- 0.347009781655412
 PARAM$finalmodel$semilla           <- 763369
 
+
 #------------------------------------------------------------------------------
 #------------------------------------------------------------------------------
+
+# Ranking por mes, según valores positivos o negativos
+rank.pos.neg <- function(dataset, var, new.var.name, mes, ties.method) {
+  dataset[foto_mes==mes, (new.var.name) := ifelse(var >= 0,
+                                                  (ifelse(var > 0,
+                                                          (frankv(dataset[foto_mes==mes], cols = var, na.last = TRUE, ties.method = ties.method) - 1) / (.N - 1), ## mayores a cero
+                                                          0)), # cero
+                                                  -(frankv(dataset[foto_mes==mes], cols = var, na.last = TRUE, ties.method = ties.method) - 1) / (.N - 1) ## menores a cero
+  )
+  ]
+}
+
+#------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
+
 #Aqui empieza el programa
 setwd( "C:\\uba\\dmeyf" )
+
+set.seed(PARAM$finalmodel$semilla)
 
 #cargo el dataset donde voy a entrenar
 dataset  <- fread(PARAM$input$dataset, stringsAsFactors= TRUE)
@@ -57,55 +72,84 @@ dataset[ , clase01 := ifelse( clase_ternaria %in%  c("BAJA+2","BAJA+1"), 1L, 0L)
 
 variables.drifting.ranking <- c(
   "mpasivos_margen"
-  ,"mcuenta_corriente"
   ,"mcaja_ahorro_dolares"
   ,"mtarjeta_visa_consumo"
   ,"mcuenta_debitos_automaticos"
   ,"chomebanking_transacciones"
   ,"ccajas_otras"
   ,"Visa_mconsumospesos"
-  ,"Visa_madelantodolares"
-  ,"Visa_mpagosdolares"
   ,"Visa_mconsumototal"
+  ,"mcuentas_saldo"
+  ,"Visa_msaldototal"
 )
 
-variables.drifting.ranking.pos.neg.cero <- c(
-  "mcomisiones"
-  ,"mcaja_ahorro"
-  ,"mcuentas_saldo"
-  ,"ccuenta_debitos_automaticos"
+variables.drifting.random <- c(
+  "mcaja_ahorro"
+  ,"mcomisiones"
   ,"ccomisiones_otras"
   ,"mcomisiones_otras"
-  ,"Master_mfinanciacion_limite"
-  ,"Master_Finiciomora"
-  ,"Master_fultimo_cierre"
-  ,"Visa_Finiciomora"
   ,"Visa_msaldopesos"
-  ,"Visa_fultimo_cierre"
-  ,"Visa_mpagado"
-  ,"Visa_msaldototal"
   ,"mrentabilidad"
   ,"mrentabilidad_annual"
   ,"mactivos_margen"
 )
 
+var.drifting.pos.neg.dense <- c(
+  "ccuenta_debitos_automaticos"
+  ,"Master_mfinanciacion_limite"
+  ,"Master_fultimo_cierre"
+  ,"Visa_fultimo_cierre"
+  ,"mcuenta_corriente"
+  ,"Visa_madelantodolares"
+  ,"Visa_mpagosdolares"
+)
+
+var.drifting.pos.neg.last <- c(
+  "Master_Finiciomora"
+  ,"Visa_Finiciomora"
+)
+
+var.drifting.pos.neg.first <- c(
+  "Visa_mpagado"
+)
+
 rank.prefix <- "r_"
+mes.ini <- 202103
+mes.fin <- 202105
 
 for (var in variables.drifting.ranking) {
   new.var.name <- paste0(rank.prefix, var)
-  dataset[, (new.var.name) := (frankv(dataset, cols = var, na.last = TRUE, ties.method = "dense") - 1) / (.N - 1)]
+  dataset[foto_mes==mes.ini, (new.var.name) := (frankv(dataset[foto_mes==mes.ini], cols = var, na.last = TRUE, ties.method = "dense") - 1) / (.N - 1)]
+  dataset[foto_mes==mes.fin, (new.var.name) := (frankv(dataset[foto_mes==mes.fin], cols = var, na.last = TRUE, ties.method = "dense") - 1) / (.N - 1)]
   dataset[, (var) := NULL]
 }
 
-for (var in variables.drifting.ranking.pos.neg.cero) {
+for (var in variables.drifting.random) {
   new.var.name <- paste0(rank.prefix, var)
-  dataset[, (new.var.name) := ifelse(var >= 0,
-                                     (ifelse(var > 0,
-                                             (frankv(dataset, cols = var, na.last = TRUE, ties.method = "dense") - 1) / (.N - 1), ## mayores a cero
-                                             0)), # cero
-                                     -(frankv(dataset, cols = var, na.last = TRUE, ties.method = "dense") - 1) / (.N - 1) ## menores a cero
-  )
-  ]
+  dataset[foto_mes==mes.ini, (new.var.name) := (frankv(dataset[foto_mes==mes.ini], cols = var, na.last = TRUE, ties.method = "random") - 1) / (.N - 1)]
+  dataset[foto_mes==mes.fin, (new.var.name) := (frankv(dataset[foto_mes==mes.fin], cols = var, na.last = TRUE, ties.method = "random") - 1) / (.N - 1)]
+  dataset[, (var) := NULL]
+}
+
+
+for (var in var.drifting.pos.neg.dense) {
+  new.var.name <- paste0(rank.prefix, var)
+  rank.pos.neg(dataset, var, new.var.name, mes.ini, "dense")
+  rank.pos.neg(dataset, var, new.var.name, mes.fin, "dense")
+  dataset[, (var) := NULL]
+}
+
+for (var in var.drifting.pos.neg.last) {
+  new.var.name <- paste0(rank.prefix, var)
+  rank.pos.neg(dataset, var, new.var.name, mes.ini, "last")
+  rank.pos.neg(dataset, var, new.var.name, mes.fin, "last")
+  dataset[, (var) := NULL]
+}
+
+for (var in var.drifting.pos.neg.first) {
+  new.var.name <- paste0(rank.prefix, var)
+  rank.pos.neg(dataset, var, new.var.name, mes.ini, "first")
+  rank.pos.neg(dataset, var, new.var.name, mes.fin, "first")
   dataset[, (var) := NULL]
 }
 
@@ -223,7 +267,7 @@ dapply  <- dataset[ foto_mes== PARAM$input$future ]
 
 #aplico el modelo a los datos nuevos
 prediccion  <- predict( modelo, 
-                        data.matrix(dapply[, campos_buenos, with=FALSE ]))
+                        data.matrix( dapply[, campos_buenos, with=FALSE ])                                 )
 
 #genero la tabla de entrega
 tb_entrega  <-  dapply[ , list( numero_de_cliente, foto_mes ) ]
@@ -246,7 +290,7 @@ for( envios  in  cortes )
   tb_entrega[  , Predicted := 0L ]
   tb_entrega[ 1:envios, Predicted := 1L ]
 
-  fwrite( tb_entrega[ , list(numero_de_cliente, Predicted)], 
+  fwrite( tb_entrega[ , list(numero_de_cliente, Predicted)],
           file= paste0(  PARAM$experimento, "_", envios, ".csv" ),
           sep= "," )
 }
@@ -254,4 +298,3 @@ for( envios  in  cortes )
 #--------------------------------------
 
 quit( save= "no" )
-  

@@ -50,11 +50,22 @@ graficar_campo  <- function( campo, ini, fin) {
   
 }
 
+rank.pos.neg <- function(dataset, var, new.var.name, mes, ties.method) {
+  dataset[foto_mes==mes, (new.var.name) := ifelse(var >= 0,
+                                                  (ifelse(var > 0,
+                                                          (frankv(dataset[foto_mes==mes], cols = var, na.last = TRUE, ties.method = ties.method) - 1) / (.N - 1), ## mayores a cero
+                                                          0)), # cero
+                                                  -(frankv(dataset[foto_mes==mes], cols = var, na.last = TRUE, ties.method = ties.method) - 1) / (.N - 1) ## menores a cero
+  )
+  ]
+}
+
 #-------------------------------------------------------------#
 #-------------------------------------------------------------#
 #-------------------------------------------------------------#
 
 setwd("C:\\uba\\dmeyf")
+set.seed(763369)
 dataset  <- fread("./datasets/competencia2_2022.csv.gz")
 
 mes.ini <- 202103
@@ -66,67 +77,107 @@ mes.fin <- 202105
 
 variables.drifting.ranking <- c(
   "mpasivos_margen"
-  ,"mcuenta_corriente"
   ,"mcaja_ahorro_dolares"
   ,"mtarjeta_visa_consumo"
   ,"mcuenta_debitos_automaticos"
   ,"chomebanking_transacciones"
   ,"ccajas_otras"
   ,"Visa_mconsumospesos"
-  ,"Visa_madelantodolares"
-  ,"Visa_mpagosdolares"
   ,"Visa_mconsumototal"
+  ,"mcuentas_saldo"
+  ,"Visa_msaldototal"
 )
 
-variables.drifting.ranking.pos.neg.cero <- c(
-  "mcomisiones"
-  ,"mcaja_ahorro"
-  ,"mcuentas_saldo"
-  ,"ccuenta_debitos_automaticos"
+var.drifting.pos.neg.dense <- c(
+  "ccuenta_debitos_automaticos"
+  ,"Master_mfinanciacion_limite"
+  ,"Master_fultimo_cierre"
+  ,"Visa_fultimo_cierre"
+  ,"mcuenta_corriente"
+  ,"Visa_madelantodolares"
+  ,"Visa_mpagosdolares"
+  
+)
+
+var.drifting.pos.neg.last <- c(
+  "Master_Finiciomora"
+  ,"Visa_Finiciomora"
+)
+
+var.drifting.pos.neg.first <- c(
+  "Visa_mpagado"
+)
+
+variables.drifting.random <- c(
+  "mcaja_ahorro"
+  ,"mcomisiones"
   ,"ccomisiones_otras"
   ,"mcomisiones_otras"
-  ,"Master_mfinanciacion_limite"
-  ,"Master_Finiciomora"
-  ,"Master_fultimo_cierre"
-  ,"Visa_Finiciomora"
   ,"Visa_msaldopesos"
-  ,"Visa_fultimo_cierre"
-  ,"Visa_mpagado"
-  ,"Visa_msaldototal"
   ,"mrentabilidad"
   ,"mrentabilidad_annual"
   ,"mactivos_margen"
 )
 
-variables.con.drifting <- c(
-  variables.drifting.ranking,
-  variables.drifting.ranking.pos.neg.cero
-)
+# c("average", "first", "last", "random", "max", "min", "dense")
+
 
 ranked.drifting <- c()
 
 rank.prefix <- "r_"
 
-for (var in variables.con.drifting) {
+for (var in variables.drifting.ranking) {
   new.var.name <- paste0(rank.prefix, var)
   ranked.drifting <- c(ranked.drifting, new.var.name)
-  dataset[, (new.var.name) := (frankv(dataset, cols = var, na.last = TRUE, ties.method = "dense") - 1) / (.N - 1)]
+  dataset[foto_mes==mes.ini, (new.var.name) := (frankv(dataset[foto_mes==mes.ini], cols = var, na.last = TRUE, ties.method = "dense") - 1) / (.N - 1)]
+  dataset[foto_mes==mes.fin, (new.var.name) := (frankv(dataset[foto_mes==mes.fin], cols = var, na.last = TRUE, ties.method = "dense") - 1) / (.N - 1)]
+}
+
+for (var in variables.drifting.random) {
+  new.var.name <- paste0(rank.prefix, var)
+  ranked.drifting <- c(ranked.drifting, new.var.name)
+  dataset[foto_mes==mes.ini, (new.var.name) := (frankv(dataset[foto_mes==mes.ini], cols = var, na.last = TRUE, ties.method = "random") - 1) / (.N - 1)]
+  dataset[foto_mes==mes.fin, (new.var.name) := (frankv(dataset[foto_mes==mes.fin], cols = var, na.last = TRUE, ties.method = "random") - 1) / (.N - 1)]
 }
 
 ranked.pos.neg <- c()
 rank.pos.neg.prefix <- "rpn_"
 
-for (var in variables.drifting.ranking.pos.neg.cero) {
+ties.method <- "dense"
+for (var in var.drifting.pos.neg.dense) {
   new.var.name <- paste0(rank.pos.neg.prefix, var)
   ranked.pos.neg <- c(ranked.pos.neg, new.var.name)
-  dataset[, (new.var.name) := ifelse(var >= 0,
-                                      (ifelse(var > 0,
-                                              (frankv(dataset, cols = var, na.last = TRUE, ties.method = "dense") - 1) / (.N - 1), ## mayores a cero
-                                              0)), # cero
-                                      -(frankv(dataset, cols = var, na.last = TRUE, ties.method = "dense") - 1) / (.N - 1) ## menores a cero
-                                     )
-            ]
+  
+  rank.pos.neg(dataset, var, new.var.name, mes.ini, ties.method)
+  rank.pos.neg(dataset, var, new.var.name, mes.fin, ties.method)
 }
+
+ties.method <- "last"
+for (var in var.drifting.pos.neg.last) {
+  new.var.name <- paste0(rank.pos.neg.prefix, var)
+  ranked.pos.neg <- c(ranked.pos.neg, new.var.name)
+  
+  rank.pos.neg(dataset, var, new.var.name, mes.ini, ties.method)
+  rank.pos.neg(dataset, var, new.var.name, mes.fin, ties.method)
+}
+
+ties.method <- "first"
+for (var in var.drifting.pos.neg.first) {
+  new.var.name <- paste0(rank.pos.neg.prefix, var)
+  ranked.pos.neg <- c(ranked.pos.neg, new.var.name)
+
+  rank.pos.neg(dataset, var, new.var.name, mes.ini, ties.method)
+  rank.pos.neg(dataset, var, new.var.name, mes.fin, ties.method)
+}
+
+# 
+# ranked.drifting <- c(ranked.drifting, "r_mcomisiones")
+# dataset[foto_mes==mes.ini, "r_mcomisiones" := (frankv(dataset[foto_mes==mes.ini], cols = "mcomisiones", na.last = TRUE, ties.method = "random") - 1) / (.N - 1)]
+# dataset[foto_mes==mes.fin, "r_mcomisiones" := (frankv(dataset[foto_mes==mes.fin], cols = "mcomisiones", na.last = TRUE, ties.method = "random") - 1) / (.N - 1)]
+# 
+# ranked.drifting <- c(ranked.drifting, "r_mcaja_ahorro")
+# dataset[foto_mes==mes.ini, "r_mcaja_ahorro" := (frankv(dataset[foto_mes==mes.ini], cols = "mcaja_ahorro", na.last = TRUE, ties.method = "random") - 1) / (.N - 1)]
+# dataset[foto_mes==mes.fin, "r_mcaja_ahorro" := (frankv(dataset[foto_mes==mes.fin], cols = "mcaja_ahorro", na.last = TRUE, ties.method = "random") - 1) / (.N - 1)]
 
 #-------------------------------------------------------------#
 #----------- FIN RANKING DE VARIABLES CON DRIFTING -----------#
@@ -144,10 +195,9 @@ for (var in variables.drifting.ranking.pos.neg.cero) {
 #-------------------- Gráfico de variables rankeadas -----------#
 #---------------------------------------------------------------#
 
-
-# for(campo in  ranked.drifting) {
-#   graficar_campo( campo, mes.ini, mes.fin)
-# }
+for(campo in  ranked.drifting) {
+  graficar_campo( campo, mes.ini, mes.fin)
+}
 
 #-----------------------------------------------------------------------#
 #-------------------- Gráfico de variables rankeadas Pos Neg -----------#
@@ -157,3 +207,18 @@ for (var in variables.drifting.ranking.pos.neg.cero) {
 for(campo in  ranked.pos.neg) {
   graficar_campo( campo, mes.ini, mes.fin)
 }
+
+
+set.seed(763369)
+# dataset[foto_mes==mes.ini, "dense_var" := (frankv(dataset[foto_mes==mes.ini], cols = "mrentabilidad", na.last = TRUE, ties.method = "dense") - 1) / (.N - 1)]
+# dataset[foto_mes==mes.fin, "dense_var" := (frankv(dataset[foto_mes==mes.fin], cols = "mrentabilidad", na.last = TRUE, ties.method = "dense") - 1) / (.N - 1)]
+# 
+# dataset[foto_mes==mes.ini, "random_var" := (frankv(dataset[foto_mes==mes.ini], cols = "mrentabilidad", na.last = TRUE, ties.method = "random") - 1) / (.N - 1)]
+# dataset[foto_mes==mes.fin, "random_var" := (frankv(dataset[foto_mes==mes.fin], cols = "mrentabilidad", na.last = TRUE, ties.method = "random") - 1) / (.N - 1)]
+# 
+# dataset[foto_mes==mes.ini, "avg_var" := (frankv(dataset[foto_mes==mes.ini], cols = "mrentabilidad", na.last = TRUE, ties.method = "average") - 1) / (.N - 1)]
+# dataset[foto_mes==mes.fin, "avg_var" := (frankv(dataset[foto_mes==mes.fin], cols = "mrentabilidad", na.last = TRUE, ties.method = "average") - 1) / (.N - 1)]
+# 
+# graficar_campo("dense_var", mes.ini, mes.fin)
+# graficar_campo("random_var", mes.ini, mes.fin)
+# graficar_campo("avg_var", mes.ini, mes.fin)

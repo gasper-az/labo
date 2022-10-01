@@ -49,7 +49,7 @@ hs <- makeParamSet(
 #  muy pronto esto se leera desde un archivo formato .yaml
 PARAM  <- list()
 
-PARAM$experimento  <- "HT7236"
+PARAM$experimento  <- "HT7237"
 
 PARAM$input$dataset       <- "./datasets/competencia2_2022.csv.gz"
 PARAM$input$training      <- c( 202103 )
@@ -190,12 +190,26 @@ EstimarGanancia_lightgbm  <- function( x )
 
   return( ganancia_normalizada )
 }
+
+# Ranking por mes, según valores positivos o negativos
+rank.pos.neg <- function(dataset, var, new.var.name, mes, ties.method) {
+  dataset[foto_mes==mes, (new.var.name) := ifelse(var >= 0,
+                                                  (ifelse(var > 0,
+                                                          (frankv(dataset[foto_mes==mes], cols = var, na.last = TRUE, ties.method = ties.method) - 1) / (.N - 1), ## mayores a cero
+                                                          0)), # cero
+                                                  -(frankv(dataset[foto_mes==mes], cols = var, na.last = TRUE, ties.method = ties.method) - 1) / (.N - 1) ## menores a cero
+  )
+  ]
+}
+
 #------------------------------------------------------------------------------
 #------------------------------------------------------------------------------
 #Aqui empieza el programa
 
 #Aqui se debe poner la carpeta de la computadora local
 setwd("~/buckets/b1/")   #Establezco el Working Directory
+
+set.seed(PARAM$trainingstrategy$semilla_azar)
 
 #cargo el dataset donde voy a entrenar el modelo
 dataset  <- fread( PARAM$input$dataset )
@@ -206,55 +220,84 @@ dataset  <- fread( PARAM$input$dataset )
 
 variables.drifting.ranking <- c(
   "mpasivos_margen"
-  ,"mcuenta_corriente"
   ,"mcaja_ahorro_dolares"
   ,"mtarjeta_visa_consumo"
   ,"mcuenta_debitos_automaticos"
   ,"chomebanking_transacciones"
   ,"ccajas_otras"
   ,"Visa_mconsumospesos"
-  ,"Visa_madelantodolares"
-  ,"Visa_mpagosdolares"
   ,"Visa_mconsumototal"
+  ,"mcuentas_saldo"
+  ,"Visa_msaldototal"
 )
 
-variables.drifting.ranking.pos.neg.cero <- c(
-  "mcomisiones"
-  ,"mcaja_ahorro"
-  ,"mcuentas_saldo"
-  ,"ccuenta_debitos_automaticos"
+variables.drifting.random <- c(
+  "mcaja_ahorro"
+  ,"mcomisiones"
   ,"ccomisiones_otras"
   ,"mcomisiones_otras"
-  ,"Master_mfinanciacion_limite"
-  ,"Master_Finiciomora"
-  ,"Master_fultimo_cierre"
-  ,"Visa_Finiciomora"
   ,"Visa_msaldopesos"
-  ,"Visa_fultimo_cierre"
-  ,"Visa_mpagado"
-  ,"Visa_msaldototal"
   ,"mrentabilidad"
   ,"mrentabilidad_annual"
   ,"mactivos_margen"
 )
 
+var.drifting.pos.neg.dense <- c(
+  "ccuenta_debitos_automaticos"
+  ,"Master_mfinanciacion_limite"
+  ,"Master_fultimo_cierre"
+  ,"Visa_fultimo_cierre"
+  ,"mcuenta_corriente"
+  ,"Visa_madelantodolares"
+  ,"Visa_mpagosdolares"
+)
+
+var.drifting.pos.neg.last <- c(
+  "Master_Finiciomora"
+  ,"Visa_Finiciomora"
+)
+
+var.drifting.pos.neg.first <- c(
+  "Visa_mpagado"
+)
+
 rank.prefix <- "r_"
+mes.ini <- 202103
+mes.fin <- 202105
 
 for (var in variables.drifting.ranking) {
   new.var.name <- paste0(rank.prefix, var)
-  dataset[, (new.var.name) := (frankv(dataset, cols = var, na.last = TRUE, ties.method = "dense") - 1) / (.N - 1)]
+  dataset[foto_mes==mes.ini, (new.var.name) := (frankv(dataset[foto_mes==mes.ini], cols = var, na.last = TRUE, ties.method = "dense") - 1) / (.N - 1)]
+  dataset[foto_mes==mes.fin, (new.var.name) := (frankv(dataset[foto_mes==mes.fin], cols = var, na.last = TRUE, ties.method = "dense") - 1) / (.N - 1)]
   dataset[, (var) := NULL]
 }
 
-for (var in variables.drifting.ranking.pos.neg.cero) {
+for (var in variables.drifting.random) {
   new.var.name <- paste0(rank.prefix, var)
-  dataset[, (new.var.name) := ifelse(var >= 0,
-                                     (ifelse(var > 0,
-                                             (frankv(dataset, cols = var, na.last = TRUE, ties.method = "dense") - 1) / (.N - 1), ## mayores a cero
-                                             0)), # cero
-                                     -(frankv(dataset, cols = var, na.last = TRUE, ties.method = "dense") - 1) / (.N - 1) ## menores a cero
-                                    )
-          ]
+  dataset[foto_mes==mes.ini, (new.var.name) := (frankv(dataset[foto_mes==mes.ini], cols = var, na.last = TRUE, ties.method = "random") - 1) / (.N - 1)]
+  dataset[foto_mes==mes.fin, (new.var.name) := (frankv(dataset[foto_mes==mes.fin], cols = var, na.last = TRUE, ties.method = "random") - 1) / (.N - 1)]
+  dataset[, (var) := NULL]
+}
+
+
+for (var in var.drifting.pos.neg.dense) {
+  new.var.name <- paste0(rank.prefix, var)
+  rank.pos.neg(dataset, var, new.var.name, mes.ini, "dense")
+  rank.pos.neg(dataset, var, new.var.name, mes.fin, "dense")
+  dataset[, (var) := NULL]
+}
+
+for (var in var.drifting.pos.neg.last) {
+  new.var.name <- paste0(rank.prefix, var)
+  rank.pos.neg(dataset, var, new.var.name, mes.ini, "last")
+  rank.pos.neg(dataset, var, new.var.name, mes.fin, "last")
+  dataset[, (var) := NULL]
+}
+
+for (var in var.drifting.pos.neg.first) {
+  new.var.name <- paste0(rank.prefix, var)
+  rank.pos.neg(dataset, var, new.var.name, mes.ini, "first")
+  rank.pos.neg(dataset, var, new.var.name, mes.fin, "first")
   dataset[, (var) := NULL]
 }
 
