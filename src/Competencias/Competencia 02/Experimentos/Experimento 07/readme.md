@@ -70,9 +70,10 @@ Variables en las que detectamos Data Drifting:
 Aplicamos un ranking mediante la función *frank* de la siguiente forma:
 
 ```{r}
-dataset[, (new.var.name) := (frankv(dataset, cols = var, na.last = TRUE, ties.method = "modo") - 1) / (.N - 1)]
+dataset[foto_mes==mes.analizar, (new.var.name) := (frankv(dataset[foto_mes==mes.analizar], cols = var, na.last = TRUE, ties.method = "modo") - 1) / (.N - 1)]
 ```
 
+En donde *mes.analizar* corresponde al mes donde entrenamos nuestro dataset (*202103*) o el mes que queremos predecir (*202105*).
 En donde *modo* es uno de los posibles valores que recibe el parámetro *ties.method* de la función *frank* para tratar aquellos casos de empates [link a la documentación][link-documentacion-frank].
 
 Encontramos que este método de ranking con el modo *dense* (el cual permite que no haya grietas/espacios en el ranking) es útil para las siguientes variables:
@@ -117,14 +118,16 @@ Respecto al resto de los casos, no encontramos resultados favorables con este m�
 Para poder arreglar el problem de data drifting en las variables restantes, decidimos aplicar un método de rankeo de la siguiente forma:
 
 ```{r}
-dataset[, (new.var.name) := ifelse(var >= 0,
-                                      (ifelse(var > 0,
-                                              (frankv(dataset, cols = var, na.last = TRUE, ties.method = "modo") - 1) / (.N - 1), ## mayores a cero
-                                              0)), # cero
-                                      -(frankv(dataset, cols = var, na.last = TRUE, ties.method = "modo") - 1) / (.N - 1) ## menores a cero
-                                     )
+dataset[foto_mes==mes.analizar, (new.var.name) := ifelse(var >= 0,
+                                                  (ifelse(var > 0,
+                                                          (frankv(dataset[foto_mes==mes.analizar], cols = var, na.last = TRUE, ties.method = "modo") - 1) / (.N - 1), ## mayores a cero
+                                                          0)), # cero
+                                                  -(frankv(dataset[foto_mes==mes.analizar], cols = var, na.last = TRUE, ties.method = "modo") - 1) / (.N - 1) ## menores a cero
+                                                )
+      ]
 ```
 
+En donde *mes.analizar* corresponde al mes donde entrenamos nuestro dataset (*202103*) o el mes que queremos predecir (*202105*).
 En donde *modo* es uno de los posibles valores que recibe el parámetro *ties.method* de la función *frank* para tratar aquellos casos de empates [link a la documentación][link-documentacion-frank].
 
 Este método, implementado con el modo *dense* para tratar empates, es útil en esta variables:
