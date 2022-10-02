@@ -1,5 +1,8 @@
 # Data Mining en Economía y Finanzas - Competencia 02 - Experimento 04
 
+> **NOTA**: cancelamos el experimento porque: a) debemos enfocarnos más en la resolución de *Data Drifting* y *Concept Drifting*; y b) Los resultadosm que obtuvimos en Kaggle no son satisfactorios.
+> **NOTA**: los resultados mostrados en este documento corresponden efectivamente a este experimento. Igualmente, algunas secciones de este documento no están completas (faltan aclarar detalles).
+
 ## Índice
 
 - [Detalles](#detalles)

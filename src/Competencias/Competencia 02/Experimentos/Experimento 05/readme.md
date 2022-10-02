@@ -1,6 +1,7 @@
-# [CANCELADO]: debo enfocarme en Data y concept drifting
+# Data Mining en Economía y Finanzas - Competencia 02 - Experimento 05
 
-# Data Mining en Economía y Finanzas - Competencia 02 - Experimento 01
+> **NOTA**: cancelamos el experimento porque: a) debemos enfocarnos más en la resolución de *Data Drifting* y *Concept Drifting*; y b) Los resultadosm que obtuvimos en Kaggle no son satisfactorios.
+> **NOTA**: los resultados mostrados en este documento corresponden efectivamente a este experimento. Igualmente, algunas secciones de este documento no están completas (faltan aclarar detalles).
 
 ## Índice
 
@@ -18,7 +19,6 @@
 ## Detalles
 
 En este experimento hacemos uso del algoritmo de [*LightGBM*][link-documentacion-lightgbm], aplicado al dataset *original* de la *competencia 02* ([link de descarga][link-dataset-competencia-02]).
-TODO: FE y DD + CD
 Luego realizamos una ejecución del script [lightgbm_binaria_BO.r][script-ligthgbm-bo] para hacer un tunning de los siguientes hiperparámetros:
 
 - max_bin

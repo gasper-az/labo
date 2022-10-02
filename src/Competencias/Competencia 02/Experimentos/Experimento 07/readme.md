@@ -1,4 +1,4 @@
-# Data Mining en Economía y Finanzas - Competencia 02 - Experimento 04
+# Data Mining en Economía y Finanzas - Competencia 02 - Experimento 07
 
 ## Índice
 
