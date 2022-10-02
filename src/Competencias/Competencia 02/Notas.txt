@@ -1,0 +1,26 @@
+Para replicar este experimento:
+
+Ejecutar el script lightgbm_binaria_BO.r
+	Nombre del experimento: HT7237
+	Utilizar semilla 763369 (para training strategy)
+	Utilizar semilla 763381 (para el tunning de hiperparámetros)
+
+Analizar la salida del script
+	Ir a la carpeta de salida HT7237
+	Ordenar el archivo HT7237.txt de forma descendente en cuanto a la columna ganancias
+	Copiar los valores de los siguientes hiperparámetros, e implementarlos en el archivo lightgbm_final.r:
+		max_bin
+		learning_rate
+		num_iterations
+		num_leaves
+		min_data_in_leaf
+		feature_fraction
+
+Procesar el script lightgbm_final.r
+	Nombre del experimento: KA7247
+	Usar hiperparámetros mencionados anteriormente
+	Utilizar semilla 763369
+
+Luego, usar el archivo KA7247_8500.csv como entrega de la competencia de Kaggle
+
+Puede encontrar más detalles en el archivo readme.md
