@@ -7,6 +7,7 @@
 - [Feature Engineering](#feature-engineering)
 - [Hiperparámetros](#hiperparámetros---lightgbm)
 - [Ejecución y resultados de script de LightGBM](#ejecución-y-resultados-de-script-de-lightgbm)
+  - [Eligiendo un punto de corte como entrega para Kaggle](#eligiendo-un-punto-de-corte-como-entrega-para-kaggle)
 - [Análisis - Feature importance](#análisis---feature-importance)
   - [Gain](#feature-importance---gain)
   - [Cover](#feature-importance---cover)
@@ -259,6 +260,16 @@ Luego, hacemos una entrega de cada archivo en la competancia de [Kaggle][link-ka
 
 ---
 
+### Eligiendo un punto de corte como entrega para Kaggle
+
+Ahora bien, tenemos que elegir a uno de estos puntos graficados como entrega final de la [competancia 02][link-kaggle-competencia-02]. Para ello, analizamos el pdf que se nos entregó en la [clase-08][link-clase-08-pdf-hackeo-kaggle].
+
+Nuestro gráfico se caracteriza por lo siguiente: tenemos una *meseta*, en nuestro caso, entre los puntos *7000* y *8000*, a la cual sigue una caída bruzca en la ganancia del *public leaderboard* (punto de corte *8500*), y de ahí en más la ganancia sigue disminuyendo, exceptuando una pequeña subida de ganancia en el punto *10500*.
+
+En el [documento pdf][link-clase-08-pdf-hackeo-kaggle] que analizamos, notamos ciertos casos que nos llamaron la atención, ya que se caracterizan por tener una especie de *meseta* en los valores del public, que luego decae. Algunos de ellos se encuentran en las páginas *39*, *57*, *72*, y *84*. Si bien, presentan una caída luego de una *meseta* en los valores del public, los valores del *private* tiene mejor ganancia que incluso los puntos anteriores (y, en algunos casos, posteriores) a la caída de ganancia del public. Esto nos da un pie para seleccionar nuestra entrega, es decir, debemos elegir aquellos puntos donde la ganancia del public *cae* luego de tener cierta *tendencia estable*.
+
+> **Conclusión**: Por este motivo, delijo el punto de corte **8500** como entrega de la [competancia kaggle 02][link-kaggle-competencia-02].
+
 ## Análisis - Feature importance
 
 Finalmente, procedemos a analizar el *feature importance* que nos devuelve el script [lightgbm_final.r][script-ligthgbm-ejecucion]. Para ello, hacemos uso del script [utilidades_analisis_feature_importance.r][script-utilidades-analisis-feature-importance].
@@ -360,3 +371,4 @@ Esto nos da un nuevo punto de partida para posibles futuros experimentos, en don
 [link-documentacion-lightgbm-parametros]: https://lightgbm.readthedocs.io/en/latest/Parameters.html
 [link-documentacion-lightgbm-recomendacion-hp]: https://towardsdatascience.com/kagglers-guide-to-lightgbm-hyperparameter-tuning-with-optuna-in-2021-ed048d9838b5
 [link-documentacion-frank]: https://www.rdocumentation.org/packages/data.table/versions/1.14.2/topics/frank
+[link-clase-08-pdf-hackeo-kaggle]: https://storage.googleapis.com/dmeyf2022/KaggleHack.pdf
