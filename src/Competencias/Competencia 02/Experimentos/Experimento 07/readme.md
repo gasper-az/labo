@@ -206,6 +206,8 @@ dataset[, cociente_fe_03 := r_mcuentas_saldo/r_mcomisiones]
 
 ## Hiperparámetros - LightGBM
 
+> **NOTA**: solamente analizamos los siguientes hiperparámetros, ya que en los [Experimento 4][experimento-04-readme] y [Experimento 5][experimento-05-readme] no obtuvimos buenos resultados utilizando otros hiperparámetros.
+
 Respecto al rango de búsqueda de los hiperparámetros, nos basamos en [esta documentación][link-documentacion-lightgbm-recomendacion-hp]:
 
 | Hiperparámetro | Rango Min | Rango Max |
