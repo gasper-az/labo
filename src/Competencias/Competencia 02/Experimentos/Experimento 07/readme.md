@@ -16,8 +16,8 @@
 ## Detalles
 
 En este experimento hacemos uso del algoritmo de [*LightGBM*][link-documentacion-lightgbm], aplicado al dataset *original* de la *competencia 02* ([link de descarga][link-dataset-competencia-02]).
-TODO: FE y DD + CD
-TODO: explicar (y linkear) experimentos fallidos de HP BO de LightGBM (4 y 5)
+También haremos uso de ciertas variables de *Feature Engineering*, que fueron creadas y utilizadas par la [competencia 01][link-kaggle-competencia-01].
+Además, estaremos analizando y resolviendo problemas de *Data Drifting* en ciertas variables del dataset.
 Luego realizamos una ejecución del script [lightgbm_binaria_BO.r][script-ligthgbm-bo] para hacer un tunning de los siguientes hiperparámetros:
 
 - learning_rate
@@ -26,7 +26,9 @@ Luego realizamos una ejecución del script [lightgbm_binaria_BO.r][script-ligthg
 - num_leaves
 - envios
 
-Luego, analizamos el resultado de dicha optimización de hiperparámetros para LightGBM (en nuestro caso, el archivo [HT7234.txt][salida-ligthgbm-bo]), en donde lo ordenamos por *ganancia* descendente. De ahí tomamos los valores de los hiperparámetros de nuestro interés, y los implementamos en el script [lightgbm_final.r][script-ligthgbm-ejecucion].
+El motivo por el cual decidimos no agregar más hiperparámetros de LigthGBM se debe a que no obtuvimos buenos resultados con otros hiperparámetros (ver [Experimento 4][experimento-04-readme] y [Experimento 5][experimento-05-readme])
+
+Luego, analizamos el resultado de dicha optimización de hiperparámetros para LightGBM (en nuestro caso, el archivo [HT7237.txt][salida-ligthgbm-bo]), en donde lo ordenamos por *ganancia* descendente. De ahí tomamos los valores de los hiperparámetros de nuestro interés, y los implementamos en el script [lightgbm_final.r][script-ligthgbm-ejecucion].
 Una vez que ejecutemos este script con los valores de los hiperparámetros obtenidos, generamos una serie de archivos para entregar, en los definimos en función de varios puntos de corte.
 Realizamos una entrega en [Kaggle][link-kaggle-competencia-02] por cada uno de estos archivos, y posteriormente analizamos el valor de la *ganancia* obtenido en el *public leaderboard*.
 
@@ -68,55 +70,74 @@ Variables en las que detectamos Data Drifting:
 Aplicamos un ranking mediante la función *frank* de la siguiente forma:
 
 ```{r}
-dataset[, (new.var.name) := (frankv(dataset, cols = var, na.last = TRUE, ties.method = "dense") - 1) / (.N - 1)]
+dataset[, (new.var.name) := (frankv(dataset, cols = var, na.last = TRUE, ties.method = "modo") - 1) / (.N - 1)]
 ```
 
-Encontramos que este método de ranking es útil para las siguientes variables:
+En donde *modo* es uno de los posibles valores que recibe el parámetro *ties.method* de la función *frank* para tratar aquellos casos de empates [link a la documentación][link-documentacion-frank].
+
+Encontramos que este método de ranking con el modo *dense* (el cual permite que no haya grietas/espacios en el ranking) es útil para las siguientes variables:
 
 - mpasivos_margen
-- mcuenta_corriente
 - mcaja_ahorro_dolares
 - mtarjeta_visa_consumo
 - mcuenta_debitos_automaticos
 - chomebanking_transacciones
 - ccajas_otras
 - Visa_mconsumospesos
-- Visa_madelantodolares
-- Visa_mpagosdolares
 - Visa_mconsumototal
-
-Pero el mismo método de ranking NO es útil en estos casos:
-
-- mcomisiones
-- mcaja_ahorro
 - mcuentas_saldo
-- ccuenta_debitos_automaticos
+- Visa_msaldototal
+
+Ahora bien, si utilizamos el mismo método de ranking, pero con el modo *random* para tratar los empates, tenemos buenos resultados con estas variables:
+
+- mcaja_ahorro
+- mcomisiones
 - ccomisiones_otras
-- mactivos_margen
 - mcomisiones_otras
+- Visa_msaldopesos
 - mrentabilidad
 - mrentabilidad_annual
+- mactivos_margen
+
+Respecto al resto de los casos, no encontramos resultados favorables con este método de ranking:
+
+- ccuenta_debitos_automaticos
 - Master_mfinanciacion_limite
-- Master_Finiciomora
 - Master_fultimo_cierre
-- Visa_Finiciomora
-- Visa_msaldopesos
 - Visa_fultimo_cierre
+- mcuenta_corriente
+- Visa_madelantodolares
+- Visa_mpagosdolares
+- Master_Finiciomora
+- Visa_Finiciomora
 - Visa_mpagado
-- Visa_msaldototal
 
 ### Ranking por positivos, negativos, y ceros
 
-Ahora procedemos a realizar un ranking similar al anterior, pero aplicandolo de forma separada a valores positivos, negativos, y ceros de las variables mencionadas:
+Para poder arreglar el problem de data drifting en las variables restantes, decidimos aplicar un método de rankeo de la siguiente forma:
 
 ```{r}
 dataset[, (new.var.name) := ifelse(var >= 0,
                                       (ifelse(var > 0,
-                                              (frankv(dataset, cols = var, na.last = TRUE, ties.method = "dense") - 1) / (.N - 1), ## mayores a cero
+                                              (frankv(dataset, cols = var, na.last = TRUE, ties.method = "modo") - 1) / (.N - 1), ## mayores a cero
                                               0)), # cero
-                                      -(frankv(dataset, cols = var, na.last = TRUE, ties.method = "dense") - 1) / (.N - 1) ## menores a cero
+                                      -(frankv(dataset, cols = var, na.last = TRUE, ties.method = "modo") - 1) / (.N - 1) ## menores a cero
                                      )
 ```
+
+En donde *modo* es uno de los posibles valores que recibe el parámetro *ties.method* de la función *frank* para tratar aquellos casos de empates [link a la documentación][link-documentacion-frank].
+
+Este método, implementado con el modo *dense* para tratar empates, es útil en esta variables:
+
+- ccuenta_debitos_automaticos
+- Master_mfinanciacion_limite
+- Master_fultimo_cierre
+- Visa_fultimo_cierre
+- mcuenta_corriente
+- Visa_madelantodolares
+- Visa_mpagosdolares
+
+Ahora bien, si implementamos el modo *last*, obtenemos resultados favorables con las variables *Master_Finiciomora* y *Visa_Finiciomora*. En cuanto a la variable *Visa_mpagado*, los mejores resultados los obtuvimos con el modo *first*.
 
 ### Conclusiones ranking
 
@@ -144,7 +165,7 @@ dataset[, visa_fe_suma_all := Visa_mfinanciacion_limite +
           Visa_mconsumosdolares + Visa_mlimitecompra + Visa_madelantopesos +
           r_Visa_madelantodolares + r_Visa_mpagado + Visa_mpagospesos +
           r_Visa_mpagosdolares + r_Visa_mconsumototal + Visa_mpagominimo
-        ]
+]
 
 dataset[, tarjetas_fe_suma_all := master_fe_suma_all + visa_fe_suma_all]
 
@@ -173,6 +194,7 @@ dataset[, pesos_fe_suma_all :=
 dataset[, cociente_fe_01 := ctrx_quarter/r_mcuentas_saldo]
 dataset[, cociente_fe_02 := ctrx_quarter/r_mcomisiones]
 dataset[, cociente_fe_03 := r_mcuentas_saldo/r_mcomisiones]
+
 ```
 
 ## Hiperparámetros - LightGBM
@@ -190,16 +212,16 @@ Respecto al rango de búsqueda de los hiperparámetros, nos basamos en [esta doc
 En este [link][link-documentacion-lightgbm-parametros] se puede encontrar más información sobre los hiperparámetros que analizamos.
 
 Estos son los mejores resultados que se obtuvieron al realizar una *optimización bayesiana* para tunear los hiperparámetros a utilizar en LightGBM.
-Para ello, utilizamos el script [lightgbm_binaria_BO.r][script-ligthgbm-bo], obteniendo como salida el archivo [HT7234.txt][salida-ligthgbm-bo].
+Para ello, utilizamos el script [lightgbm_binaria_BO.r][script-ligthgbm-bo], obteniendo como salida el archivo [HT7237.txt][salida-ligthgbm-bo].
 El restultado que tomamos es el que se obtuvo en la iteración *70*, el cual arroja una ganancia de **27330000**.
 
 | Hiperparámetro | valor |
 | - |   -   |
-| *learning_rate* | 0.00320371648958052 |
-| *feature_fraction* | 0.429891409638461 |
-| *min_data_in_leaf* | 1985 |
-| *num_leaves* | 723 |
-| *envios* | 7775 |
+| *learning_rate* | 0.0450579481474516 |
+| *feature_fraction* | 0.347009781655412 |
+| *min_data_in_leaf* | 5094 |
+| *num_leaves* | 21 |
+| *envios* | 7434 |
 
 ## Ejecución y resultados de script de LightGBM
 
@@ -210,21 +232,21 @@ Luego, hacemos una entrega de cada archivo en la competancia de [Kaggle][link-ka
 
 | Cantidad de envíos | Score en public leaderboard |
 | - | - |
-| 5000 | 14.36817 |
-| 5500 | 15.62419 |
-| 6000 | 16.77220 |
-| 6500 | 16.93620 |
-| 7000 | 17.16020 |
-| 7500 | 17.28421 |
-| 8000 | 17.05220 |
-| 8500 | 16.24819 |
-| 9000 | 16.39620 |
-| 9500 | 16.91220 |
-| 10000 | 16.63620 |
-| 10500 | 15.95619 |
-| 11000 | 15.39618 |
-| 11500 | 14.84418 |
-| 12000 | 14.30417 |
+| 5000 | no entregado |
+| 5500 | no entregado |
+| 6000 | no entregado |
+| 6500 | 19.89624 |
+| 7000 | 20.14824 |
+| 7500 | 20.06024 |
+| 8000 | 20.19624 |
+| 8500 | 19.53623 |
+| 9000 | 19.40023 |
+| 9500 | 19.33223 |
+| 10000 | 19.03223 |
+| 10500 | 19.20423 |
+| 11000 | 18.72822 |
+| 11500 | no entregado |
+| 12000 | no entregado |
 
 ---
 
@@ -281,37 +303,26 @@ Según el gráfico anterior, podemos decir que las siguientes variables son las 
 
 | Variable | Posición en Gain | Posición en Cover | Posición en Frequency |
 | - | - | - | - |
-| pesos_fe_suma_menos_tarjetas  | 1ro                 | 2do                 | 2do |
-| mrentabilidad_annual          | 4to                 | 1ro                 | 1ro |
+| pesos_fe_suma_menos_tarjetas  | 1ro                 | 3ro                 | 2do |
+| r_mcuentas_saldo              | 5to                 | 2do                 | 1ro |
 | ctrx_quarter                  | 2do                 | *Posterior a 10mo*  | *Posterior a 10mo* |
-| ranked_mcaja_ahorro           | 10mo                | *Posterior a 10mo*  | 7mo |
-| Master_Fvencimiento           | *Posterior a 10mo*  | 3ro                 | 4to |
-| ranked_mcuenta_corriente      | 8vo                 | *Posterior a 10mo*  | *Posterior a 10mo* |
-| cociente_fe_01                | *Posterior a 10mo*  | 9no                 | 5to |
-| cliente_edad                  | *Posterior a 10mo*  | *Posterior a 10mo*  | 3ro |
-| mactivos_margen               | *Posterior a 10mo*  | *Posterior a 10mo*  | *Posterior a 10mo*  |
-| ranked_mcuentas_saldo         | 7mo                 | *Posterior a 10mo*  | 10mo |
+| mpayroll                      | 8vo                 | 1ro                 | *Posterior a 10mo* |
+| r_mrentabilidad_annual        | 10mo                | 6to                 | 3ro |
+| r_mcaja_ahorro                | *Posterior a 10mo*  | *Posterior a 10mo*  | 5to |
+| r_mtarjeta_visa_consumo       | 9no                 | *Posterior a 10mo*  | *Posterior a 10mo*  |
+| cociente_fe_02                | 3ro                 | *Posterior a 10mo*  | *Posterior a 10mo*  |
+| cociente_fe_03                | *Posterior a 10mo*  | *Posterior a 10mo*  | 4to  |
+| r_mpasivos_margen             | 7mo                 | *Posterior a 10mo*  | *Posterior a 10mo*  |
 
 Si solamente nos quedamos con aquellos que aparezcan entre las *10* primeras posiciones de todas las medidas, obtenemos las siguientes variables importantes:
 
 | Variable | Posición en Gain | Posición en Cover | Posición en Frequency |
 | - | - | - | - |
-| pesos_fe_suma_menos_tarjetas  | 1ro | 4to | 7mo |
-| mrentabilidad_annual          | 2do | 2do | 2do |
+| pesos_fe_suma_menos_tarjetas  | 1ro  | 4to | 7mo |
+| r_mcuentas_saldo              | 5to  | 2do | 1ro |
+| r_mrentabilidad_annual        | 10mo | 6to | 3ro |
 
-Si ahora también consideramos a aquellos que aparezcan entre las *10* primeras posiciones de al menos dos medidas, obtenemos las siguientes variables importantes:
-
-| Variable | Posición en Gain | Posición en Cover | Posición en Frequency |
-| - | - | - | - |
-| pesos_fe_suma_menos_tarjetas  | 1ro   | 4to | 7mo   |
-| mrentabilidad_annual          | 2do   | 2do | 2do   |
-| ranked_mcaja_ahorro           | 10mo  | n/a | 7mo   |
-| Master_Fvencimiento           | n/a   | 3ro | 4to   |
-| cociente_fe_01                | n/a   | 9no | 5to   |
-| ranked_mcuentas_saldo         | 7mo   | n/a | 10mo  |
-
-TODO:
-Ahora bien, comparémoslo con el impo_78.txt
+Esto nos da un nuevo punto de partida para posibles futuros experimentos, en donde podamos crear nuevas variables de *Feature Engineering* basándonos en estas *3* variables importantes.
 
 <!-- Links a scripts -->
 [script-ligthgbm-bo]: ../../lightgbm_binaria_BO.r
@@ -319,7 +330,7 @@ Ahora bien, comparémoslo con el impo_78.txt
 [script-utilidades-analisis-feature-importance]: ../../Utilidades/utilidades_analisis_feature_importance.r
 
 <!-- Links a resultados -->
-[salida-ligthgbm-bo]: ./HT7234/HT7234.txt
+[salida-ligthgbm-bo]: ./HT7237/HT7237.txt
 
 <!-- Links a imágenes -->
 [imagen-experimento-ganancias-public-leaderboard]: ./Otros%20archivos/experimento-ganancias-public-leaderboard.png
@@ -329,11 +340,17 @@ Ahora bien, comparémoslo con el impo_78.txt
 [imagen-experimento-feature-importance-todas]: ./Otros%20archivos/experimento-feature-importance-todas.png
 
 <!-- Links a archivos de salida -->
-[salida-ka-importance]: ./KA7244/impo.txt
+[salida-ka-importance]: ./KA7247/impo.txt
+
+<!-- Links a otros experimentos -->
+[experimento-04-readme]: ../Experimento%2004/readme.md
+[experimento-05-readme]: ../Experimento%2005/readme.mds
 
 <!-- Links externos -->
 [link-dataset-competencia-02]: https://storage.googleapis.com/dmeyf2022/competencia2_2022.csv.gz
 [link-kaggle-competencia-02]: https://www.kaggle.com/competitions/dm-eyf-2022-segunda
+[link-kaggle-competencia-01]: https://www.kaggle.com/competitions/dm-eyf-2022-primera
 [link-documentacion-lightgbm]: https://lightgbm.readthedocs.io/en/latest/index.html
 [link-documentacion-lightgbm-parametros]: https://lightgbm.readthedocs.io/en/latest/Parameters.html
 [link-documentacion-lightgbm-recomendacion-hp]: https://towardsdatascience.com/kagglers-guide-to-lightgbm-hyperparameter-tuning-with-optuna-in-2021-ed048d9838b5
+[link-documentacion-frank]: https://www.rdocumentation.org/packages/data.table/versions/1.14.2/topics/frank

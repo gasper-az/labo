@@ -223,6 +223,26 @@ Tarea LigthGBM
 	Experimento secreto (lightgbm_binaria_BO_50_rep_5kfolds)
 		Mismo rango de hp del Experimento 6
 		Mismos Rankings y FE del Experimento 6
+		
+	Experimento 7
+		Entregas
+			5000	-	"LigthGBM - Experimento 7 - 5000"	-	hay que entregar
+			5500	-	"LigthGBM - Experimento 7 - 5500"	-	hay que entregar
+			6000	-	"LigthGBM - Experimento 7 - 6000"	-	hay que entregar
+			6500	-	"LigthGBM - Experimento 7 - 6500"	-	17.30821
+			7000	-	"LigthGBM - Experimento 7 - 7000"	-	17.58021
+												7
+			7500	-	"LigthGBM - Experimento 7 - 7500"	-	
+			8000	-	"LigthGBM - Experimento 7 - 8000"	-	
+			8500	-	"LigthGBM - Experimento 7 - 8500"	-	
+			9000	-	"LigthGBM - Experimento 7 - 9000"	-	
+			9500	-	"LigthGBM - Experimento 7 - 9500"	-	
+			10000	-	"LigthGBM - Experimento 7 - 10000"	-	
+												7
+			10500	-	"LigthGBM - Experimento 7 - 10500"	-	hay que entregar
+			11000	-	"LigthGBM - Experimento 7 - 11000"	-	hay que entregar
+			11500	-	"LigthGBM - Experimento 7 - 11500"	-	hay que entregar
+			12000	-	"LigthGBM - Experimento 7 - 12000"	-	hay que entregar
 
 
 Detalles a futuro
