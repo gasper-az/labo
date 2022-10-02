@@ -191,15 +191,15 @@ En este [link][link-documentacion-lightgbm-parametros] se puede encontrar más i
 
 Estos son los mejores resultados que se obtuvieron al realizar una *optimización bayesiana* para tunear los hiperparámetros a utilizar en LightGBM.
 Para ello, utilizamos el script [lightgbm_binaria_BO.r][script-ligthgbm-bo], obteniendo como salida el archivo [HT7234.txt][salida-ligthgbm-bo].
-El restultado que tomamos es el que se obtuvo en la iteración *91*, el cual arroja una ganancia de **25380000**.
+El restultado que tomamos es el que se obtuvo en la iteración *70*, el cual arroja una ganancia de **27330000**.
 
 | Hiperparámetro | valor |
 | - |   -   |
-| *learning_rate* | 0.0450579481474516 |
-| *feature_fraction* | 0.347009781655412 |
-| *min_data_in_leaf* | 5094 |
-| *num_leaves* | 21 |
-| *envios* | 7434 |
+| *learning_rate* | 0.00320371648958052 |
+| *feature_fraction* | 0.429891409638461 |
+| *min_data_in_leaf* | 1985 |
+| *num_leaves* | 723 |
+| *envios* | 7775 |
 
 ## Ejecución y resultados de script de LightGBM
 

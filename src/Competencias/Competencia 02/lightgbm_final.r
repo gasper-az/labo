@@ -23,11 +23,11 @@ PARAM$input$training      <- c( 202103 )
 PARAM$input$future        <- c( 202105 )
 
 PARAM$finalmodel$max_bin           <- 31
-PARAM$finalmodel$learning_rate     <- 0.0450579481474516
-PARAM$finalmodel$num_iterations    <- 144
-PARAM$finalmodel$num_leaves        <- 21
-PARAM$finalmodel$min_data_in_leaf  <- 5094
-PARAM$finalmodel$feature_fraction  <- 0.347009781655412
+PARAM$finalmodel$learning_rate     <- 0.00320371648958052
+PARAM$finalmodel$num_iterations    <- 1702
+PARAM$finalmodel$num_leaves        <- 723
+PARAM$finalmodel$min_data_in_leaf  <- 1985
+PARAM$finalmodel$feature_fraction  <- 0.429891409638461
 PARAM$finalmodel$semilla           <- 763369
 
 
@@ -49,7 +49,8 @@ rank.pos.neg <- function(dataset, var, new.var.name, mes, ties.method) {
 #------------------------------------------------------------------------------
 
 #Aqui empieza el programa
-setwd( "C:\\uba\\dmeyf" )
+# setwd( "C:\\uba\\dmeyf" )
+setwd("~/buckets/b1/")   #Establezco el Working Directory
 
 set.seed(PARAM$finalmodel$semilla)
 
