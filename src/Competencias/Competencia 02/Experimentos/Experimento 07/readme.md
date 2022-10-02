@@ -8,7 +8,7 @@
 - [Hiperparámetros](#hiperparámetros---lightgbm)
 - [Ejecución y resultados de script de LightGBM](#ejecución-y-resultados-de-script-de-lightgbm)
 - [Análisis - Feature importance](#análisis---feature-importance)
-  - [Gain](#feature-importance---gain)'
+  - [Gain](#feature-importance---gain)
   - [Cover](#feature-importance---cover)
   - [Frequency](#feature-importance---frequency)
   - [Conclusión](#feature-importance---conclusión)
@@ -147,6 +147,8 @@ Entonces, crearemos un set de variables nuevas, cuyo nombre será de la forma `r
 Algo a tener en cuenta es que, como algunas de estas variables eran utilizadas en el *Feature Engineering* original (el que implementamos en la competencia anterior), debemos entonces actualizar las variables creadas.
 Para ello, reemplazaremos las variables afectadas por sus correspondientes rankeadas a la hora de hacer *Feature Engineering*.
 
+> Los resultados del fix de Data Drifting se pueden ver graficados en [este archivo][salida-fix-data-drifting]
+
 ## Feature Engineering
 
 ```{ r}
@@ -232,9 +234,9 @@ Luego, hacemos una entrega de cada archivo en la competancia de [Kaggle][link-ka
 
 | Cantidad de envíos | Score en public leaderboard |
 | - | - |
-| 5000 | no entregado |
-| 5500 | no entregado |
-| 6000 | no entregado |
+| 5000 | 17.71621 |
+| 5500 | 18.35622 |
+| 6000 | 19.42423 |
 | 6500 | 19.89624 |
 | 7000 | 20.14824 |
 | 7500 | 20.06024 |
@@ -245,8 +247,8 @@ Luego, hacemos una entrega de cada archivo en la competancia de [Kaggle][link-ka
 | 10000 | 19.03223 |
 | 10500 | 19.20423 |
 | 11000 | 18.72822 |
-| 11500 | no entregado |
-| 12000 | no entregado |
+| 11500 | 18.03222 |
+| 12000 | 17.44821 |
 
 ---
 
@@ -341,6 +343,7 @@ Esto nos da un nuevo punto de partida para posibles futuros experimentos, en don
 
 <!-- Links a archivos de salida -->
 [salida-ka-importance]: ./KA7247/impo.txt
+[salida-fix-data-drifting]: ./Otros%20archivos/fix_data_drifting_competencia_02.pdf
 
 <!-- Links a otros experimentos -->
 [experimento-04-readme]: ../Experimento%2004/readme.md

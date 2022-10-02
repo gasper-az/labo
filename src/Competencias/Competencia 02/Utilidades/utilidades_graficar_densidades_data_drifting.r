@@ -20,7 +20,7 @@ graficar.analisis.distrib <- function(dataset, variable) {
   return(my.plot)
 }
 
-graficar_campo  <- function( campo, ini, fin) {
+graficar_campo  <- function( campo, ini, fin, modo = "") {
   qA  <- quantile(  dataset[ foto_mes==ini , get(campo) ] , prob= c(0.05, 0.95), na.rm=TRUE )
   qB  <- quantile(  dataset[ foto_mes==fin , get(campo) ] , prob= c(0.05, 0.95), na.rm=TRUE )
   
@@ -39,7 +39,7 @@ graficar_campo  <- function( campo, ini, fin) {
         col="blue",
         xlim= c( xxmin, xxmax ),
         ylim= c( 0, pmax( max(densidad_A$y), max(densidad_B$y) ) ),
-        main= campo
+        main= paste(campo, " - modo: ", modo)
   )
   
   lines(densidad_B, col="red", lty=2)
@@ -133,9 +133,11 @@ for (var in variables.drifting.ranking) {
   dataset[foto_mes==mes.fin, (new.var.name) := (frankv(dataset[foto_mes==mes.fin], cols = var, na.last = TRUE, ties.method = "dense") - 1) / (.N - 1)]
 }
 
+ranked.drifting.random <- c()
+
 for (var in variables.drifting.random) {
   new.var.name <- paste0(rank.prefix, var)
-  ranked.drifting <- c(ranked.drifting, new.var.name)
+  ranked.drifting.random <- c(ranked.drifting.random, new.var.name)
   dataset[foto_mes==mes.ini, (new.var.name) := (frankv(dataset[foto_mes==mes.ini], cols = var, na.last = TRUE, ties.method = "random") - 1) / (.N - 1)]
   dataset[foto_mes==mes.fin, (new.var.name) := (frankv(dataset[foto_mes==mes.fin], cols = var, na.last = TRUE, ties.method = "random") - 1) / (.N - 1)]
 }
@@ -152,51 +154,49 @@ for (var in var.drifting.pos.neg.dense) {
   rank.pos.neg(dataset, var, new.var.name, mes.fin, ties.method)
 }
 
+
+ranked.pos.neg.last <- c()
+
 ties.method <- "last"
 for (var in var.drifting.pos.neg.last) {
   new.var.name <- paste0(rank.pos.neg.prefix, var)
-  ranked.pos.neg <- c(ranked.pos.neg, new.var.name)
+  ranked.pos.neg.last <- c(ranked.pos.neg.last, new.var.name)
   
   rank.pos.neg(dataset, var, new.var.name, mes.ini, ties.method)
   rank.pos.neg(dataset, var, new.var.name, mes.fin, ties.method)
 }
 
+ranked.pos.neg.first <- c()
+
 ties.method <- "first"
 for (var in var.drifting.pos.neg.first) {
   new.var.name <- paste0(rank.pos.neg.prefix, var)
-  ranked.pos.neg <- c(ranked.pos.neg, new.var.name)
+  ranked.pos.neg.first <- c(ranked.pos.neg.first, new.var.name)
 
   rank.pos.neg(dataset, var, new.var.name, mes.ini, ties.method)
   rank.pos.neg(dataset, var, new.var.name, mes.fin, ties.method)
 }
 
-# 
-# ranked.drifting <- c(ranked.drifting, "r_mcomisiones")
-# dataset[foto_mes==mes.ini, "r_mcomisiones" := (frankv(dataset[foto_mes==mes.ini], cols = "mcomisiones", na.last = TRUE, ties.method = "random") - 1) / (.N - 1)]
-# dataset[foto_mes==mes.fin, "r_mcomisiones" := (frankv(dataset[foto_mes==mes.fin], cols = "mcomisiones", na.last = TRUE, ties.method = "random") - 1) / (.N - 1)]
-# 
-# ranked.drifting <- c(ranked.drifting, "r_mcaja_ahorro")
-# dataset[foto_mes==mes.ini, "r_mcaja_ahorro" := (frankv(dataset[foto_mes==mes.ini], cols = "mcaja_ahorro", na.last = TRUE, ties.method = "random") - 1) / (.N - 1)]
-# dataset[foto_mes==mes.fin, "r_mcaja_ahorro" := (frankv(dataset[foto_mes==mes.fin], cols = "mcaja_ahorro", na.last = TRUE, ties.method = "random") - 1) / (.N - 1)]
+
 
 #-------------------------------------------------------------#
 #----------- FIN RANKING DE VARIABLES CON DRIFTING -----------#
 #-------------------------------------------------------------#
 
-#---------------------------------------------------------------#
-#-------------------- Gráfico de variables con drifting --------#
-#---------------------------------------------------------------#
+setwd("C:\\uba\\repos\\labo\\src\\Competencias\\Competencia 02")
 
-# for(campo in  variables.con.drifting) {
-#   graficar_campo( campo, mes.ini, mes.fin)
-# }
+pdf("fix_data_drifting_competencia_02.pdf")
 
 #---------------------------------------------------------------#
 #-------------------- Gráfico de variables rankeadas -----------#
 #---------------------------------------------------------------#
 
 for(campo in  ranked.drifting) {
-  graficar_campo( campo, mes.ini, mes.fin)
+  graficar_campo( campo, mes.ini, mes.fin, "frank - dense")
+}
+
+for(campo in  ranked.drifting.random) {
+  graficar_campo( campo, mes.ini, mes.fin, "frank - random")
 }
 
 #-----------------------------------------------------------------------#
@@ -205,20 +205,15 @@ for(campo in  ranked.drifting) {
 
 
 for(campo in  ranked.pos.neg) {
-  graficar_campo( campo, mes.ini, mes.fin)
+  graficar_campo( campo, mes.ini, mes.fin, "frank - pos.neg - dense")
 }
 
+for(campo in  ranked.pos.neg.last) {
+  graficar_campo( campo, mes.ini, mes.fin, "frank - pos.neg - last")
+}
 
-set.seed(763369)
-# dataset[foto_mes==mes.ini, "dense_var" := (frankv(dataset[foto_mes==mes.ini], cols = "mrentabilidad", na.last = TRUE, ties.method = "dense") - 1) / (.N - 1)]
-# dataset[foto_mes==mes.fin, "dense_var" := (frankv(dataset[foto_mes==mes.fin], cols = "mrentabilidad", na.last = TRUE, ties.method = "dense") - 1) / (.N - 1)]
-# 
-# dataset[foto_mes==mes.ini, "random_var" := (frankv(dataset[foto_mes==mes.ini], cols = "mrentabilidad", na.last = TRUE, ties.method = "random") - 1) / (.N - 1)]
-# dataset[foto_mes==mes.fin, "random_var" := (frankv(dataset[foto_mes==mes.fin], cols = "mrentabilidad", na.last = TRUE, ties.method = "random") - 1) / (.N - 1)]
-# 
-# dataset[foto_mes==mes.ini, "avg_var" := (frankv(dataset[foto_mes==mes.ini], cols = "mrentabilidad", na.last = TRUE, ties.method = "average") - 1) / (.N - 1)]
-# dataset[foto_mes==mes.fin, "avg_var" := (frankv(dataset[foto_mes==mes.fin], cols = "mrentabilidad", na.last = TRUE, ties.method = "average") - 1) / (.N - 1)]
-# 
-# graficar_campo("dense_var", mes.ini, mes.fin)
-# graficar_campo("random_var", mes.ini, mes.fin)
-# graficar_campo("avg_var", mes.ini, mes.fin)
+for(campo in  ranked.pos.neg.first) {
+  graficar_campo( campo, mes.ini, mes.fin, "frank - pos.neg - first")
+}
+
+dev.off()
