@@ -31,7 +31,7 @@ El motivo por el cual decidimos no agregar más hiperparámetros de LigthGBM se 
 
 Luego, analizamos el resultado de dicha optimización de hiperparámetros para LightGBM (en nuestro caso, el archivo [HT7237.txt][salida-ligthgbm-bo]), en donde lo ordenamos por *ganancia* descendente. De ahí tomamos los valores de los hiperparámetros de nuestro interés, y los implementamos en el script [lightgbm_final.r][script-ligthgbm-ejecucion].
 Una vez que ejecutemos este script con los valores de los hiperparámetros obtenidos, generamos una serie de archivos para entregar, en los definimos en función de varios puntos de corte.
-Realizamos una entrega en [Kaggle][link-kaggle-competencia-02] por cada uno de estos archivos, y posteriormente analizamos el valor de la *ganancia* obtenido en el *public leaderboard*.
+Realizamos una entrega en [Kaggle][link-kaggle-competencia-02] por cada uno de estos archivos, y posteriormente analizamos el valor de la *ganancia* obtenido en el *public leaderboard*, para finalmente elegir uno de estos archivos como entrega final.
 
 ## Data Drifting y Concept Drifting
 
@@ -152,6 +152,7 @@ Algo a tener en cuenta es que, como algunas de estas variables eran utilizadas e
 Para ello, reemplazaremos las variables afectadas por sus correspondientes rankeadas a la hora de hacer *Feature Engineering*.
 
 > Los resultados del fix de Data Drifting se pueden ver graficados en [este archivo][salida-fix-data-drifting]
+> *Nota*: el archivo anterior lo generamos con [este script][script-utilidades-grafico-fix-data-drifting]
 
 ## Feature Engineering
 
@@ -343,6 +344,7 @@ Esto nos da un nuevo punto de partida para posibles futuros experimentos, en don
 <!-- Links a scripts -->
 [script-ligthgbm-bo]: ./lightgbm_binaria_BO.r
 [script-ligthgbm-ejecucion]: ./lightgbm_final.r
+[script-utilidades-grafico-fix-data-drifting]: ./Utilidades//utilidades_graficar_densidades_data_drifting.r
 [script-utilidades-analisis-feature-importance]: ./Utilidades/utilidades_analisis_feature_importance.r
 
 <!-- Links a resultados -->
