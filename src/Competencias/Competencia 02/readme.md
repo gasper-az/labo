@@ -8,6 +8,7 @@
 - [Hiperparámetros](#hiperparámetros---lightgbm)
 - [Ejecución y resultados de script de LightGBM](#ejecución-y-resultados-de-script-de-lightgbm)
   - [Eligiendo un punto de corte como entrega para Kaggle](#eligiendo-un-punto-de-corte-como-entrega-para-kaggle)
+- [Resultados private leaderboard](#resultados-private-leaderboard)
 - [Análisis - Feature importance](#análisis---feature-importance)
   - [Gain](#feature-importance---gain)
   - [Cover](#feature-importance---cover)
@@ -275,6 +276,53 @@ En el [documento pdf][link-clase-08-pdf-hackeo-kaggle] que analizamos, notamos c
 
 > **Conclusión**: Por este motivo, elijo el punto de corte **8500** como entrega de la [competancia kaggle 02][link-kaggle-competencia-02].
 
+## Resultados Private Leaderboard
+
+| Cantidad de envíos | Score en public leaderboard |
+| - | - |
+| 5000 | 18.60377 |
+| 5500 | 19.80375 |
+| 6000 | 19.77575 |
+| 6500 | 20.34375 |
+| 7000 | 20.01175 |
+| 7500 | 20.01975 |
+| 8000 | 20.44375 |
+| 8500 | 20.06375 |
+| 9000 | 20.27975 |
+| 9500 | 19.94775 |
+| 10000 | 19.52776 |
+| 10500 | 19.91575 |
+| 11000 | 19.83175 |
+| 11500 | 19.80775 |
+| 12000 | 19.19176 |
+
+---
+
+![Experimento ganancias private leaderboard][imagen-experimento-ganancias-private-leaderboard]
+
+---
+
+**Resultados**
+El punto de corte **8500** elegido como entrega obtuvo una ganancia de *20.06375* en el private leaderboad, la cual es mayor que la que obtuvo en el public (*19.53623*). Igualmente, no es el mejor resultado en el private, ya que el punto de corte de 9000 obtuvo una ganancia de *20.27975* en el private (*19.40023* en public); el de 6500 obtuvo *20.34375* (*19.89624* en public), y el de 8000 obtuvo **20.44375** (*20.19624* en el public), siendo este último el que mayor valor obtuvo en el private.
+
+| Cantidad de envíos | Score en public leaderboard | Score Private Leaderboard | Mejora el Private respecto al Public? |
+| - | - | - | - |
+| **8000**  | **20.19624** | **20.44375** | **Si** |
+| 6500  | 19.89624 | 20.34375 | **Si** |
+| 9000  | 19.40023 | 20.27975 | **Si** |
+| 8500  | 19.53623 | 20.06375 | **Si** |
+| 7500  | 20.06024 | 20.01975 | No |
+| 7000  | 20.14824 | 20.01175 | No |
+| 9500  | 19.33223 | 19.94775 | **Si** |
+| 10500 | 19.20423 | 19.91575 | **Si** |
+| 11000 | 18.72822 | 19.83175 | **Si** |
+| 11500 | 18.03222 | 19.80775 | **Si** |
+| 5500  | 18.35622 | 19.80375 | **Si** |
+| 6000  | 19.42423 | 19.77575 | **Si** |
+| 10000 | 19.03223 | 19.52776 | **Si** |
+| 12000 | 17.44821 | 19.19176 | **Si** |
+| 5000  | 17.71621 | 18.60377 | **Si** |
+
 ## Análisis - Feature importance
 
 Finalmente, procedemos a analizar el *feature importance* que nos devuelve el script [lightgbm_final.r][script-ligthgbm-ejecucion]. Para ello, hacemos uso del script [utilidades_analisis_feature_importance.r][script-utilidades-analisis-feature-importance].
@@ -356,6 +404,7 @@ Esto nos da un nuevo punto de partida para posibles futuros experimentos, en don
 
 <!-- Links a imágenes -->
 [imagen-experimento-ganancias-public-leaderboard]: ./Experimentos/Experimento%2007/Otros%20archivos/experimento-ganancias-public-leaderboard.png
+[imagen-experimento-ganancias-private-leaderboard]: ./Experimentos/Experimento%2007/Otros%20archivos/experimento-ganancias-private-leaderboard.png
 [imagen-experimento-feature-importance-gain]: ./Experimentos/Experimento%2007/Otros%20archivos/experimento-feature-importance-gain.png
 [imagen-experimento-feature-importance-cover]: ./Experimentos/Experimento%2007/Otros%20archivos/experimento-feature-importance-cover.png
 [imagen-experimento-feature-importance-frequency]: ./Experimentos/Experimento%2007/Otros%20archivos/experimento-feature-importance-frequency.png
