@@ -74,8 +74,7 @@ graficar_campo  <- function( campo, periodos_analisis )
 #------------------------------------------------------------------------------
 #Aqui comienza el programa
 
-# setwd("~/buckets/b1/")
-setwd("C:\\uba\\dmeyf")
+setwd("~/buckets/b1/")
 
 #cargo el dataset donde voy a entrenar
 dataset  <- fread( PARAM$dataset )
