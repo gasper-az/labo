@@ -14,8 +14,8 @@ require("lightgbm")
 
 #Parametros del script
 PARAM  <- list()
-PARAM$experimento  <- "ZZ9410"
-PARAM$exp_input  <- "HT9410"
+PARAM$experimento  <- "ZZ9410_exp2"
+PARAM$exp_input  <- "HT9410_exp2"
 
 PARAM$modelos  <- 2
 # FIN Parametros del script

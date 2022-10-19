@@ -14,7 +14,7 @@ require("lightgbm")
 
 #Parametros del script
 PARAM  <- list()
-PARAM$experimento  <- "DR9130"
+PARAM$experimento  <- "DR9130_exp2"
 PARAM$dataset  <- "./exp/CA9060/dataset.csv.gz"
 # FIN Parametros del script
 
@@ -75,6 +75,7 @@ graficar_campo  <- function( campo, periodos_analisis )
 #Aqui comienza el programa
 
 setwd("~/buckets/b1/")
+# setwd("C:\\uba\\dmeyf")
 
 #cargo el dataset donde voy a entrenar
 dataset  <- fread( PARAM$dataset )
@@ -117,7 +118,7 @@ campos_ordenados  <-  setdiff(  campos_ordenados,  c( "foto_mes","clase_ternaria
 dataset[  , foto_mes := as.character( foto_mes ) ]
 
 
-periodos_analisis  <- c( 202103, 202104, 202105, 202107 )
+periodos_analisis  <- c( 202101, 202102, 202103, 202104, 202105, 202107 )
 GLOBAL_colores <-  viridis_pal()(length( periodos_analisis ) )
 
 pdf("densidades_orignales.pdf")
