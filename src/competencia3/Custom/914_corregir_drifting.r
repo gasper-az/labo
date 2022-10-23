@@ -101,6 +101,60 @@ AgregarVariables  <- function( dataset )
 
   #Aqui debe usted agregar sus propias nuevas variables
 
+  #-------------------------------------------------------------#
+  #-------------------- FEATURE ENGINEERING --------------------#
+  #-------------------------------------------------------------#
+  
+  dataset[, master_fe_suma_all := 
+            Master_mfinanciacion_limite +
+            Master_msaldototal + Master_msaldopesos + Master_msaldodolares +
+            Master_mconsumospesos + Master_mconsumosdolares + Master_mlimitecompra +
+            Master_madelantopesos + Master_madelantodolares + Master_mpagado +
+            Master_mpagospesos + Master_mpagosdolares + Master_mconsumototal +
+            Master_mpagominimo
+  ]
+  
+  dataset[, visa_fe_suma_all := Visa_mfinanciacion_limite +
+            Visa_msaldototal +
+            Visa_msaldopesos + Visa_msaldodolares + Visa_mconsumospesos +
+            Visa_mconsumosdolares + Visa_mlimitecompra + Visa_madelantopesos +
+            Visa_madelantodolares + Visa_mpagado + Visa_mpagospesos +
+            Visa_mpagosdolares + Visa_mconsumototal + Visa_mpagominimo
+  ]
+  
+  dataset[, tarjetas_fe_suma_all := master_fe_suma_all + visa_fe_suma_all]
+  
+  dataset[, pesos_fe_suma_menos_tarjetas := 
+            mrentabilidad + mrentabilidad_annual + mactivos_margen +
+            mcomisiones_mantenimiento + mpasivos_margen + mcuenta_corriente +
+            mcaja_ahorro + mcaja_ahorro_dolares + mcomisiones + mcuenta_corriente_adicional + mcaja_ahorro_adicional +          
+            mcuentas_saldo + mautoservicio + mtarjeta_visa_consumo +
+            mtarjeta_master_consumo + mprestamos_personales + mprestamos_prendarios +
+            mprestamos_hipotecarios + mplazo_fijo_dolares + mplazo_fijo_pesos +
+            minversion1_pesos + minversion1_dolares + minversion2 + 
+            mpayroll + mpayroll2 + mcuenta_debitos_automaticos +
+            mttarjeta_master_debitos_automaticos + mpagodeservicios + mpagomiscuentas +
+            mcajeros_propios_descuentos + mtarjeta_visa_descuentos + mtarjeta_master_descuentos +
+            mcomisiones_otras + mforex_buy + mforex_sell +
+            mtransferencias_recibidas + mtransferencias_emitidas + mextraccion_autoservicio +
+            mcheques_depositados + mcheques_emitidos + mcheques_depositados_rechazados +
+            mcheques_emitidos_rechazados + matm + matm_other
+  ]
+  
+  dataset[, pesos_fe_suma_all :=
+            pesos_fe_suma_menos_tarjetas +
+            tarjetas_fe_suma_all
+  ]
+  
+  dataset[, cociente_fe_01 := ctrx_quarter/mcuentas_saldo]
+  dataset[, cociente_fe_02 := ctrx_quarter/mcomisiones]
+  dataset[, cociente_fe_03 := mcuentas_saldo/mcomisiones]
+  
+  #-------------------------------------------------------------#
+  #------------------ FIN FEATURE ENGINEERING ------------------#
+  #-------------------------------------------------------------#
+  
+  
   #valvula de seguridad para evitar valores infinitos
   #paso los infinitos a NULOS
   infinitos      <- lapply(names(dataset),function(.name) dataset[ , sum(is.infinite(get(.name)))])
