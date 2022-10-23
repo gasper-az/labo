@@ -15,9 +15,9 @@ require("data.table")
 
 #Parametros del script
 PARAM  <- list()
-PARAM$experimento <- "TS9320"
+PARAM$experimento <- "TS9320_exp3"
 
-PARAM$exp_input  <- "FE9250"
+PARAM$exp_input  <- "FE9250_exp3"
 
 PARAM$future       <- c( 202107 )
 
@@ -31,8 +31,8 @@ PARAM$train$sampling_total  <- 1.0  # 1.0 significa que NO se hace sampling tota
 PARAM$train$undersampling_mayoritaria  <- 0.1   # 1.0 significa NO undersampling ,  0.1  es quedarse con el 10% de los CONTINUA
 
 #Atencion, las semillas deben ser distintas
-PARAM$train$semilla_sampling  <- 102191
-PARAM$train$semilla_under     <- 892237
+PARAM$train$semilla_sampling  <- 763369
+PARAM$train$semilla_under     <- 763381
 # FIN Parametros del script
 
 
