@@ -1,0 +1,235 @@
+EXP 1
+	906_reparar_dataset
+		metodo	->	MachineLearning
+		Sin cambios
+	913_graficar_densidades_originales
+		periodos_analisis		->	c(202103, 202104, 202105, 202107)
+	914_corregir_drifting
+		metodo	->	deflacion
+		Sin cambios
+	925_FE_historia
+		lag1	->	TRUE
+		lag2	->	FALSE
+		Tendencias	->	TRUE
+		RandomForest	->	FALSE
+		CanaritosAsesinos	->	FALSE
+	931_training_strategy
+		future	->	202107
+		final_train	->	202103, 202104, 202105
+		training	->	202101, 202102, 202103
+		validation	->	202104
+		testing		->	202105
+		undersampling	->	1.0
+	941_HT_ligthgbm
+		kcrossvalidation_folds	->	5
+		kBO_iteraciones	->	50
+		ksemilla	->	763369
+		Sin cambios
+	991_ZZ_lightgbm
+		ksemilla	->	763369
+			makeNumericParam("learning_rate",    lower=    0.005, upper=    0.3),
+			makeNumericParam("feature_fraction", lower=    0.2  , upper=    1.0),
+			makeIntegerParam("min_data_in_leaf", lower=    0L   , upper=  8000L),
+			makeIntegerParam("num_leaves",       lower=   16L   , upper=  2048L)
+		Sin cambios
+	Submissions
+		Modelo 23
+			7000 	-	47.59221
+			7500	-	45.83244
+			8000	-	44.99260
+			8500	-	43.87282
+			9000	-	42.63306
+			9500	-	41.83322
+			10000	-	44.03286
+			10500	-	44.99271
+			11000	-	44.11288
+		Modelo 28
+			7000 	-	45.43248
+        	7500	-	47.67212
+        	8000	-	47.95210
+        	8500	-	47.19225
+        	9000	-	46.11246
+        	9500	-	45.35261
+        	10000	-	44.19283
+        	10500	-	46.47246
+        	11000	-	45.63262
+
+EXP 2
+	905_graficar_zero_rate
+		experimento				->	CA9050_exp2
+	906_reparar_dataset	
+		experimento				->	CA9060_exp2
+		metodo					->	MachineLearning
+	913_graficar_densidades_originales
+		experimento				->	DR9130_exp2
+		periodos_analisis		->	c(202101, 202102, 202103, 202104, 202105, 202107)
+	914_corregir_drifting
+		experimento				->	DR9141_exp2
+		exp_input				->	CA9060_exp2
+		metodo					->	deflacion
+	925_FE_historia             
+		experimento				->	FE9250_exp2
+		exp_input				->	DR9141_exp2
+		lag1					->	TRUE
+		lag2					->	TRUE		(cambio respecto EXP 1)
+		Tendencias				->	TRUElag
+		RandomForest			->	FALSE
+		CanaritosAsesinos		->	FALSE
+	931_training_strategy	
+		experimento				->	TS9310_exp2
+		exp_input				->	FE9250_exp2
+		final_train				->	202101, 202102, 202103, 202104, 202105		(cambio respecto EXP 1)
+		training				->	202011, 202012, 202101, 202102, 202103		(cambio respecto EXP 1)
+		validation				->	202104
+		testing					->	202105
+	941_HT_lightgbm
+		experimento				->	HT9410_exp2
+		exp_input				->	TS9310_exp2
+		kcrossvalidation_folds	->	5
+		kBO_iteraciones			->	100			(cambio respecto EXP 1)
+		ksemilla				->	763369
+			makeNumericParam("learning_rate",    lower=    0.005, upper=    0.3),
+			makeNumericParam("feature_fraction", lower=    0.2  , upper=    1.0),
+			makeIntegerParam("min_data_in_leaf", lower=    0L   , upper=  8000L),
+			makeIntegerParam("num_leaves",       lower=   16L   , upper=  2048L)
+	991_ZZ_lightgbm
+		experimento				->	ZZ9410_exp2
+		exp_input				->	HT9410_exp2
+		ksemilla				->	763369
+	Submissions
+		Modelo 42
+			7000 	-	50.11168
+			7500	-	50.71160
+			8000	-	51.35151
+			8500	-	50.11175
+			9000	-	49.15194
+			9500	-	47.95217
+			10000	-	46.63243
+			10500	-	45.71261
+			11000	-	45.11272
+		Modelo 69
+			7000 	-	46.87224
+        	7500	-	49.07188
+        	8000	-	49.75178
+        	8500	-	48.55202
+        	9000	-	49.51187
+        	9500	-	49.87183
+        	10000	-	49.23196
+        	10500	-	48.11218
+        	11000	-	47.03239
+			
+			
+EXP 3
+	905_graficar_zero_rate
+		experimento				->	CA9050_exp3
+	906_reparar_dataset	
+		experimento				->	CA9060_exp3
+		metodo					->	MachineLearning
+	913_graficar_densidades_originales
+		experimento				->	DR9130_exp3
+		periodos_analisis		->	c(202101, 202102, 202103, 202104, 202105, 202107)
+	914_corregir_drifting
+		experimento				->	DR9141_exp3
+		exp_input				->	CA9060_exp3
+		metodo					->	deflacion
+	925_FE_historia             
+		experimento				->	FE9250_exp3
+		exp_input				->	DR9141_exp3
+		lag1					->	TRUE
+		lag2					->	TRUE
+		lag3					->	TRUE			(cambio respecto EXP 2)
+		Tendencias				->	TRUE
+		RandomForest			->	FALSE
+		CanaritosAsesinos		->	TRUE			(cambio respecto EXP 2)
+	932_training_strategy_under
+		experimento					->	TS9310_exp3
+		exp_input					->	FE9250_exp3
+		final_train					->	202010, 202011, 202012, 202101, 202102, 202103, 202104, 202105		(cambio respecto EXP 2)
+		training					->	202008, 202009, 202010, 202011, 202012, 202101, 202102, 202103		(cambio respecto EXP 2)
+		validation					->	202104
+		testing						->	202105
+		sampling_total				->	1.0
+		undersampling_mayoritaria	->	0.1
+		semilla_sampling			->	763369
+		semilla_under				->	763381
+	943_HT_lightgbm_under
+		experimento				->	HT9410_exp3
+		exp_input				->	TS9310_exp3
+		kcrossvalidation_folds	->	5
+		kBO_iteraciones			->	100
+		ksemilla				->	763369
+			makeNumericParam("learning_rate",    lower=    0.005, upper=    0.3),
+			makeNumericParam("feature_fraction", lower=    0.2  , upper=    1.0),
+			makeIntegerParam("min_data_in_leaf", lower=    0L   , upper=  8000L),
+			makeIntegerParam("num_leaves",       lower=   16L   , upper=  2048L)
+	992_ZZ_lightgbm_under
+		experimento				->	ZZ9410_exp3
+		exp_input				->	HT9410_exp3
+		ksemilla				->	763369
+	Submissions
+	
+
+EXP 4
+	905_graficar_zero_rate
+		experimento				->	CA9050_exp4
+	906_reparar_dataset	
+		experimento				->	CA9060_exp4
+		metodo					->	MachineLearning
+	913_graficar_densidades_originales
+		experimento				->	DR9130_exp4
+		periodos_analisis		->	c(202101, 202102, 202103, 202104, 202105, 202107)
+	914_corregir_drifting
+		experimento				->	DR9141_exp4
+		exp_input				->	CA9060_exp4
+		metodo					->	deflacion
+	925_FE_historia             
+		experimento				->	FE9250_exp4
+		exp_input				->	DR9141_exp4
+		lag1					->	TRUE
+		lag2					->	TRUE
+		lag3					->	TRUE			(cambio respecto EXP 2)
+		Tendencias				->	TRUE
+		RandomForest			->	FALSE
+		CanaritosAsesinos		->	TRUE			(cambio respecto EXP 2)
+	931_training_strategy
+		experimento					->	TS9310_exp4
+		exp_input					->	FE9250_exp4
+		final_train					->	202010, 202011, 202012, 202101, 202102, 202103, 202104, 202105		(cambio respecto EXP 2)
+		training					->	202008, 202009, 202010, 202011, 202012, 202101, 202102, 202103		(cambio respecto EXP 2)
+		validation					->	202104
+		testing						->	202105
+	942_HT_lightgbm
+		experimento				->	HT9410_exp4
+		exp_input				->	TS9310_exp4
+		kcrossvalidation_folds	->	5
+		kBO_iteraciones			->	100
+		ksemilla				->	763369
+			makeNumericParam("learning_rate",    lower=    0.005, upper=    0.3),
+			makeNumericParam("feature_fraction", lower=    0.2  , upper=    1.0),
+			makeIntegerParam("min_data_in_leaf", lower=    0L   , upper=  8000L),
+			makeIntegerParam("num_leaves",       lower=   16L   , upper=  2048L)
+	992_ZZ_lightgbm
+		experimento				->	ZZ9410_exp4
+		exp_input				->	HT9410_exp4
+		ksemilla				->	763369
+	Submissions
+		Modelo 87
+			7000 	-	49.71176
+			7500	-	51.67145
+			8000	-	52.39134
+			8500	-	51.39154
+			9000	-	52.07144
+			9500	-	52.79134
+			10000	-	53.67120
+			10500	-	54.67104
+			11000	-	55.27096
+		Modelo 25
+			7000 	-	48.19202
+			7500	-	47.55214
+			8000	-	49.83177
+			8500	-	48.95194
+			9000	-	49.75182
+			9500	-	48.75202
+			10000	-	49.55190
+			10500	-	48.43211
+			11000	-	49.31198
