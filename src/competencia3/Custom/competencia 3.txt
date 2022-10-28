@@ -233,3 +233,69 @@ EXP 4
 			10000	-	49.55190
 			10500	-	48.43211
 			11000	-	49.31198
+			
+			
+EXP 5
+	905_graficar_zero_rate
+		experimento				->	CA9050_exp5
+	906_reparar_dataset	
+		experimento				->	CA9060_exp5
+		metodo					->	MachineLearning
+	913_graficar_densidades_originales
+		experimento				->	DR9130_exp5
+		periodos_analisis		->	c(202101, 202102, 202103, 202104, 202105, 202107)
+	914_corregir_drifting
+		experimento				->	DR9141_exp5
+		exp_input				->	CA9060_exp5
+		metodo					->	rank_cero_fijo				(cambio respecto EXP 4)
+	925_FE_historia             
+		experimento				->	FE9250_exp5
+		exp_input				->	DR9141_exp5
+		lag1					->	TRUE
+		lag2					->	TRUE
+		lag3					->	TRUE
+		Tendencias				->	TRUE
+		RandomForest			->	FALSE
+		CanaritosAsesinos		->	TRUE
+	931_training_strategy
+		experimento					->	TS9310_exp5
+		exp_input					->	FE9250_exp5
+		final_train					->	202008, 202009, 202010, 202011, 202012, 202101, 202102, 202103, 202104, 202105		(cambio respecto EXP 4)
+		training					->	202005, 202007, 202008, 202009, 202010, 202011, 202012, 202101, 202102, 202103		(cambio respecto EXP 4)
+		validation					->	202104
+		testing						->	202105
+	942_HT_lightgbm
+		experimento				->	HT9410_exp5
+		exp_input				->	TS9310_exp5
+		kcrossvalidation_folds	->	5
+		kBO_iteraciones			->	100
+		ksemilla				->	763369
+			makeNumericParam("learning_rate",    lower=    0.005, upper=    0.3),
+			makeNumericParam("feature_fraction", lower=    0.2  , upper=    1.0),
+			makeIntegerParam("min_data_in_leaf", lower=    0L   , upper=  8000L),
+			makeIntegerParam("num_leaves",       lower=   16L   , upper=  2048L)
+	992_ZZ_lightgbm
+		experimento				->	ZZ9410_exp5
+		exp_input				->	HT9410_exp5
+		ksemilla				->	763369
+	Submissions
+		Modelo 87
+			7000 	-	49.71176
+			7500	-	51.67145
+			8000	-	52.39134
+			8500	-	51.39154
+			9000	-	52.07144
+			9500	-	52.79134
+			10000	-	53.67120
+			10500	-	54.67104
+			11000	-	55.27096
+		Modelo 25
+			7000 	-	48.19202
+			7500	-	47.55214
+			8000	-	49.83177
+			8500	-	48.95194
+			9000	-	49.75182
+			9500	-	48.75202
+			10000	-	49.55190
+			10500	-	48.43211
+			11000	-	49.31198
