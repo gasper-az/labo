@@ -39,7 +39,8 @@ fganancia_logistic_xgboost  <- function( probs, datos )
 #------------------------------------------------------------------------------
 #------------------------------------------------------------------------------
 
-setwd("~/buckets/b1/")
+# setwd("~/buckets/b1/")
+setwd("C:\\uba\\dmeyf")
 
 dataset <- fread( "./datasets/competencia3_2022.csv.gz")
 
@@ -56,7 +57,8 @@ setwd(paste0( "./exp/", PARAM$experimento, "/"))   #Establezco el Working Direct
 
 #agrego a mis fieles canaritos
 # no temo al overfitting porque ellos están conmigo
-set.seed( 13 )
+# set.seed( 13 )
+set.seed( 763369 )
 for( i in 1:20 )  dataset[ , paste0( "canarito", i) := runif( nrow(dataset) ) ]
 
 
