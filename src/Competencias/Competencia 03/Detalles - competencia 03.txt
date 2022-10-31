@@ -1,0 +1,48 @@
+Detalles - competencia 3
+
+Orden de ejecución de script
+
+	1)	906_reparar_dataset
+			PARAM$experimento	--->	CA9060_exp4
+			PARAM$metodo		--->	MachineLearning
+	2)	914_corregir_drifting
+			PARAM$experimento	--->	DR9141_exp4
+			PARAM$exp_input		--->	CA9060_exp4
+			PARAM$metodo		--->	deflacion
+	3)	925_FE_historia
+			PARAM$experimento	--->	FE9250_exp4
+			PARAM$exp_input		--->	DR9141_exp4
+			PARAM$lag1			--->	TRUE
+			PARAM$lag2			--->	TRUE
+			PARAM$lag3			--->	TRUE
+			PARAM$Tendencias	--->	TRUE
+			PARAM$RandomForest	--->	FALSE
+			PARAM$CanaritosAsesinos	--->	TRUE
+	4)	931_training_strategy
+			PARAM$experimento	--->	TS9310_exp4
+			PARAM$exp_input		--->	FE9250_exp4
+			PARAM$future		--->	202107
+			PARAM$final_train	--->	202010, 202011, 202012, 202101, 202102, 202103, 202104, 202105
+			PARAM$train$training--->	202008, 202009, 202010, 202011, 202012, 202101, 202102, 202103
+			PARAM$train$validation	--->	202104
+			PARAM$train$testing		--->	202105
+			PARAM$train$undersampling	--->	1.0
+			PARAM$train$semilla	--->	763369
+	5)	942_HT_lightgbm
+			PARAM$experimento	--->	HT9310_exp4
+			PARAM$exp_input		--->	TS9310_exp4
+			kcrossvalidation_folds	--->	5
+			kBO_iteraciones			--->	100
+			ksemilla				--->	763369
+				makeNumericParam("learning_rate",    lower=    0.005, upper=    0.3),
+				makeNumericParam("feature_fraction", lower=    0.2  , upper=    1.0),
+				makeIntegerParam("min_data_in_leaf", lower=    0L   , upper=  8000L),
+				makeIntegerParam("num_leaves",       lower=   16L   , upper=  2048L)
+	6)	992_ZZ_lightgbm
+			PARAM$experimento	--->	ZZ9310_exp4
+			PARAM$exp_input		--->	HT9310_exp4
+			PARAM$modelos		--->	2
+			ksemilla			--->	763369
+	7)	Entrega (salida de 992_ZZ_lightgbm)
+			Modelo:	87
+			Punto de corte:	10500
