@@ -18,7 +18,7 @@ require("ranger")
 
 #Parametros del script
 PARAM <- list()
-PARAM$experimento  <- "CLU1262"
+PARAM$experimento  <- "CLU1262_10K"
 # FIN Parametros del script
 
 #------------------------------------------------------------------------------
@@ -70,7 +70,7 @@ campos_buenos  <- c( "ctrx_quarter", "cpayroll_trx", "mcaja_ahorro", "mtarjeta_v
 #Ahora, a esperar mucho con este algoritmo del pasado que NO correr en paralelo, patetico
 modelo  <- randomForest( x= dataset[  , campos_buenos, with=FALSE ], 
                          y= NULL, 
-                         ntree= 1000, #se puede aumentar a 10000
+                         ntree= 10000, #se puede aumentar a 10000
                          proximity= TRUE, 
                          oob.prox=  TRUE )
 
