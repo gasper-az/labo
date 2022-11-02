@@ -17,6 +17,21 @@ graficar.barplot <- function(dataset, cluster.var, var.to.plot, values) {
   
   return(gg)
 }
+
+graficar.radar.chart <- function(data.radar, colors_border, colors_in, row.names) {
+  radarchart( data.radar, axistype=1 , 
+              #custom polygon
+              pcol=colors_border , pfcol=colors_in , plwd=4 , plty=1,
+              #custom the grid
+              cglcol="grey", cglty=1, axislabcol="grey", cglwd=0.8,
+              #custom labels
+              vlcex=0.8 
+  )
+  
+  # Add a legend
+  legend(x=1, y=1, legend = row.names, bty = "n", pch=20 , col=colors_in , text.col = "grey", cex=1.2, pt.cex=3)
+}
+
 ###################################################################
 #################### Aquí comienza el programa ####################
 ###################################################################
@@ -96,11 +111,50 @@ colnames(data.radar) <- var.interes
 rownames(data.radar) <- paste("Cluster", seq(1, cant.clusters, by = 1), sep = " ")
 
 for (var in var.interes) {
-  data <- dataset[, mean(get(var)), cluster2]
+  # forma 1
+  # data <- dataset[, mean(get(var)), cluster2]
+  # data.radar[, (var)] <- scale(data$V1)
+  
+  # forma 2
+  dataset <- dataset[, paste0((var), "_scale") := scale(get(var))]
+  data <- dataset[, mean(get(paste0((var), "_scale"))), cluster2]
   data.radar[, (var)] <- data$V1
 }
 
+# necesarios para el radar chart
 max.data.radar <- sapply(data.radar, max, na.rm = T)
 min.data.radar <- sapply(data.radar, min, na.rm = T)
-
 data.radar <- rbind(max.data.radar, min.data.radar, data.radar)
+
+## TODO:
+## src: https://r-graph-gallery.com/143-spider-chart-with-saveral-individuals.html
+
+colors_border=c( rgb(0.2,0.5,0.5,0.9), rgb(0.8,0.2,0.5,0.9) , rgb(0.7,0.5,0.1,0.9) )
+colors_in=c( rgb(0.2,0.5,0.5,0.4), rgb(0.8,0.2,0.5,0.4) , rgb(0.7,0.5,0.1,0.4) )
+
+# Para un primer análisis
+radar.min.max <- c(1:2)
+radar.cluster.1.2 <- c(3:4)
+radar.cluster.3.4 <- c(5:6)
+radar.cluster.5.6.7 <- c(7:9)
+
+radar.cluster.1.2.min.max <- c(radar.min.max, radar.cluster.1.2)
+radar.cluster.3.4.min.max <- c(radar.min.max, radar.cluster.3.4)
+radar.cluster.5.6.7.min.max <- c(radar.min.max, radar.cluster.5.6.7)
+
+# Para un análisis comparando clústeres "similares"
+
+radar.cluster.2.4.7 <- c(4, 6, 9)
+radar.cluster.2.4.7.min.max <- c(radar.min.max, radar.cluster.2.4.7)
+
+# # Clústers 1 y 2
+# graficar.radar.chart(data.radar = data.radar[radar.cluster.1.2.min.max, ], colors_border = colors_border[1:2], colors_in = colors_in[1:2], row.names = rownames(data.radar[radar.cluster.1.2, ]))
+# 
+# # Clústers 3 y 4
+# graficar.radar.chart(data.radar = data.radar[radar.cluster.3.4.min.max, ], colors_border = colors_border[1:2], colors_in = colors_in[1:2], row.names = rownames(data.radar[radar.cluster.3.4, ]))
+# 
+# # Clústers 5, 6 y 7
+# graficar.radar.chart(data.radar = data.radar[radar.cluster.5.6.7.min.max, ], colors_border = colors_border, colors_in = colors_in, row.names = rownames(data.radar[radar.cluster.5.6.7, ]))
+
+# Clústeres 2, 4 y 7
+graficar.radar.chart(data.radar = data.radar[radar.cluster.2.4.7.min.max, ], colors_border = colors_border, colors_in = colors_in, row.names = rownames(data.radar[radar.cluster.2.4.7, ]))
