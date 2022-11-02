@@ -3,40 +3,37 @@ rm( list=ls() )  #remove all objects
 gc()             #garbage collection
 
 require("data.table")
-
-
 library(ggplot2)
 library(hrbrthemes)
-# library(dplyr)
-# library(viridis)
-
-# install.packages("wesanderson")
-# library(wesanderson)
-
+library(dplyr)
 
 graficar.barplot <- function(dataset, cluster.var, var.to.plot, values) {
-  gg <- ggplot(dataset,aes(x = factor(get(cluster.var))  , y =get(var.to.plot), fill = factor(get(cluster.var)))) +
+  gg <- ggplot(dataset, aes(x = factor(get(cluster.var))  , y = get(var.to.plot), fill = factor(get(cluster.var)))) +
     xlab("Número de Cluster") +
     ylab(paste0("Variable: ", var.to.plot)) +
-    geom_bar(stat = "identity", position = "dodge") +
-    scale_fill_manual("Cluster", values = values)
+    scale_fill_manual("Cluster", values = values) +
+    geom_bar(stat = "identity")
+    # geom_text(aes(label=(get(var))), vjust=1.6, color="black", size=3.5)
   
   return(gg)
 }
+###################################################################
+#################### Aquí comienza el programa ####################
+###################################################################
 
-setwd("C:/uba/dmeyf/exp/")
+#TODO: setear el working directory
+base.dir <- "C:/uba/dmeyf/exp/"
+#TODO: setear el nombre de la carpeta de salida de experimentos de clustering 1261 o 1262
+base.folder <- "CLU1261_10K"
 
-file.folder <- "CLU1261"
-file <- "cluster_de_bajas.txt"
+setwd(paste(base.dir,base.folder, sep = "/"))
 
-file.path <- paste(file.folder,file, sep = "/")
+#TODO: setear la semilla
+set.seed(763369)
 
-dataset  <- fread(file.path, stringsAsFactors= TRUE)
+file <- "cluster_de_bajas.txt"  #TODO: setear el nombre del archivo de salida de experimentos de clustering 1261 o 1262
 
-#ahora a mano veo los centroides de los 7 clusters
-#esto hay que hacerlo para cada variable,
-#  y ver cuales son las que mas diferencian a los clusters
-#esta parte conviene hacerla desde la PC local, sobre  cluster_de_bajas.txt
+dataset  <- fread(file, stringsAsFactors= TRUE)
 
 cluster.colors <- c( "1" = "#42687C", "2" = "#236E96", "3" = "#84A5B8", "4" = "#15B2D3", "5" = "#FFD700", "6" = "#F3872F", "7" = "#FF598F")
 
@@ -50,10 +47,6 @@ campos_buenos  <- c( "ctrx_quarter", "cpayroll_trx", "mcaja_ahorro", "mtarjeta_v
                      "mcomisiones", "Visa_cconsumos", "ccomisiones_otras", "Master_status", "mtransferencias_emitidas",
                      "mpagomiscuentas")
 
-# dataset[  , mean(ctrx_quarter),  cluster2 ]  #media de la variable  ctrx_quarter
-# dataset[  , mean(mtarjeta_visa_consumo),  cluster2 ]
-# dataset[  , mean(mcuentas_saldo),  cluster2 ]
-# dataset[  , mean(chomebanking_transacciones),  cluster2 ]
 
 dt.centroides <- data.table(variable = character(), mean = double(), sd = double(), count.2.sd.mean = integer())
 
@@ -74,70 +67,40 @@ dt.centroides <- dt.centroides[order(-rank(count.2.sd.mean))]
 var.interes <- dt.centroides[count.2.sd.mean > 0, variable]
 var.interes <- c(var.interes, "ctrx_quarter", "cpayroll_trx", "mcaja_ahorro", "mcuentas_saldo")
 
+
+# pdf("var_interes.pdf")
+
 for (var in var.interes) {
   cat(var, "\n")
   data <- dataset[, mean(get(var)), cluster2]
   data <- data[order(-rank(V1))]
   print(data)
-  print(graficar.barplot(dataset = dataset, cluster.var = "cluster2", var.to.plot = var, values = cluster.colors))
-
-  # gg <- ggplot(dataset,aes(x = cluster2  , y =get(var), fill = factor(cluster2))) +
-  #   xlab("Número de Cluster") +
-  #   ylab(paste0("Variable: ", var)) +
-  #   geom_bar(stat = "identity", position = "dodge")  +
-  #   scale_fill_manual("Cluster", values = cluster.colors)
-  # 
-  # print(gg)
+  
+  # dataset.reducido <- dataset[, max(get(var)), by = cluster2]
+  # dataset.reducido <- dataset.reducido[, (var) := V1]
+  # dataset.reducido <- dataset.reducido[, V1 := NULL]
+  
+  # print(graficar.barplot(dataset = dataset, cluster.var = "cluster2", var.to.plot = var, values = cluster.colors))
 }
 
+# dev.off()
 
 
-# for (var.name in dt.centroides[ count.2.sd.mean>0, variable ]) {
-#   data <- dataset[, mean(get(var.name)), cluster2]
-#   cat(var.name, "\n")
-#   print(data)
-# }
-# 
-# var.interes <- dt.centroides[count.2.sd.mean > 0, variable]
-# var.interes.and.cluster2 <- c(var.interes, "cluster2")
-# dataset.var.interes.and.cluster2 <- dataset[, ..var.interes.and.cluster2]
+library(fmsb)
 
+cant.clusters <- length(unique(dataset[, cluster2]))
+cant.var.interes <- length(var.interes)
 
+data.radar <- as.data.frame(matrix(rep(0, cant.clusters * cant.var.interes), ncol = cant.var.interes))
+colnames(data.radar) <- var.interes
+rownames(data.radar) <- paste("Cluster", seq(1, cant.clusters, by = 1), sep = " ")
 
-# ggplot(dataset,aes(x = cluster2  , y =mtarjeta_visa_consumo, fill = cluster2)) +
-#   xlab("Número de Cluster") +
-#   ylab(paste0("Variable: ", "mtarjeta_visa_consumo")) +
-#   geom_bar(stat = "identity", position = "dodge")
+for (var in var.interes) {
+  data <- dataset[, mean(get(var)), cluster2]
+  data.radar[, (var)] <- data$V1
+}
 
+max.data.radar <- sapply(data.radar, max, na.rm = T)
+min.data.radar <- sapply(data.radar, min, na.rm = T)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# library(cluster)
-# plot(silhouette(cutree(mydata.hclust,3), distance))
-
-# p <- ggplot(data=dataset.var.interes.and.cluster2, aes(x=Visa_msaldototal, group=cluster2, fill=cluster2)) +
-#   geom_density(adjust=1.5, position="fill") +
-#   theme_ipsum()
-# 
-# print(p)
-
-
-# p1 <- ggplot(data=dataset, aes(x=mtransferencias_emitidas      , group=cluster2, fill=cluster2)) +
-#   geom_density(adjust=1.5) +
-#   theme_ipsum() +
-#   scale_x_continuous(limits = c(-5000, 5000))
-# 
-# print(p1)
-
+data.radar <- rbind(max.data.radar, min.data.radar, data.radar)
