@@ -20,10 +20,10 @@ PARAM$exp_input  <- "FE9250_02_meses_validation"
 
 PARAM$future       <- c( 202107 )
 
-PARAM$final_train  <- c(201905, 201906, 201907, 201908, 201909, 201910, 201911, 201912, 202010, 202011, 202012, 202101, 202102)
-PARAM$train$training     <- c(201905, 201906, 201907, 201908, 201909, 201910, 201911, 201912, 202010, 202011, 202012, 202101, 202102)
-PARAM$train$validation   <- c( 202103, 202104 )
-PARAM$train$testing      <- c( 202105 )
+PARAM$final_train  <- c(201905, 201906, 201907, 201908, 201909, 201910, 201911, 201912, 202009, 202010, 202011, 202012, 202101)
+PARAM$train$training     <- c(201905, 201906, 201907, 201908, 201909, 201910, 201911, 201912, 202009, 202010, 202011, 202012, 202101)
+PARAM$train$validation   <- c( 202102 )
+PARAM$train$testing      <- c( 202104, 202105 )
 PARAM$train$undersampling  <- 1.0   # 1.0 significa NO undersampling ,  0.1  es quedarse con el 10% de los CONTINUA
 PARAM$train$semilla  <- 763369
 # FIN Parametros del script
