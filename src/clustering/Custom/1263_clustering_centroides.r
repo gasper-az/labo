@@ -13,6 +13,8 @@ library(fmsb)
 library(RColorBrewer)
 library(scales)
 
+library(gganimate)
+
 graficar.barplot <- function(dataset, cluster.var, var.to.plot, values, flip = F) {
   gg <- ggplot(dataset, aes(x = factor(get(cluster.var))  , y = get(var.to.plot), fill = factor(get(cluster.var)))) +
     xlab("Número de Cluster") +
@@ -107,19 +109,15 @@ var.interes <- unique(var.interes)
 # TODO: descomentar para grabar gráficos en pdf
 # pdf("var_interes.pdf")
 
-for (var in var.interes) {
-  cat(var, "\n")
-  data <- dataset[, mean(get(var)), cluster2]
-  data <- data[order(-rank(V1))]
-  print(data)
-  
-  # dataset.reducido <- dataset[, max(get(var)), by = cluster2]
-  # dataset.reducido <- dataset.reducido[, (var) := V1]
-  # dataset.reducido <- dataset.reducido[, V1 := NULL]
-  
-  # TODO: descomentar para grabar gráficos en pdf
-  # print(graficar.barplot(dataset = dataset, cluster.var = "cluster2", var.to.plot = var, values = cluster.colors))
-}
+# for (var in var.interes) {
+#   cat(var, "\n")
+#   data <- dataset[, mean(get(var)), cluster2]
+#   data <- data[order(-rank(V1))]
+#   print(data)
+#   
+#   # TODO: descomentar para grabar gráficos en pdf
+#   # print(graficar.barplot(dataset = dataset, cluster.var = "cluster2", var.to.plot = var, values = cluster.colors))
+# }
 
 # TODO: descomentar para grabar gráficos en pdf
 # dev.off()
@@ -323,8 +321,8 @@ graficar.radar.chart(data.radar = data.radar.nuevo, colors_border = colors_borde
 # pdf("cluster.nuevo.vars.pdf")
 
 for (var in var.interes) {
-  # TODO: descomentar para grabar gráficos en pdf
-  print(graficar.barplot(dataset = dataset[order(rank(cluster_nuevo))], cluster.var = "cluster_nuevo", var.to.plot = var, values = colors_border_nuevo, flip = T))
+  # # TODO: descomentar para grabar gráficos en pdf
+  # print(graficar.barplot(dataset = dataset[order(rank(cluster_nuevo))], cluster.var = "cluster_nuevo", var.to.plot = var, values = colors_border_nuevo, flip = T))
 }
 
 # # TODO: descomentar para grabar gráficos en pdf
