@@ -1,0 +1,8 @@
+1) 906_reparar_dataset.r
+2) 914_corregir_drifting.r
+3) 925_FE_historia.r
+4) 931_training_strategy.r
+5) 941_HT_lightgbm.r
+	Utilizar la siguiente semilla: 763369
+6) 991_ZZ_lightgbm.r
+	Utilizar las siguientes semillas: 763369, 763381, 763391, 763403, 763409
