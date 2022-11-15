@@ -25,6 +25,7 @@ PARAM$exp_input  <- "DR9141_compFinal_modelo01"
 
 PARAM$lag1  <- TRUE
 PARAM$lag2  <- TRUE
+PARAM$lag3  <- TRUE
 PARAM$Tendencias  <- TRUE
 PARAM$RandomForest  <- TRUE          #No se puede poner en TRUE para la entrega oficial de la Tercera Competencia
 PARAM$CanaritosAsesinos  <- FALSE
@@ -361,6 +362,21 @@ if( PARAM$lag2 )
 }
 
 
+if( PARAM$lag3 )
+{
+  #creo los campos lags de orden 3
+  dataset[ , paste0( cols_lagueables, "_lag3") := shift(.SD, 2, NA, "lag"), 
+           by= numero_de_cliente, 
+           .SDcols= cols_lagueables ]
+  
+  #agrego los delta lags de orden 3
+  for( vcol in cols_lagueables )
+  {
+    dataset[ , paste0(vcol, "_delta3") := get(vcol)  - get(paste0( vcol, "_lag3"))  ]
+  }
+}
+
+
 #--------------------------------------
 #agrego las tendencias
 
@@ -372,7 +388,7 @@ if( PARAM$Tendencias )
 {
   TendenciaYmuchomas( dataset, 
                       cols= cols_lagueables,
-                      ventana=   6,      # 6 meses de historia
+                      ventana=   3,      #TODO: setear los meses de tendencia. 3 meses de historia
                       tendencia= TRUE,
                       minimo=    FALSE,
                       maximo=    FALSE,

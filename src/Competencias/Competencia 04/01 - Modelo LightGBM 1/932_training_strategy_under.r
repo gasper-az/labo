@@ -19,13 +19,13 @@ PARAM$experimento <- "TS9320_compFinal_modelo01"
 
 PARAM$exp_input  <- "FE9250_compFinal_modelo01"
 
-PARAM$future       <- c( 202107 )
+PARAM$future       <- c( 202109 ) # mes a predecir
 
-PARAM$final_train  <- c( 202103, 202104, 202105 )
+PARAM$final_train  <- c( 201905, 201906, 201907, 201908, 201909, 202004, 202005, 202007, 202008, 202009, 202101, 202102, 202103, 202104, 202105 )
 
-PARAM$train$training     <- c( 202101, 202102, 202103 )
-PARAM$train$validation   <- c( 202104 )
-PARAM$train$testing      <- c( 202105 )
+PARAM$train$training     <- c( 201905, 201906, 201907, 201908, 201909, 202004, 202005, 202007, 202008, 202009, 202101, 202102, 202103, 202104, 202105 )
+PARAM$train$validation   <- c( 202106 )
+PARAM$train$testing      <- c( 202107 ) # último mes con clase
 
 PARAM$train$sampling_total  <- 1.0  # 1.0 significa que NO se hace sampling total,  0.3 es quedarse con el 30% de TODOS los registros
 PARAM$train$undersampling_mayoritaria  <- 0.1   # 1.0 significa NO undersampling ,  0.1  es quedarse con el 10% de los CONTINUA
