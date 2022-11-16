@@ -178,9 +178,9 @@ for( ksemilla in ksemillas[PARAM$indice_inicio_semilla:PARAM$indice_fin_semilla]
   )
   
   #genero los archivos para Kaggle
-  cortes  <- seq( from=  11000,
-                  to=    11000,
-                  by=        0 )
+  cortes  <- seq( from=  7000,
+                  to=    18000,
+                  by=        500 )
   
   setorder( tb_prediccion, -prob )
   setorder(tb_prediccion_rank, prediccion) # Esto es un ranking, entonces de menor a mayor
