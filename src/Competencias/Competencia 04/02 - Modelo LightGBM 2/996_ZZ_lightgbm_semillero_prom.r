@@ -54,7 +54,7 @@ promediar.prob <- function(semillas) {
   
   
   dt.final.semillerio.promedio <- data.table(
-    numero_de_cliente = dt.resultados[, list(numero_de_cliente)],
+    numero_de_cliente = dt.resultados[, numero_de_cliente],
     prediccion = rowMeans(dt.resultados[, c(-1, -2)]) # excluye el numero_de_cliente y foto_mes del cálculo de la media
   )
   
@@ -80,19 +80,19 @@ archivo.semillerio.promedio <- "promedio.semillas.csv"
 
 dt.prom <- NULL
 
-if (file.exists(archivo.semillerio.promedio)) {
+if (!file.exists(archivo.semillerio.promedio)) {
   dt.prom <- promediar.prob(semillas)
   
   fwrite(  dt.prom,
            file= archivo.semillerio.promedio,
            sep= "," )
 } else {
-  dt.prom <- fread(archivo.semillerio.promedio) 
+  dt.prom <- fread(archivo.semillerio.promedio)
 }
 
 #genero los archivos para Kaggle
 cortes  <- seq( from=  7000,
-                to=   18000,
+                to=   20000,
                 by=     500 )
 
 
@@ -103,9 +103,7 @@ for( corte in cortes )
   dt.prom[  , Predicted := 0L ]
   dt.prom[ 1:corte, Predicted := 1L ]
   
-  nom_submit  <- paste0( PARAM$experimento, 
-                         "_",
-                         sprintf( "%02d", i ),
+  nom_submit  <- paste0( PARAM$experimento,
                          "_",
                          sprintf( "%05d", corte ),
                          ".csv" )
@@ -115,5 +113,3 @@ for( corte in cortes )
            sep= "," )
   
 }
-
-
