@@ -47,6 +47,8 @@ promediar.prob <- function(semillas) {
     if (is.null(dt.resultados)) {
       dt.resultados <- data.table(numero_de_cliente = dt.res.sem[, numero_de_cliente],
                                   foto_mes = dt.res.sem[, foto_mes])
+      
+      dt.resultados <- dt.resultados[order(rank(numero_de_cliente))]
     }
     
     dt.resultados[, paste0("prob_", semilla) := dt.res.sem[, prob]]
