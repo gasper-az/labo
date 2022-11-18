@@ -13,7 +13,7 @@ require("data.table")
 #Parametros del script
 PARAM  <- list()
 PARAM$experimento  <- "CA9060_compFinal_modelo03"
-PARAM$dataset  <- "./datasets/competencia4_2022.csv.gz"
+PARAM$dataset  <- "./datasets/competenciaFINAL_2022.csv.gz"
 
 PARAM$metodo  <- "EstadisticaClasica"     #valores posibles  "MachineLearning"  "EstadisticaClasica"
 # FIN Parametros del script
