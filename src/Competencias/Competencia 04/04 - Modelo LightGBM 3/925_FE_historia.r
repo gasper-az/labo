@@ -24,9 +24,10 @@ PARAM$experimento <- "FE9250_compFinal_modelo04"
 PARAM$exp_input  <- "DR9141_compFinal_modelo04"
 
 PARAM$lag1  <- TRUE
-PARAM$lag2  <- TRUE
+PARAM$lag2  <- FALSE
 PARAM$lag3  <- FALSE
-PARAM$Tendencias  <- FALSE          #No se puede poner en TRUE para la entrega oficial de la Tercera Competencia
+PARAM$Tendencias  <- FALSE
+PARAM$RandomForest  <- TRUE
 PARAM$CanaritosAsesinos  <- FALSE
 # FIN Parametros del script
 
