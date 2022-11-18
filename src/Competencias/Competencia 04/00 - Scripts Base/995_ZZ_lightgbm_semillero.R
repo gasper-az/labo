@@ -16,15 +16,15 @@ require("primes")
 
 #Parametros del script
 PARAM <- list()
-PARAM$experimento <- "ZZ9410_semillerio"
-PARAM$exp_input <- "HT9410_semillerio"
+PARAM$experimento <- "ZZ9410_semillerio_compFinal_modelo02"
+PARAM$exp_input <- "HT9420_compFinal_modelo02"
 
 # PARAM$modelos  <- 2
 PARAM$modelo <- 1 # se usa el mejor de la OB, pero a futuro podria variar esto
-PARAM$semilla_primos <- 697157
+PARAM$semilla_primos <- 763369
 PARAM$semillerio <- 100 # ¿De cuanto será nuestro semillerio?
 PARAM$indice_inicio_semilla <- 1
-PARAM$indice_fin_semilla <- 10
+PARAM$indice_fin_semilla <- 100
 # FIN Parametros del script
 
 # genero un vector de una cantidad de PARAM$semillerio  de semillas,  buscando numeros primos al azar
@@ -82,19 +82,19 @@ for( ksemilla in ksemillas[PARAM$indice_inicio_semilla:PARAM$indice_fin_semilla]
 {
   
   # optimización: si los archivos ya existen, puedo hacer skip de esta semilla
-  nom_submit <- paste0(
-    PARAM$experimento,
-    "_",
-    sprintf("%d", ksemilla),
-    ".csv"
-  )
-  
-  nom_submit_rank <- paste0(
-    PARAM$experimento,
-    "_",
-    sprintf("%d", ksemilla),
-    "_rank.csv"
-  )
+  # nom_submit <- paste0(
+  #   PARAM$experimento,
+  #   "_",
+  #   sprintf("%d", ksemilla),
+  #   ".csv"
+  # )
+  # 
+  # nom_submit_rank <- paste0(
+  #   PARAM$experimento,
+  #   "_",
+  #   sprintf("%d", ksemilla),
+  #   "_rank.csv"
+  # )
   
   nom_resultados <- paste0(
     PARAM$experimento,
@@ -104,7 +104,10 @@ for( ksemilla in ksemillas[PARAM$indice_inicio_semilla:PARAM$indice_fin_semilla]
   )
   
   # Salteo las semillas ya procesadas
-  if (file.exists(nom_submit) && file.exists(nom_submit_rank) && file.exists(nom_resultados)) {
+  # if (file.exists(nom_submit) && file.exists(nom_submit_rank) && file.exists(nom_resultados)) {
+  #   next # si, podría ser mas sofisticado, pero queda para el refactor
+  # }
+  if (file.exists(nom_resultados)) {
     next # si, podría ser mas sofisticado, pero queda para el refactor
   }
   
@@ -178,15 +181,33 @@ for( ksemilla in ksemillas[PARAM$indice_inicio_semilla:PARAM$indice_fin_semilla]
   )
   
   #genero los archivos para Kaggle
-  cortes  <- seq( from=  11000,
-                  to=    11000,
-                  by=        0 )
+  cortes  <- seq( from=  7000,
+                  to=    18000,
+                  by=        500 )
   
   setorder( tb_prediccion, -prob )
   setorder(tb_prediccion_rank, prediccion) # Esto es un ranking, entonces de menor a mayor
   
   for( corte in cortes )
   {
+    nom_submit <- paste0(
+      PARAM$experimento,
+      "_",
+      sprintf("%d", ksemilla),
+      "_",
+      sprintf("%d", corte),
+      ".csv"
+    )
+    
+    nom_submit_rank <- paste0(
+      PARAM$experimento,
+      "_",
+      sprintf("%d", ksemilla),
+      "_",
+      sprintf("%d", corte),
+      "_rank.csv"
+    )
+    
     tb_prediccion[  , Predicted := 0L ]
     tb_prediccion[ 1:corte, Predicted := 1L ]
     
