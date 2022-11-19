@@ -37,12 +37,12 @@ dapply  <- dataset[ foto_mes==PARAM$mes_futuro ]
 
 modelo  <- rpart(formula=   "clase_binaria ~ . -clase_ternaria",
                  data=      dtrain,
-                 xval=      0,
-                 cp=        -0.54,
-                 minsplit=  1073,
-                 minbucket= 278,
-                 maxdepth=  9)
-
+                 xval=      5,
+                 cp=        -0.87, #-0.872243481307427
+                 minsplit=  1838, #1837.90267129204
+                 minbucket= 210, #209.491897939071
+                 maxdepth=  8)
+# POS 8 en bayesiana
 
 #aplico el modelo a los datos nuevos
 prediccion  <- predict( object=  modelo,
