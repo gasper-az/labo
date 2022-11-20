@@ -388,7 +388,7 @@ if( PARAM$Tendencias )
 {
   TendenciaYmuchomas( dataset, 
                       cols= cols_lagueables,
-                      ventana=   6,      #TODO: setear los meses de tendencia. 3 meses de historia
+                      ventana=   3,      #TODO: setear los meses de tendencia. 3 meses de historia
                       tendencia= TRUE,
                       minimo=    FALSE,
                       maximo=    FALSE,
