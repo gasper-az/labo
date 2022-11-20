@@ -19,7 +19,7 @@ PARAM$experimento <- "TS9320_compFinal_modelo02_public_vs_private"
 
 PARAM$exp_input  <- "FE9250_compFinal_modelo02"
 
-PARAM$future       <- c( 202109 ) # mes a predecir
+PARAM$future       <- c( 202107 ) # mes a predecir
 
 PARAM$final_train  <- c( 201901, 201902, 201903, 201904, 201905, 201906, 201907, 201908, 201909, 201910, 201911, 201912, 202001, 202002, 202003, 202004, 202005, 202007, 202008, 202009, 202010, 202011, 202012, 202101, 202102, 202103, 202104, 202105 )
 
@@ -89,8 +89,8 @@ dataset[ foto_mes %in% PARAM$train$training , azar_under := runif( nrow(dataset[
 
 dataset[  , fold_train := 0L ]
 dataset[ foto_mes %in% PARAM$train$training & 
-         ( azar_sampling <= PARAM$train$sampling_total ) &
-         ( azar_under <= PARAM$train$undersampling_mayoritaria | clase_ternaria %in% c( "BAJA+1", "BAJA+2" ) )
+           ( azar_sampling <= PARAM$train$sampling_total ) &
+           ( azar_under <= PARAM$train$undersampling_mayoritaria | clase_ternaria %in% c( "BAJA+1", "BAJA+2" ) )
          , fold_train := 1L ]
 
 #Se valida SIN sampling de ningun tipo

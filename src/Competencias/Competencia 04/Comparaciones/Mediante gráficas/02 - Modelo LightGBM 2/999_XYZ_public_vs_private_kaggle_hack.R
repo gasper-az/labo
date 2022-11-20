@@ -17,7 +17,7 @@ require("primes")
 #Parametros del script
 
 PARAM <- list()
-PARAM$experimento <- "ZZ9410_public_vs_private_modelo_00"
+PARAM$experimento <- "ZZ9410_public_vs_private_modelo_02"
 PARAM$exp_input <- "HT9420_compFinal_modelo02_public_vs_private"
 
 PARAM$semilla_particion <- 763369
@@ -79,8 +79,9 @@ dfuture <- fread( arch_future )
 #defino la clase binaria
 dataset[ , clase01 := ifelse( clase_ternaria %in% c("BAJA+1","BAJA+2"), 1, 0 )  ]
 
+dfuture[, ganancia :=  ifelse( clase_ternaria == "BAJA+2", 78000, -2000 )]
 
-particionar( dfuturo, 
+particionar( dfuture, 
              division= c(1,99),   #particion 50% / 50%
              agrupa= "clase_ternaria",
              seed= PARAM$semilla_particion )
@@ -133,7 +134,7 @@ modelo_final  <- lightgbm( data= dtrain,
 prediccion  <- predict( modelo_final,
                         data.matrix( dfuture[ , campos_buenos, with=FALSE ] ) )
 
-tb_prediccion  <- dfuture[  , list( numero_de_cliente, foto_mes, fold ) ]
+tb_prediccion  <- dfuture[  , list( numero_de_cliente, foto_mes, fold, ganancia ) ]
 tb_prediccion[ , prob := prediccion ]
 
 #ordeno por probabilidad descendente
