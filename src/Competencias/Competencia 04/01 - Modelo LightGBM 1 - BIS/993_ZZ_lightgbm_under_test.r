@@ -63,9 +63,9 @@ TS  <- readLines( arch_TS, warn=FALSE )
 arch_training  <- paste0( base_dir, "exp/", TS, "/dataset_training.csv.gz" )
 dtraining <- fread( arch_training )
 
-# NOTE: Las columnas ("azar_under", "azar_sampling") se agregan al final del file 992_ZZ_lightgbm_under. Importante sacarlas, ya que cuando se hizo el modelo, el archivo de TRAIN NO las tenía
 campos_buenos  <- setdiff( copy(colnames( dtraining )), c( "clase01", "clase_ternaria", "fold_train", "fold_validate", "fold_test", "azar_under", "azar_sampling" ) )
 
+dvalidate <- dtraining[ fold_validate== 1 ]
 dtest <- dtraining[ fold_test== 1 ]
 
 # acá cargo un modelo ya entrenado (como, por ejemplo, el que crea 992_ZZ_lightgbm_under)
@@ -75,7 +75,7 @@ modelo_final <- lgb.load(filename = PARAM$model_file_name)
 prediccion_test  <- predict( modelo_final,
                              data.matrix( dtest[ , campos_buenos, with=FALSE ] ) )
 
-tb_prediccion_test  <- dtest[  , list( numero_de_cliente, foto_mes) ]
+tb_prediccion_test  <- dtest[  , list( numero_de_cliente, foto_mes, clase_ternaria) ]
 tb_prediccion_test[ , prob := prediccion_test ]
 
 # nombre muy ingenioso para la predicción
@@ -84,4 +84,20 @@ nom_pred_test <- "tb_prediccion_test.csv"
 # guardo la predicción
 fwrite( tb_prediccion_test,
         file= nom_pred_test,
+        sep= "\t" )
+
+
+# calculo la predicción sobre el dataset de validate
+prediccion_validate  <- predict( modelo_final,
+                                 data.matrix( dvalidate[ , campos_buenos, with=FALSE ] ) )
+
+tb_prediccion_validate  <- dvalidate[  , list( numero_de_cliente, foto_mes, clase_ternaria) ]
+tb_prediccion_validate[ , prob := prediccion_validate ]
+
+# nombre muy ingenioso para la predicción
+nom_pred_validate <- "tb_prediccion_validate.csv"
+
+# guardo la predicción
+fwrite( tb_prediccion_validate,
+        file= nom_pred_validate,
         sep= "\t" )
