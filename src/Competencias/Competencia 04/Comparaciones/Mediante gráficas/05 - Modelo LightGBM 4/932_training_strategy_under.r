@@ -89,8 +89,8 @@ dataset[ foto_mes %in% PARAM$train$training , azar_under := runif( nrow(dataset[
 
 dataset[  , fold_train := 0L ]
 dataset[ foto_mes %in% PARAM$train$training & 
-         ( azar_sampling <= PARAM$train$sampling_total ) &
-         ( azar_under <= PARAM$train$undersampling_mayoritaria | clase_ternaria %in% c( "BAJA+1", "BAJA+2" ) )
+           ( azar_sampling <= PARAM$train$sampling_total ) &
+           ( azar_under <= PARAM$train$undersampling_mayoritaria | clase_ternaria %in% c( "BAJA+1", "BAJA+2" ) )
          , fold_train := 1L ]
 
 #Se valida SIN sampling de ningun tipo
