@@ -47,23 +47,26 @@ setwd(paste0( base_dir, "exp/", PARAM$experimento, "/"))   #Establezco el Workin
 arch_TS  <- paste0( base_dir, "exp/", PARAM$exp_input, "/TrainingStrategy.txt" )
 TS  <- readLines( arch_TS, warn=FALSE )
 
-#leo el dataset donde voy a entrenar el modelo final
-arch_dataset  <- paste0( base_dir, "exp/", TS, "/dataset_train_final.csv.gz" )
-dataset  <- fread( arch_dataset )
+# #leo el dataset donde voy a entrenar el modelo final
+# arch_dataset  <- paste0( base_dir, "exp/", TS, "/dataset_train_final.csv.gz" )
+# dataset  <- fread( arch_dataset )
 
 #leo el dataset donde voy a aplicar el modelo final
 # arch_future  <- paste0( base_dir, "exp/", TS, "/dataset_future.csv.gz" )
 # dfuture <- fread( arch_future )
-
-campos_buenos  <- setdiff( colnames(dataset), c( "clase_ternaria", "clase01") )
 
 ###########################################################################################
 #################### Hasta acá, es igual al file 992_ZZ_lightgbm_under ####################
 ###########################################################################################
 
 # leo el dataset donde voy a testear el modelo final
-arch_test  <- paste0( base_dir, "exp/", TS, "/dataset_test.csv.gz" )
-dtest <- fread( arch_test )
+arch_training  <- paste0( base_dir, "exp/", TS, "/dataset_training.csv.gz" )
+dtraining <- fread( arch_training )
+
+# NOTE: Las columnas ("azar_under", "azar_sampling") se agregan al final del file 992_ZZ_lightgbm_under. Importante sacarlas, ya que cuando se hizo el modelo, el archivo de TRAIN NO las tenía
+campos_buenos  <- setdiff( copy(colnames( dtraining )), c( "clase01", "clase_ternaria", "fold_train", "fold_validate", "fold_test", "azar_under", "azar_sampling" ) )
+
+dtest <- dtraining[ fold_test== 1 ]
 
 # acá cargo un modelo ya entrenado (como, por ejemplo, el que crea 992_ZZ_lightgbm_under)
 modelo_final <- lgb.load(filename = PARAM$model_file_name)
