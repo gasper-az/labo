@@ -7,11 +7,12 @@ require(ggplot2)
 
 PARAM  <- list()
 PARAM$base_dir <- "C:\\uba\\dmeyf\\exp\\Predicciones"
-# PARAM$experimentos_pred_dirs <- c("modelo_01_bis", "modelo_02", "modelo_04", "modelo_05", "modelo_06")
-PARAM$experimentos_pred_dirs <- c("modelo_01_bis", "modelo_02", "modelo_06")
-PARAM$experimentos_a_promediar <- c("modelo_01_bis", "modelo_02", "modelo_06")
+# PARAM$experimentos_pred_dirs <- c("modelo_01_bis", "modelo_02", "modelo_06", "modelo_07")
+# PARAM$experimentos_a_promediar <- c("modelo_01_bis", "modelo_02", "modelo_06", "modelo_07")
+PARAM$experimentos_pred_dirs <- c("modelo_01_bis", "modelo_06", "modelo_07")
+PARAM$experimentos_a_promediar <- c("modelo_01_bis", "modelo_06", "modelo_07")
 
-PARAM$experimentos_test_valid_invertidos <- c("modelo_06")
+PARAM$experimentos_test_valid_invertidos <- c("modelo_06", "modelo_07")
 
 PARAM$pred_file_name_pattern <- "pred.csv"
 PARAM$test_file_name_pattern <- "pred_test.csv"
