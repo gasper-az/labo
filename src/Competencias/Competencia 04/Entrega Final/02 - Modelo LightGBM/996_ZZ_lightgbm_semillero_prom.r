@@ -21,7 +21,7 @@ PARAM$exp_input <- "ZZ9410_semillerio_compFinal_modelo06"
 
 PARAM$archivo_semillas <- "ksemillas.csv"
 PARAM$indice_inicio_semilla <- 1
-PARAM$indice_fin_semilla <- 100
+PARAM$indice_fin_semilla <- 74
 
 PARAM$semilla <- 763369
 

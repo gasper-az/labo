@@ -8,5 +8,6 @@
     1. `942_HT_lightgbm_under.r`
     1. `992_ZZ_lightgbm_under.r`
     1. `995_ZZ_lightgbm_semillero.R`
+        1. **Nota**: en este modelo, se utilizaron **100** semillas.
     1. `996_ZZ_lightgbm_semillero_prom.r`
 1. Guardar la salida del script `995_ZZ_lightgbm_semillero.R` (preferentemente con el nombre `promedio.semillas.modelo3.csv`) en la carpeta [ZZAVG](../ZZAVG)

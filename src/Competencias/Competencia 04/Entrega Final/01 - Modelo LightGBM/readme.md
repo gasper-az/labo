@@ -6,7 +6,9 @@
     1. `925_FE_historia.r`
     1. `932_training_strategy_under.r`
     1. `942_HT_lightgbm_under.r`
+        1. **Nota**: en este modelo, se ejecutó hasta la *iteración inteligente* nro. **40**.
     1. `992_ZZ_lightgbm_under.r`
     1. `995_ZZ_lightgbm_semillero.R`
+        1. **Nota**: en este modelo, se utilizaron las primeras **65** semillas.
     1. `996_ZZ_lightgbm_semillero_prom.r`
 1. Guardar la salida del script `995_ZZ_lightgbm_semillero.R` (preferentemente con el nombre `promedio.semillas.modelo1.csv`) en la carpeta [ZZAVG](../ZZAVG)
